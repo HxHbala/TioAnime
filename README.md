@@ -3,7 +3,7 @@ App para ver tu página de anime de confianza v:
 
 [Descarga](https://github.com/axiel7/TioAnime/releases/latest)
 
-[Grupo de Telegram](t.me/tioanime)
+[Grupo de Telegram](https://t.me/tioanime)
 
 App en desarrollo...
 
