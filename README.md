@@ -5,8 +5,6 @@ App para ver tu página de anime de confianza v:
 
 [Grupo de Telegram](https://t.me/tioanime)
 
-App en desarrollo...
-
 ![Screenshot1](https://user-images.githubusercontent.com/12379835/75605928-f0ac7280-5ae7-11ea-9e11-ce35d4980869.jpg)
 # Características
 * Ver animes online
