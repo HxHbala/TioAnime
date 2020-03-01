@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Inicio</string>
+    <string name="title_emision">Emision</string>
+    <string name="title_fav">Favoritos</string>
+    <string name="title_load">Cargando…</string>
+    <string name="title_refresh">Actualizar</string>
+    <string name="title_search">Buscar</string>
+</resources>

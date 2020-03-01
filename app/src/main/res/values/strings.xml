@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">TioAnime</string>
-    <string name="title_home">Inicio</string>
-    <string name="title_emision">Emisión</string>
-    <string name="title_fav">Favoritos</string>
-    <string name="title_load">Cargando…</string>
-    <string name="title_refresh">Actualizar</string>
-    <string name="title_search">Buscar</string>
+    <string name="app_name" translatable="false">TioAnime</string>
+    <string name="title_home">Home</string>
+    <string name="title_emision">Seasonal</string>
+    <string name="title_fav">Favorites</string>
+    <string name="title_load">Loading…</string>
+    <string name="title_refresh">Refresh</string>
+    <string name="title_search">Search</string>
 
 </resources>
