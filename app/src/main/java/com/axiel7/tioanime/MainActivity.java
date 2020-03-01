@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,9 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         //setup webviews complements
         customViewContainer = findViewById(R.id.customViewContainer);
-        favFab = findViewById(R.id.floatingActionButton);
         webView = findViewById(R.id.webView);
         swipeRefreshLayout = findViewById(R.id.swipe);
+        favFab = findViewById(R.id.floatingActionButton);
+        //setup fab listener
+        favFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("axiel7","fab clicked!");
+
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
 
