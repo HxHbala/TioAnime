@@ -60,6 +60,7 @@
         android:layout_above="@+id/bottom_navigation"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
+        android:onClick="openFav"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"

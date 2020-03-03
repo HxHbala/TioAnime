@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,13 +16,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -60,14 +57,7 @@ public class MainActivity extends AppCompatActivity {
         webView = findViewById(R.id.webView);
         swipeRefreshLayout = findViewById(R.id.swipe);
         favFab = findViewById(R.id.floatingActionButton);
-        //setup fab listener
-        favFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("axiel7","fab clicked!");
-
-            }
-        });
+        favFab.bringToFront();
 
         swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
 
@@ -101,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
+    public void openFav(View view) {
+        Intent intent = new Intent(this, FavActivity.class);
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -299,9 +293,6 @@ public class MainActivity extends AppCompatActivity {
         Matcher matcher = mPattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
-            favFab.setOnClickListener(view -> {
-
-            });
         }
         else {
             favFab.setVisibility(View.INVISIBLE);
