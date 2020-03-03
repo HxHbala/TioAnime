@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
-    public void openFav(View view) {
-        Intent intent = new Intent(this, FavActivity.class);
-        startActivity(intent);
+    public void saveFav(View view) {
+        Intent openFav = new Intent(MainActivity.this, FavActivity.class);
+        startActivity(openFav);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPageStarted(view, url, favicon);
             swipeRefreshLayout.setRefreshing(true);
             currentUrl=webView.getUrl();
+            searchView.clearFocus();
             checkUrl(currentUrl);
         }
         @Override
