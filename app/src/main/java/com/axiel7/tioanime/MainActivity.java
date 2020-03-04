@@ -18,6 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -58,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //setup toolbar and bottombar
+        //setup sharedprefs
+        sharedPreferences = getSharedPreferences("savedUrls" , Context.MODE_PRIVATE);
+        favUrls = sharedPreferences.getString("favUrl","Empty");
+
+        //setup toolbar and drawer
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
@@ -131,8 +136,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void saveFav(View view) {
-        Intent openFav = new Intent(MainActivity.this, FavActivity.class);
-        startActivity(openFav);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("favUrl", currentUrl);
+        editor.apply();
+        Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
