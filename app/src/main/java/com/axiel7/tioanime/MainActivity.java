@@ -1,7 +1,9 @@
 package com.axiel7.tioanime;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,20 +19,29 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private NavigationView navigationView;
+    private SharedPreferences sharedPreferences;
+    private String favUrls;
     private WebView webView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private SearchView searchView;
     private BottomNavigationView bottomNavigationView;
@@ -49,17 +60,43 @@ public class MainActivity extends AppCompatActivity {
 
         //setup toolbar and bottombar
         toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar!=null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
+            {
+
+                public void onDrawerClosed(View view)
+                {
+                    supportInvalidateOptionsMenu();
+                    //drawerOpened = false;
+                }
+
+                public void onDrawerOpened(View drawerView)
+                {
+                    supportInvalidateOptionsMenu();
+                    //drawerOpened = true;
+                }
+            };
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+            //drawerLayout.setDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+        }
+
+        //setup bottombar
         bottomNavMenu();
 
         //setup webviews complements
         customViewContainer = findViewById(R.id.customViewContainer);
         webView = findViewById(R.id.webView);
+
         swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
+
         favFab = findViewById(R.id.floatingActionButton);
         favFab.bringToFront();
-
-        swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
 
         mWebViewClient = new myWebViewClient();
         webView.setWebViewClient(mWebViewClient);
@@ -69,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+
         webView.loadUrl("https://tioanime.com");
         currentUrl = "https://tioanime.com";
         mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
@@ -135,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
             webView.reload();
             return true;
         }
+        if(actionBarDrawerToggle.onOptionsItemSelected(item))
+            return true;
         return super.onOptionsItemSelected(item);
     }
     public boolean inCustomView() {
