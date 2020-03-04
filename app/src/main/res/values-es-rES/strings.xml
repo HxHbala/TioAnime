@@ -47,4 +47,7 @@
     <string name="genre_vampires">Vampiros</string>
     <string name="genre_yaoi">Yaoi</string>
     <string name="genre_yuri">Yuri</string>
+    <string name="genres">Géneros</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
 </resources>
