@@ -1,11 +1,10 @@
 package com.axiel7.tioanime;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,23 +24,29 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private NavigationView navigationView;
-    private SharedPreferences sharedPreferences;
-    private String favUrls;
-    private WebView webView;
+    private AnimeAdapter adapter;
+    private ArrayList<String> listGenre;
+    private TinyDB tinyDB;
+    private ArrayList<String> animeList;
+    public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private SearchView searchView;
@@ -92,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                     supportInvalidateOptionsMenu();
                     //drawerOpened = false;
                 }
-
                 public void onDrawerOpened(View drawerView)
                 {
                     supportInvalidateOptionsMenu();
@@ -100,14 +104,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-            //drawerLayout.setDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
         }
 
         //setup bottombar
         bottomNavMenu();
 
-        //setup webviews complements
+        //setup favorites database
+        tinyDB = new TinyDB(this);
+
+        if (animeList==null) {
+            animeList = tinyDB.getListString("animeList");
+        }
+
+        //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
         webView = findViewById(R.id.webView);
 
@@ -126,8 +136,15 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
-        webView.loadUrl("https://tioanime.com");
-        currentUrl = "https://tioanime.com";
+        //check if should load a favorite url
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            currentUrl = extras.getString("openFavUrl");
+        }
+        else {
+            currentUrl="https://tioanime.com";
+        }
+        webView.loadUrl(currentUrl);
         mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
         checkUrl(currentUrl);
     }
@@ -150,10 +167,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void saveFav(View view) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("favUrl", currentUrl);
-        editor.apply();
-        Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
+        if (!animeList.contains(currentUrl)) {
+            animeList.add(currentUrl);
+            Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
+        }
+        else if (animeList.contains(currentUrl)) {
+            animeList.remove(currentUrl);
+            Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
+        }
+        for (String s : animeList) {
+            if (!animeList.contains(s)) {
+                tinyDB.putString("anime"+s,s);
+            }
+            break;
+        }
+        tinyDB.putListString("animeList",animeList);
+        checkUrl(currentUrl);
+    }
+    @Override
+    public void onItemClick(View view, int position) {
+        String value = getResources().getStringArray(R.array.genres_values)[position];
+        webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -355,6 +390,12 @@ public class MainActivity extends AppCompatActivity {
         Matcher matcher = mPattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
+            if (animeList.contains(currentUrl)) {
+                favFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_white_24dp));
+            }
+            else {
+                favFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_border_white_24dp));
+            }
         }
         else {
             favFab.setVisibility(View.INVISIBLE);
