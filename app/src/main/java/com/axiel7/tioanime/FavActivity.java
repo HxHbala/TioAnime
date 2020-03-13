@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private AnimeAdapter adapter;
+    private TinyDB tinyDB;
     private ArrayList<String> animeList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         }
 
         //setup favorites database
-        TinyDB tinyDB = new TinyDB(this);
+        tinyDB = new TinyDB(this);
         if (animeList==null) {
             animeList = tinyDB.getListString("animeList");
         }
@@ -54,7 +55,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     public void onItemClick(View view, int position) {
         String valueFav = adapter.getItem(position);
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        intent.putExtra("openFavUrl", valueFav);
+        tinyDB.putString("openFavUrl", valueFav);
         startActivity(intent);
     }
     @Override

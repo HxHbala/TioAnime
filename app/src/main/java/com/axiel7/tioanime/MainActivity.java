@@ -129,22 +129,27 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         webView.setWebViewClient(mWebViewClient);
 
         mWebChromeClient = new myWebChromeClient();
-        webView.setWebChromeClient(mWebChromeClient);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
+        webView.setWebChromeClient(mWebChromeClient);
+
         //check if should load a favorite url
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            currentUrl = extras.getString("openFavUrl");
+        String openFavUrl = tinyDB.getString("openFavUrl");
+        if (openFavUrl.equals("none")) {
+            currentUrl = "https://tioanime.com";
         }
         else {
-            currentUrl="https://tioanime.com";
+            currentUrl = openFavUrl;
         }
+
         webView.loadUrl(currentUrl);
+        tinyDB.putString("openFavUrl", "none");
         mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
-        checkUrl(currentUrl);
+        if (currentUrl != null) {
+            checkUrl(currentUrl);
+        }
     }
     private void bottomNavMenu() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -180,7 +185,9 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             break;
         }
         tinyDB.putListString("animeList",animeList);
-        checkUrl(currentUrl);
+        if (currentUrl != null) {
+            checkUrl(currentUrl);
+        }
     }
     @Override
     public void onItemClick(View view, int position) {
@@ -367,7 +374,9 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             currentUrl=url;
-            checkUrl(currentUrl);
+            if (currentUrl != null) {
+                checkUrl(currentUrl);
+            }
             return super.shouldOverrideUrlLoading(view, url);    //To change body of overridden methods use File | Settings | File Templates.
         }
         @Override
@@ -375,15 +384,19 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             super.onPageStarted(view, url, favicon);
             swipeRefreshLayout.setRefreshing(true);
             currentUrl=webView.getUrl();
-            searchView.clearFocus();
-            checkUrl(currentUrl);
+            //searchView.clearFocus();
+            if (currentUrl != null) {
+                checkUrl(currentUrl);
+            }
         }
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             swipeRefreshLayout.setRefreshing(false);
             currentUrl=webView.getUrl();
-            checkUrl(currentUrl);
+            if (currentUrl != null) {
+                checkUrl(currentUrl);
+            }
         }
     }
     private void checkUrl(String currentUrl) {
