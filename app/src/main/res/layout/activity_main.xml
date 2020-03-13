@@ -24,13 +24,22 @@
         android:background="?attr/backgroundColor">
         <TextView
             android:id="@+id/genres_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/genres"
+            android:textStyle="bold"
             android:textColor="@color/colorText"
-            android:textSize="25sp"
-            android:layout_marginTop="40sp"
-            android:layout_marginStart="10sp"/>
+            android:textSize="30sp"
+            android:paddingTop="50sp"
+            android:paddingStart="@dimen/default_gap"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/genres_list"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical"
+            android:clipToPadding="false"
+            android:layout_marginTop="100sp"
+            android:layout_marginBottom="50sp" />
 
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
