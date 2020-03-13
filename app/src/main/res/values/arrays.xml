@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genres">
+        <item>Acción</item>
+        <item>Artes Marciales</item>
+        <item>Aventuras</item>
+        <item>Carreras</item>
+        <item>Ciencia Ficción</item>
+        <item>Comedia</item>
+        <item>Demencia</item>
+        <item>Demonios</item>
+        <item>Deportes</item>
+        <item>Drama</item>
+        <item>Ecchi</item>
+        <item>Escolares</item>
+        <item>Espacial</item>
+        <item>Fantasía</item>
+        <item>Harem</item>
+        <item>Histórico</item>
+        <item>Infantil</item>
+        <item>Josei</item>
+        <item>Juegos</item>
+        <item>Magia</item>
+        <item>Mecha</item>
+        <item>Militar</item>
+        <item>Misterio</item>
+        <item>Música</item>
+        <item>Parodia</item>
+        <item>Policial</item>
+        <item>Psicológico</item>
+        <item>Recuentos de la vida</item>
+        <item>Romance</item>
+        <item>Samurai</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shounen</item>
+        <item>Sobrenatural</item>
+        <item>Superpoderes</item>
+        <item>Suspense</item>
+        <item>Terror</item>
+        <item>Vampiros</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
+    <string-array name="genres_values">
+        <item>accion</item>
+        <item>artes-marciales</item>
+        <item>aventura</item>
+        <item>carreras</item>
+        <item>ciencia-ficcion</item>
+        <item>comedia</item>
+        <item>demencia</item>
+        <item>demonios</item>
+        <item>deportes</item>
+        <item>drama</item>
+        <item>ecchi</item>
+        <item>escolares</item>
+        <item>espacial</item>
+        <item>fantasia</item>
+        <item>harem</item>
+        <item>historico</item>
+        <item>infantil</item>
+        <item>josei</item>
+        <item>juegos</item>
+        <item>magia</item>
+        <item>mecha</item>
+        <item>militar</item>
+        <item>misterio</item>
+        <item>musica</item>
+        <item>parodia</item>
+        <item>policia</item>
+        <item>psicologico</item>
+        <item>recuentos-de-la-vida</item>
+        <item>romance</item>
+        <item>samurai</item>
+        <item>seinen</item>
+        <item>shoujo</item>
+        <item>shounen</item>
+        <item>sobrenatural</item>
+        <item>superpoderes</item>
+        <item>suspenso</item>
+        <item>terror</item>
+        <item>vampiros</item>
+        <item>yaoi</item>
+        <item>yuri</item>
+    </string-array>
+    <string-array name="favorites">
+
+    </string-array>
+    <string-array name="favorites_values">
+
+    </string-array>
+</resources>

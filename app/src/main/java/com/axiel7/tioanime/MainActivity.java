@@ -59,9 +59,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //setup sharedprefs
-        sharedPreferences = getSharedPreferences("savedUrls" , Context.MODE_PRIVATE);
-        favUrls = sharedPreferences.getString("favUrl","Empty");
+        //edge to edge support
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            View view = getWindow().getDecorView();
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            view.setBackgroundColor(getColor(R.color.colorPrimary));
+        }
+
+        //setup recyclerView for genres
+        RecyclerView recyclerView = findViewById(R.id.genres_list);
+        recyclerView.setHasFixedSize(true);
+        listGenre = new ArrayList<>();
+        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AnimeAdapter(this, listGenre);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
 
         //setup toolbar and drawer
         toolbar = findViewById(R.id.toolbar);

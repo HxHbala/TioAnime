@@ -1,55 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">TioAnime</string>
-    <string name="title_home">Home</string>
-    <string name="title_emision">Seasonal</string>
-    <string name="title_fav">Favorites</string>
-    <string name="title_load">Loading…</string>
-    <string name="title_refresh">Refresh</string>
-    <string name="title_search">Search</string>
-    <string name="toast_saved">Saved</string>
-    <string name="genre_action">Action</string>
-    <string name="genre_martialarts">Martial arts</string>
-    <string name="genre_adventures">Adventures</string>
-    <string name="genre_races">Races</string>
-    <string name="genre_scifi">Sci-Fi</string>
-    <string name="genre_comedy">Comedy</string>
-    <string name="genre_demency">Demency</string>
-    <string name="genre_devils">Devils</string>
-    <string name="genre_sports">Sports</string>
-    <string name="genre_drama">Drama</string>
-    <string name="genre_ecchi">Ecchi</string>
-    <string name="genre_school">School</string>
-    <string name="genre_space">Space</string>
-    <string name="genre_fantasy">Fantasy</string>
-    <string name="genre_harem">Harem</string>
-    <string name="genre_historical">Historical</string>
-    <string name="genre_kids">Kids</string>
-    <string name="genre_josei">Josei</string>
-    <string name="genre_games">Games</string>
-    <string name="genre_magic">Magic</string>
-    <string name="genre_mecha">Mecha</string>
-    <string name="genre_military">Military</string>
-    <string name="genre_mystery">Mystery</string>
-    <string name="genre_music">Music</string>
-    <string name="genre_parody">Parody</string>
-    <string name="genre_police">Police</string>
-    <string name="genre_psychological">Psychological</string>
-    <string name="genre_sol">Slice of life</string>
-    <string name="genre_romance">Romance</string>
-    <string name="genre_samurai">Samurai</string>
-    <string name="genre_seinen">Seinen</string>
-    <string name="genre_shoujo">Shoujo</string>
-    <string name="genre_shounen">Shounen</string>
-    <string name="genre_supernatural">Supernatural</string>
-    <string name="genre_superpowers">Superpowers</string>
-    <string name="genre_suspense">Suspense</string>
-    <string name="genre_terror">Terror</string>
-    <string name="genre_vampires">Vampires</string>
-    <string name="genre_yaoi">Yaoi</string>
-    <string name="genre_yuri">Yuri</string>
-    <string name="genres">Genres</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-
+    <string name="title_home">Inicio</string>
+    <string name="title_emision">Emisión</string>
+    <string name="title_fav">Favoritos</string>
+    <string name="title_load">Cargando…</string>
+    <string name="title_refresh">Actualizar</string>
+    <string name="title_search">Buscar</string>
+    <string name="toast_saved">Guardado</string>
+    <string name="genres">Géneros</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="delete">Borrar</string>
+    <string name="toast_deleted">Eliminado</string>
 
 </resources>
