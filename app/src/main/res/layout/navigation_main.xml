@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        android:fitsSystemWindows="true"
         android:visibility="visible"
         app:itemIconTint="@color/colorAccent"
         app:itemTextColor="@color/colorAccent"

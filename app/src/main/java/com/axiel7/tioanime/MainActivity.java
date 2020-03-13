@@ -298,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             hideSystemUI();
+            drawerLayout.setFitsSystemWindows(false);
             bottomNavigationView.setVisibility(View.GONE);
 
         }
@@ -334,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             showSystemUI();
             bottomNavigationView.setVisibility(View.VISIBLE);
+            drawerLayout.setFitsSystemWindows(true);
             toolbar.setFitsSystemWindows(true);
 
         }

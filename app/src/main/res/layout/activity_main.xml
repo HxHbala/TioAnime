@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="?attr/colorPrimary"
     tools:openDrawer="start">
 
     <include
@@ -21,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/backgroundColor">
+        android:background="?attr/colorPrimary">
         <TextView
             android:id="@+id/genres_text"
             android:layout_width="match_parent"

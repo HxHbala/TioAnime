@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:fitsSystemWindows="true"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:title="@string/title_fav"
@@ -26,33 +27,4 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <GridView
-        android:id="@+id/favGrid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:columnWidth="100dp"
-        android:numColumns="2"
-        android:verticalSpacing="24dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="spacingWidthUniform"
-        android:visibility="gone"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/toolbar"
-        android:layout_marginBottom="-25dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text=""
-            android:textColor="@color/colorText" />
-    </androidx.cardview.widget.CardView>
 </RelativeLayout>
