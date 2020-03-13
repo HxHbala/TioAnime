@@ -21,14 +21,13 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
         //edge to edge support
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             View view = getWindow().getDecorView();
             view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
         //setup favorites database
