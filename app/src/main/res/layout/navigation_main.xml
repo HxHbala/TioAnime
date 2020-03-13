@@ -54,5 +54,5 @@
         android:focusable="true"
         android:onClick="saveFav"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_favorite_border_black_24dp"/>
+        app:srcCompat="@drawable/ic_favorite_border_white_24dp"/>
 </RelativeLayout>

@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton favFab;
     private FrameLayout customViewContainer;
-    private WebChromeClient.CustomViewCallback customViewCallback;
+    public WebChromeClient.CustomViewCallback customViewCallback;
     private View mCustomView;
-    private myWebChromeClient mWebChromeClient;
-    private myWebViewClient mWebViewClient;
-    private String currentUrl;
+    public myWebChromeClient mWebChromeClient;
+    public myWebViewClient mWebViewClient;
+    public String currentUrl;
     private Pattern mPattern;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +89,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
-            {
-
+            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
                 public void onDrawerClosed(View view)
                 {
                     supportInvalidateOptionsMenu();
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             actionBarDrawerToggle.syncState();
         }
 
-        //setup bottombar
+        //setup bottomBar
         bottomNavMenu();
 
         //setup favorites database
