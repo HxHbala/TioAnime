@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     public myWebViewClient mWebViewClient;
     public String currentUrl;
     private Pattern mPattern;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         //check if should load a favorite url
         String openFavUrl = tinyDB.getString("openFavUrl");
-        if (openFavUrl.equals("none")) {
+        if (openFavUrl.equals("")) {
             currentUrl = "https://tioanime.com";
         }
         else {
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         }
 
         webView.loadUrl(currentUrl);
-        tinyDB.putString("openFavUrl", "none");
+        tinyDB.putString("openFavUrl", "");
         mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
         if (currentUrl != null) {
             checkUrl(currentUrl);
@@ -284,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         return super.onKeyDown(keyCode, event);
     }
     class myWebChromeClient extends WebChromeClient {
-        private Bitmap mDefaultVideoPoster;
         private View mVideoProgressView;
 
         @SuppressLint("SourceLockedOrientationActivity")
@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         }
 
+        @SuppressLint("InflateParams")
         @Override
         public View getVideoLoadingProgressView() {
 

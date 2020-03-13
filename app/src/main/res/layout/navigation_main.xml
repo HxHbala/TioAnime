@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleMarginTop="5dp"
+        app:title="@string/app_name"
         app:titleTextColor="@color/colorText" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
