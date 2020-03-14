@@ -3,9 +3,12 @@ package com.axiel7.tioanime;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +32,10 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+
+        //setup toolbar
+        Toolbar toolbar = findViewById(R.id.fav_toolbar);
+        setSupportActionBar(toolbar);
 
         //setup favorites database
         tinyDB = new TinyDB(this);
@@ -56,6 +63,26 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         tinyDB.putString("openFavUrl", valueFav);
         startActivity(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.fav_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.menu_delete) {
+            tinyDB.remove("animeList");
+            animeList.clear();
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
     @Override
     protected void onPause() {

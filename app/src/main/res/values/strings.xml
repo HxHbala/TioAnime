@@ -12,5 +12,6 @@
     <string name="close">Cerrar</string>
     <string name="delete">Borrar</string>
     <string name="toast_deleted">Eliminado</string>
+    <string name="delete_all">Borrar todos</string>
 
 </resources>
