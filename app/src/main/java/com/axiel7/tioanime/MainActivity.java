@@ -212,7 +212,12 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                webView.loadUrl("https://tioanime.com/directorio?q=" + query);
+                if (currentUrl.contains("hentai")) {
+                    webView.loadUrl("https://tiohentai.com/directorio?q=" + query);
+                }
+                else {
+                    webView.loadUrl("https://tioanime.com/directorio?q=" + query);
+                }
                 if( ! searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
