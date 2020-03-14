@@ -113,10 +113,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-
-        if (animeList==null) {
-            animeList = tinyDB.getListString("animeList");
-        }
+        animeList = tinyDB.getListString("animeList");
 
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
@@ -259,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
+        animeList = tinyDB.getListString("animeList");
     }
 
     @Override
