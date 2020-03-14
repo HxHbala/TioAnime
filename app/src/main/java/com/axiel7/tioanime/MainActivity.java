@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         recyclerView.setAdapter(adapter);
 
         //setup toolbar and drawer
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.main_toolbar);
         drawerLayout = findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();

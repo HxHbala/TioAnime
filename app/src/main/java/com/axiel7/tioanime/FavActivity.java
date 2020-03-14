@@ -49,7 +49,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             break;
         }
 
-        // set up RecyclerView
+        //setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.favList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnimeAdapter(this, animeList);
