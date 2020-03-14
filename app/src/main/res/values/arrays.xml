@@ -41,6 +41,7 @@
         <item>Vampiros</item>
         <item>Yaoi</item>
         <item>Yuri</item>
+        <item>Hentai</item>
     </string-array>
     <string-array name="genres_values">
         <item>accion</item>
@@ -83,6 +84,7 @@
         <item>vampiros</item>
         <item>yaoi</item>
         <item>yuri</item>
+        <item>hentai</item>
     </string-array>
     <string-array name="favorites">
 

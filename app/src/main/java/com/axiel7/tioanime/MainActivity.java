@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         webView.loadUrl(currentUrl);
         tinyDB.putString("openFavUrl", "");
-        mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
+        mPattern = Pattern.compile("(http|https)://(tioanime.com/anime|tiohentai.com/hentai)/.*");
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
@@ -192,7 +192,12 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     @Override
     public void onItemClick(View view, int position) {
         String value = getResources().getStringArray(R.array.genres_values)[position];
-        webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        if (value.equals("hentai")) {
+            webView.loadUrl("https://tiohentai.com");
+        }
+        else {
+            webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
     }
     @Override
