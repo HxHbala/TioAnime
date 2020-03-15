@@ -6,24 +6,25 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".FavActivity" >
+    android:background="@color/colorPrimaryDarkHen"
+    tools:context=".HentaiActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favList"
+        android:id="@+id/favListHen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/fav_toolbar" />
+        android:layout_below="@id/fav_toolbar_hen" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fav_toolbar"
+        android:id="@+id/fav_toolbar_hen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:fitsSystemWindows="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryHen"
         android:minHeight="?attr/actionBarSize"
         app:title="@string/title_fav"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:titleTextColor="@color/colorText" >
 
     </androidx.appcompat.widget.Toolbar>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home_hen"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_censor"
+        android:icon="@drawable/ic_censor_white_24dp"
+        android:title="@string/censor" />
+
+    <item
+        android:id="@+id/navigation_favorites_hen"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="@string/title_fav" />
+
+</menu>

@@ -40,14 +40,14 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
+public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private Button hentaiButton;
+    private Button animeButton;
     private AnimeAdapter adapter;
     private ArrayList<String> listGenre;
     private TinyDB tinyDB;
-    private ArrayList<String> animeList;
+    private ArrayList<String> hentaiList;
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
@@ -65,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setTheme(R.style.AppThemeHentai);
+        setContentView(R.layout.activity_hentai);
 
         //edge to edge support
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryHen));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             View view = getWindow().getDecorView();
@@ -78,22 +79,22 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         }
 
         //setup recyclerView for genres
-        RecyclerView recyclerView = findViewById(R.id.genres_list);
+        RecyclerView recyclerView = findViewById(R.id.genres_list_hen);
         recyclerView.setHasFixedSize(true);
         listGenre = new ArrayList<>();
-        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
+        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres_hentai));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnimeAdapter(this, listGenre);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
         //setup toolbar and drawer
-        toolbar = findViewById(R.id.main_toolbar);
-        drawerLayout = findViewById(R.id.main_layout);
-        hentaiButton = findViewById(R.id.change_button);
-        hentaiButton.setOnClickListener(v -> {
-            Intent openHentai = new Intent(MainActivity.this, HentaiActivity.class);
-            MainActivity.this.startActivity(openHentai);
+        toolbar = findViewById(R.id.hentai_toolbar);
+        drawerLayout = findViewById(R.id.hentai_layout);
+        animeButton = findViewById(R.id.change_button_hen);
+        animeButton.setOnClickListener(v -> {
+            Intent openAnime = new Intent(HentaiActivity.this, MainActivity.class);
+            HentaiActivity.this.startActivity(openAnime);
             finish();
         });
         setSupportActionBar(toolbar);
@@ -121,16 +122,16 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        animeList = tinyDB.getListString("animeList");
+        hentaiList = tinyDB.getListString("hentaiList");
 
         //setup webViews complements
-        customViewContainer = findViewById(R.id.customViewContainer);
-        webView = findViewById(R.id.webView);
+        customViewContainer = findViewById(R.id.customViewContainer_hen);
+        webView = findViewById(R.id.webView_hen);
 
         swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
 
-        favFab = findViewById(R.id.floatingActionButton);
+        favFab = findViewById(R.id.fab_hen);
         favFab.bringToFront();
 
         mWebViewClient = new myWebViewClient();
@@ -144,63 +145,63 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         webView.setWebChromeClient(mWebChromeClient);
 
         //check if should load a favorite url
-        String openFavUrl = tinyDB.getString("openFavUrl");
+        String openFavUrl = tinyDB.getString("openFavUrlHen");
         if (openFavUrl.equals("")) {
-            currentUrl = "https://tioanime.com";
+            currentUrl = "https://tiohentai.com";
         }
         else {
             currentUrl = openFavUrl;
         }
 
         webView.loadUrl(currentUrl);
-        tinyDB.putString("openFavUrl", "");
-        mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
+        tinyDB.putString("openFavUrlHen", "");
+        mPattern = Pattern.compile("(http|https)://tiohentai.com/hentai/.*");
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
     }
     private void bottomNavMenu() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation_hen);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    webView.loadUrl("https://tioanime.com");
+                case R.id.navigation_home_hen:
+                    webView.loadUrl("https://tiohentai.com");
                     break;
-                case R.id.navigation_dashboard:
-                    webView.loadUrl("https://tioanime.com/directorio?estado=emision");
+                case R.id.navigation_censor:
+                    webView.loadUrl("https://tiohentai.com/directorio?censura=no");
                     break;
-                case R.id.navigation_notifications:
-                    Intent openFav = new Intent(MainActivity.this, FavActivity.class);
-                    MainActivity.this.startActivity(openFav);
+                case R.id.navigation_favorites_hen:
+                    Intent openFav = new Intent(HentaiActivity.this, FavHenActivity.class);
+                    HentaiActivity.this.startActivity(openFav);
                     break;
             }
             return true;
         });
     }
     public void saveFav(View view) {
-        if (!animeList.contains(currentUrl)) {
-            animeList.add(currentUrl);
+        if (!hentaiList.contains(currentUrl)) {
+            hentaiList.add(currentUrl);
             Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
         }
-        else if (animeList.contains(currentUrl)) {
-            animeList.remove(currentUrl);
+        else if (hentaiList.contains(currentUrl)) {
+            hentaiList.remove(currentUrl);
             Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
         }
-        for (String s : animeList) {
-            if (!animeList.contains(s)) {
-                tinyDB.putString("anime"+s,s);
+        for (String s : hentaiList) {
+            if (!hentaiList.contains(s)) {
+                tinyDB.putString("hentai"+s,s);
             }
             break;
         }
-        tinyDB.putListString("animeList",animeList);
+        tinyDB.putListString("hentaiList",hentaiList);
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
     }
     @Override
     public void onItemClick(View view, int position) {
-        String value = getResources().getStringArray(R.array.genres_values)[position];
-        webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        String value = getResources().getStringArray(R.array.genres_hentai_values)[position];
+        webView.loadUrl("https://tiohentai.com/directorio?genero=" + value);
         drawerLayout.closeDrawer(GravityCompat.START);
     }
     @Override
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                webView.loadUrl("https://tioanime.com/directorio?q=" + query);
+                webView.loadUrl("https://tiohentai.com/directorio?q=" + query);
                 if( ! searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
-        animeList = tinyDB.getListString("animeList");
+        hentaiList = tinyDB.getListString("hentaiList");
     }
 
     @Override
@@ -321,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         public View getVideoLoadingProgressView() {
 
             if (mVideoProgressView == null) {
-                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                LayoutInflater inflater = LayoutInflater.from(HentaiActivity.this);
                 mVideoProgressView = inflater.inflate(R.layout.video_progress, null);
             }
             return mVideoProgressView;
@@ -412,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         Matcher matcher = mPattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
-            if (animeList.contains(currentUrl)) {
+            if (hentaiList.contains(currentUrl)) {
                 favFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_white_24dp));
             }
             else {

@@ -16,6 +16,17 @@
             android:label="@string/title_fav">
         </activity>
         <activity
+            android:name=".FavHenActivity"
+            android:label="@string/title_fav">
+        </activity>
+        <activity
+            android:name=".HentaiActivity"
+            android:label="@string/change_hentai"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:hardwareAccelerated="true"

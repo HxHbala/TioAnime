@@ -13,5 +13,8 @@
     <string name="delete">Borrar</string>
     <string name="toast_deleted">Eliminado</string>
     <string name="delete_all">Borrar todos</string>
+    <string name="change_anime">TioAnime</string>
+    <string name="change_hentai">TioHentai</string>
+    <string name="censor">Sin censura</string>
 
 </resources>
