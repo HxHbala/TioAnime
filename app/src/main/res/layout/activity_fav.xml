@@ -23,7 +23,7 @@
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:title="@string/title_fav"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:titleTextColor="@color/colorText" >
 
     </androidx.appcompat.widget.Toolbar>
