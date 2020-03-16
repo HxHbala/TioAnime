@@ -46,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Button hentaiButton;
-    private AnimeAdapter adapter;
+    private GenreAdapter adapter;
     private ArrayList<String> listGenre;
     private TinyDB tinyDB;
-    private ArrayList<String> animeList;
+    private ArrayList<String> animeUrls;
+    private ArrayList<String> animeTitles;
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+
         //setup app updater
         appUpdater = new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.GITHUB)
@@ -98,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         listGenre = new ArrayList<>();
         Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AnimeAdapter(this, listGenre);
-        adapter.setClickListener(this);
+        adapter = new GenreAdapter(this, listGenre);
+        adapter.setClickListener(this::onItemClick);
         recyclerView.setAdapter(adapter);
 
         //setup toolbar and drawer
@@ -136,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        animeList = tinyDB.getListString("animeList");
+        animeUrls = tinyDB.getListString("animeUrls");
+        animeTitles = tinyDB.getListString("animeTitles");
 
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
@@ -193,21 +196,32 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         });
     }
     public void saveFav(View view) {
-        if (!animeList.contains(currentUrl)) {
-            animeList.add(currentUrl);
+        String title = webView.getTitle();
+        title = title.replaceAll(" - TioAnime","");
+        if (!animeUrls.contains(currentUrl)) {
+            animeUrls.add(currentUrl);
+            animeTitles.add(title);
             Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
         }
-        else if (animeList.contains(currentUrl)) {
-            animeList.remove(currentUrl);
+        else if (animeUrls.contains(currentUrl)) {
+            animeUrls.remove(currentUrl);
+            animeTitles.remove(title);
             Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
         }
-        for (String s : animeList) {
-            if (!animeList.contains(s)) {
-                tinyDB.putString("anime"+s,s);
+        for (String s : animeUrls) {
+            if (!animeUrls.contains(s)) {
+                tinyDB.putString("animeUrl"+s,s);
             }
             break;
         }
-        tinyDB.putListString("animeList",animeList);
+        for (String s : animeTitles) {
+            if (!animeUrls.contains(s)) {
+                tinyDB.putString("animeTitle"+s,s);
+            }
+            break;
+        }
+        tinyDB.putListString("animeUrls",animeUrls);
+        tinyDB.putListString("animeTitles", animeTitles);
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
@@ -279,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
-        animeList = tinyDB.getListString("animeList");
+        animeUrls = tinyDB.getListString("animeUrls");
     }
 
     @Override
@@ -428,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         Matcher matcher = mPattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
-            if (animeList.contains(currentUrl)) {
+            if (animeUrls.contains(currentUrl)) {
                 favFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_white_24dp));
             }
             else {

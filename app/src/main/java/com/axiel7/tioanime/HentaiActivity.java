@@ -44,10 +44,11 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Button animeButton;
-    private AnimeAdapter adapter;
+    private GenreAdapter adapter;
     private ArrayList<String> listGenre;
     private TinyDB tinyDB;
-    private ArrayList<String> hentaiList;
+    private ArrayList<String> hentaiUrls;
+    private ArrayList<String> hentaiTitles;
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
@@ -84,8 +85,8 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         listGenre = new ArrayList<>();
         Collections.addAll(listGenre, getResources().getStringArray(R.array.genres_hentai));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AnimeAdapter(this, listGenre);
-        adapter.setClickListener(this);
+        adapter = new GenreAdapter(this, listGenre);
+        adapter.setClickListener(this::onItemClick);
         recyclerView.setAdapter(adapter);
 
         //setup toolbar and drawer
@@ -122,7 +123,8 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        hentaiList = tinyDB.getListString("hentaiList");
+        hentaiUrls = tinyDB.getListString("hentaiUrls");
+        hentaiTitles = tinyDB.getListString("hentaiTitles");
 
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer_hen);
@@ -179,21 +181,32 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         });
     }
     public void saveFav(View view) {
-        if (!hentaiList.contains(currentUrl)) {
-            hentaiList.add(currentUrl);
+        String title = webView.getTitle();
+        title = title.replaceAll(" - TioHentai","");
+        if (!hentaiUrls.contains(currentUrl)) {
+            hentaiUrls.add(currentUrl);
+            hentaiTitles.add(title);
             Toast.makeText(this,getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
         }
-        else if (hentaiList.contains(currentUrl)) {
-            hentaiList.remove(currentUrl);
+        else if (hentaiUrls.contains(currentUrl)) {
+            hentaiUrls.remove(currentUrl);
+            hentaiTitles.remove(title);
             Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
         }
-        for (String s : hentaiList) {
-            if (!hentaiList.contains(s)) {
-                tinyDB.putString("hentai"+s,s);
+        for (String s : hentaiUrls) {
+            if (!hentaiUrls.contains(s)) {
+                tinyDB.putString("hentaiUrl"+s,s);
             }
             break;
         }
-        tinyDB.putListString("hentaiList",hentaiList);
+        for (String s : hentaiTitles) {
+            if (!hentaiTitles.contains(s)) {
+                tinyDB.putString("hentaiTitle"+s,s);
+            }
+            break;
+        }
+        tinyDB.putListString("hentaiUrls",hentaiUrls);
+        tinyDB.putListString("hentaiTitles",hentaiTitles);
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
@@ -265,7 +278,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
-        hentaiList = tinyDB.getListString("hentaiList");
+        hentaiUrls = tinyDB.getListString("hentaiUrls");
     }
 
     @Override
@@ -413,7 +426,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         Matcher matcher = mPattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
-            if (hentaiList.contains(currentUrl)) {
+            if (hentaiUrls.contains(currentUrl)) {
                 favFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_white_24dp));
             }
             else {

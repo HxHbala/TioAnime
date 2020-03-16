@@ -8,16 +8,17 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Map;
+import java.util.List;
 
-public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> {
+public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
 
-    private Map<String, String> mData;
+    private List<String> mData;
+    //private HashMap<String, String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    AnimeAdapter(Context context, Map<String, String> data) {
+    GenreAdapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -32,15 +33,8 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        int i = 0;
-        for (Map.Entry<String, String> entry : mData.entrySet()) {
-            if(position == i){
-                String value = entry.getValue(); //animeTitle
-                holder.myTextView.setText(value);
-                break;
-            }
-            i++;
-        }
+        String anime = mData.get(position);
+        holder.myTextView.setText(anime);
     }
 
     // total number of rows
@@ -67,15 +61,8 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     }
 
     // convenience method for getting data at click position
-    String getItem(int position) {
-        int i = 0;
-        for (Map.Entry<String, String> entry : mData.entrySet()) {
-            if(position == i){
-                return entry.getKey();
-            }
-            i++;
-        }
-        return "";
+    String getItem(int id) {
+        return mData.get(id);
     }
 
     // allows clicks events to be caught

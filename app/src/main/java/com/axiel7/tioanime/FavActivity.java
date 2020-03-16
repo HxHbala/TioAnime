@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
-    private ArrayList<String> animeList;
+    private Map<String, String> animeMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,20 +41,19 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        if (animeList==null) {
-            animeList = tinyDB.getListString("animeList");
+        ArrayList<String> animeUrls = tinyDB.getListString("animeUrls");
+        ArrayList<String> animeTitles = tinyDB.getListString("animeTitles");
+        if (animeMap==null) {
+            animeMap = new LinkedHashMap<>();
         }
-        for (String s : animeList) {
-            if (!animeList.contains(s)) {
-                animeList.add(tinyDB.getString("anime"+s));
-            }
-            break;
+        for (int i=0; i<animeUrls.size(); i++) {
+            animeMap.put(animeUrls.get(i), animeTitles.get(i));
         }
 
         //setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.favList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AnimeAdapter(this, animeList);
+        adapter = new AnimeAdapter(this, animeMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -77,8 +78,9 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_delete) {
-            tinyDB.remove("animeList");
-            animeList.clear();
+            tinyDB.remove("animeUrls");
+            tinyDB.remove("animeTitles");
+            animeMap.clear();
             adapter.notifyDataSetChanged();
             return true;
         }

@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
-    private ArrayList<String> hentaiList;
+    private Map<String, String> hentaiMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +42,19 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        if (hentaiList==null) {
-            hentaiList = tinyDB.getListString("hentaiList");
+        ArrayList<String> hentaiUrls = tinyDB.getListString("hentaiUrls");
+        ArrayList<String> hentaiTitles = tinyDB.getListString("hentaiTitles");
+        if (hentaiMap==null) {
+            hentaiMap = new LinkedHashMap<>();
         }
-        for (String s : hentaiList) {
-            if (!hentaiList.contains(s)) {
-                hentaiList.add(tinyDB.getString("hentai"+s));
-            }
-            break;
+        for (int i=0; i<hentaiUrls.size(); i++) {
+            hentaiMap.put(hentaiUrls.get(i), hentaiTitles.get(i));
         }
 
         //setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.favListHen);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AnimeAdapter(this, hentaiList);
+        adapter = new AnimeAdapter(this, hentaiMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -78,8 +79,9 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_delete) {
-            tinyDB.remove("hentaiList");
-            hentaiList.clear();
+            tinyDB.remove("hentaiUrls");
+            tinyDB.remove("animeTitles");
+            hentaiMap.clear();
             adapter.notifyDataSetChanged();
             return true;
         }
