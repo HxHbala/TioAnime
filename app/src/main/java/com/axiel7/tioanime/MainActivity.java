@@ -32,6 +32,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     public myWebViewClient mWebViewClient;
     public String currentUrl;
     private Pattern mPattern;
+    private AppUpdater appUpdater;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,18 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+        //setup app updater
+        appUpdater = new AppUpdater(this)
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo("axiel7","TioAnime")
+                .setTitleOnUpdateAvailable("Actualización disponible")
+                .setContentOnUpdateAvailable("¿Descargar ahora?")
+                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
+                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
+                .setButtonUpdate("Descargar")
+                .setButtonDoNotShowAgain("No mostrar de nuevo")
+	            .setButtonDismiss("Más tarde");
+        appUpdater.start();
 
         //setup recyclerView for genres
         RecyclerView recyclerView = findViewById(R.id.genres_list);
@@ -273,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         if (inCustomView()) {
             hideCustomView();
         }
+        appUpdater.stop();
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
