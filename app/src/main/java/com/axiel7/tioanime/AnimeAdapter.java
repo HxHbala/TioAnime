@@ -71,11 +71,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
         int i = 0;
         for (Map.Entry<String, String> entry : mData.entrySet()) {
             if(position == i){
-                return entry.getKey();
+                return entry.getKey(); //animeUrl
             }
             i++;
         }
-        return "";
+        return "https://tioanime.com";
     }
 
     // allows clicks events to be caught
