@@ -1,9 +1,11 @@
 package com.axiel7.tioanime;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -142,6 +144,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         mWebChromeClient = new myWebChromeClient();
 
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportMultipleWindows(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
         webView.setWebChromeClient(mWebChromeClient);
@@ -306,6 +309,17 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
     }
     class myWebChromeClient extends WebChromeClient {
         private View mVideoProgressView;
+
+        @Override
+        public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture, android.os.Message resultMsg)
+        {
+            WebView.HitTestResult result = view.getHitTestResult();
+            String data = result.getExtra();
+            Context context = view.getContext();
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+            context.startActivity(browserIntent);
+            return false;
+        }
 
         @SuppressLint("SourceLockedOrientationActivity")
         @Override
