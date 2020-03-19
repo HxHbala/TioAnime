@@ -4,7 +4,7 @@
     <string name="title_emision">Emisión</string>
     <string name="title_fav">Favoritos</string>
     <string name="title_load">Cargando…</string>
-    <string name="title_refresh">Actualizar</string>
+    <string name="title_refresh">Refrescar</string>
     <string name="title_search">Buscar</string>
     <string name="toast_saved">Guardado</string>
     <string name="genres">Géneros</string>
@@ -16,5 +16,6 @@
     <string name="change_anime">TioAnime</string>
     <string name="change_hentai">TioHentai</string>
     <string name="censor">Sin censura</string>
+    <string name="check_updates">Comprobar actualizaciones</string>
 
 </resources>

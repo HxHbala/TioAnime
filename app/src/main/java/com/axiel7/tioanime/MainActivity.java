@@ -272,6 +272,10 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             webView.reload();
             return true;
         }
+        if (id == R.id.check_updates) {
+            appUpdater.init();
+            return true;
+        }
         if(actionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
