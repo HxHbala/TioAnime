@@ -81,19 +81,6 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
 
-        //setup app updater
-        appUpdater = new AppUpdater(this)
-                .setUpdateFrom(UpdateFrom.GITHUB)
-                .setGitHubUserAndRepo("axiel7","TioAnime")
-                .setTitleOnUpdateAvailable("Actualización disponible")
-                .setContentOnUpdateAvailable("¿Descargar ahora?")
-                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
-                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
-                .setButtonUpdate("Descargar")
-                .setButtonDoNotShowAgain("No mostrar de nuevo")
-	            .setButtonDismiss("Más tarde");
-        appUpdater.start();
-
         //setup recyclerView for genres
         RecyclerView recyclerView = findViewById(R.id.genres_list);
         recyclerView.setHasFixedSize(true);
@@ -140,6 +127,20 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         tinyDB = new TinyDB(this);
         animeUrls = tinyDB.getListString("animeUrls");
         animeTitles = tinyDB.getListString("animeTitles");
+
+        //setup app updater
+        appUpdater = new AppUpdater(this)
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo("axiel7","TioAnime")
+                .showEvery(3)
+                .setTitleOnUpdateAvailable("Actualización disponible")
+                .setContentOnUpdateAvailable("¿Descargar ahora?")
+                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
+                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
+                .setButtonUpdate("Descargar")
+                .setButtonDoNotShowAgain("")
+                .setButtonDismiss("Más tarde");
+        appUpdater.start();
 
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
@@ -287,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     protected void onPause() {
         super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onPause();
+        appUpdater.stop();
     }
 
     @Override
