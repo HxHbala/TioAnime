@@ -1,5 +1,5 @@
 # TioAnime
-App para ver tu página de anime de confianza v:
+App no oficial para ver tu página de anime de confianza v:
 
 [Descarga](https://github.com/axiel7/TioAnime/releases/latest)
 
