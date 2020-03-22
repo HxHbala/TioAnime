@@ -277,6 +277,8 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         }
         if (id == R.id.check_updates) {
             appUpdater.init();
+            Toast.makeText(this,getString(R.string.checking_updates), Toast.LENGTH_SHORT).show();
+            appUpdater.showAppUpdated(true);
             return true;
         }
         if(actionBarDrawerToggle.onOptionsItemSelected(item))

@@ -17,5 +17,6 @@
     <string name="change_hentai">TioHentai</string>
     <string name="censor">Sin censura</string>
     <string name="check_updates">Comprobar actualizaciones</string>
+    <string name="checking_updates">Comprobando actualizaciones…</string>
 
 </resources>
