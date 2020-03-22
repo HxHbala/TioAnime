@@ -223,7 +223,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.hentai_menu, menu);
         //setup searchView
         MenuItem myActionMenuItem = menu.findItem( R.id.menu_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
