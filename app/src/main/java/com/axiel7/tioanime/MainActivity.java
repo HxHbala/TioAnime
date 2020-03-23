@@ -340,8 +340,10 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             WebView.HitTestResult result = view.getHitTestResult();
             String data = result.getExtra();
             Context context = view.getContext();
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-            context.startActivity(browserIntent);
+            if (data != null) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+                context.startActivity(browserIntent);
+            }
             return false;
         }
 
