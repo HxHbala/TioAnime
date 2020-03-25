@@ -63,6 +63,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
     public myWebChromeClient mWebChromeClient;
     public myWebViewClient mWebViewClient;
     public String currentUrl;
+    public String externalUrl;
     private Pattern mPattern;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -149,6 +150,9 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
 
         webView.setWebChromeClient(mWebChromeClient);
 
+        //handle external links
+        handleIntent(getIntent());
+
         //check if should load a favorite url
         String openFavUrl = tinyDB.getString("openFavUrlHen");
         if (openFavUrl.equals("")) {
@@ -156,6 +160,13 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         }
         else {
             currentUrl = openFavUrl;
+        }
+        //check if should load an external link
+        if (externalUrl != null) {
+            webView.loadUrl(externalUrl);
+        }
+        else {
+            webView.loadUrl(currentUrl);
         }
 
         webView.loadUrl(currentUrl);
@@ -182,6 +193,18 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
             }
             return true;
         });
+    }
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+    private void handleIntent(Intent intent) {
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            String recipeId = appLinkData.getPath();
+            externalUrl = "https://tioanime.com" + recipeId;
+        }
     }
     public void saveFav(View view) {
         String title = webView.getTitle();

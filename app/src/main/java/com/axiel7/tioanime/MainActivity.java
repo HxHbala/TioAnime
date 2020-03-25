@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     public myWebChromeClient mWebChromeClient;
     public myWebViewClient mWebViewClient;
     public String currentUrl;
+    public String externalUrl;
     private Pattern mPattern;
     private AppUpdater appUpdater;
     @SuppressLint("SetJavaScriptEnabled")
@@ -104,16 +105,15 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         });
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
-                public void onDrawerClosed(View view)
-                {
+                public void onDrawerClosed(View view) {
                     supportInvalidateOptionsMenu();
                     //drawerOpened = false;
                 }
-                public void onDrawerOpened(View drawerView)
-                {
+
+                public void onDrawerOpened(View drawerView) {
                     supportInvalidateOptionsMenu();
                     //drawerOpened = true;
                 }
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         //setup app updater
         appUpdater = new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.GITHUB)
-                .setGitHubUserAndRepo("axiel7","TioAnime")
+                .setGitHubUserAndRepo("axiel7", "TioAnime")
                 .showEvery(3)
                 .setTitleOnUpdateAvailable("Actualización disponible")
                 .setContentOnUpdateAvailable("¿Descargar ahora?")
@@ -165,16 +165,23 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
 
         webView.setWebChromeClient(mWebChromeClient);
 
+        //handle external links
+        handleIntent(getIntent());
+
         //check if should load a favorite url
         String openFavUrl = tinyDB.getString("openFavUrl");
         if (openFavUrl.equals("")) {
             currentUrl = "https://tioanime.com";
-        }
-        else {
+        } else {
             currentUrl = openFavUrl;
         }
-
-        webView.loadUrl(currentUrl);
+        //check if should load an external link
+        if (externalUrl != null) {
+            webView.loadUrl(externalUrl);
+        }
+        else {
+            webView.loadUrl(currentUrl);
+        }
         tinyDB.putString("openFavUrl", "");
         mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
         if (currentUrl != null) {
@@ -198,6 +205,18 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             }
             return true;
         });
+    }
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+    private void handleIntent(Intent intent) {
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            String recipeId = appLinkData.getPath();
+            externalUrl = "https://tioanime.com" + recipeId;
+        }
     }
     public void saveFav(View view) {
         String title = webView.getTitle();
