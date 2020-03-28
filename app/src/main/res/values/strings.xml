@@ -18,5 +18,7 @@
     <string name="censor">Sin censura</string>
     <string name="check_updates">Comprobar actualizaciones</string>
     <string name="checking_updates">Comprobando actualizaciones…</string>
+    <string name="export_fav">Exportar lista</string>
+    <string name="import_fav">Importar lista</string>
 
 </resources>

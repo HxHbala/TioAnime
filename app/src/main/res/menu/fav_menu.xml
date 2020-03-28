@@ -6,4 +6,11 @@
         android:id="@+id/menu_delete"
         android:title="@string/delete_all"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/export_fav"
+        android:title="@string/export_fav" />
+    <item
+        android:id="@+id/import_fav"
+        android:title="@string/import_fav" />
+
 </menu>
