@@ -144,8 +144,8 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            writeObject(animeMap,"favoritos.txt");
             //resume tasks needing this permission
+            Toast.makeText(this, "Permiso concedido, vuelve a realizar la acción", Toast.LENGTH_LONG).show();
         }
     }
     public void writeObject(Object inputObject, String fileName){
@@ -170,7 +170,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             }
         }
     }
-    public Object readObject(String fileName){
+    public void readObject(String fileName){
         try {
             File output = new File(getApplicationContext().getExternalFilesDir(null), fileName);
             filePath = output.getAbsolutePath();
@@ -193,11 +193,12 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 }
             }
         }
-        return animeMapFile;
     }
     public void deleteList() {
         tinyDB.remove("animeUrls");
         tinyDB.remove("animeTitles");
+        animeUrls.clear();
+        animeTitles.clear();
         animeMap.clear();
     }
     public void deleteDialog() {

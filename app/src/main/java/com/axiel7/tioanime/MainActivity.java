@@ -231,18 +231,6 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             animeTitles.remove(title);
             Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
         }
-        for (String s : animeUrls) {
-            if (!animeUrls.contains(s)) {
-                tinyDB.putString("animeUrl"+s,s);
-            }
-            break;
-        }
-        for (String s : animeTitles) {
-            if (!animeUrls.contains(s)) {
-                tinyDB.putString("animeTitle"+s,s);
-            }
-            break;
-        }
         tinyDB.putListString("animeUrls",animeUrls);
         tinyDB.putListString("animeTitles", animeTitles);
         if (currentUrl != null) {
@@ -324,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
         animeUrls = tinyDB.getListString("animeUrls");
+        animeTitles = tinyDB.getListString("animeTitles");
     }
 
     @Override
