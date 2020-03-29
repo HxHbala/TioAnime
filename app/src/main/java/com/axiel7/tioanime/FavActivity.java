@@ -26,6 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -63,6 +64,8 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         tinyDB = new TinyDB(this);
         animeUrls = tinyDB.getListString("animeUrls");
         animeTitles = tinyDB.getListString("animeTitles");
+        Collections.sort(animeUrls);
+        Collections.sort(animeTitles);
         if (animeMap==null) {
             animeMap = new LinkedHashMap<>();
         }
