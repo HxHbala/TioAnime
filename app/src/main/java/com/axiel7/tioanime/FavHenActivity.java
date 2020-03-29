@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -21,6 +23,8 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
     private Map<String, String> hentaiMap;
+    private ArrayList<String> hentaiUrls;
+    private ArrayList<String> hentaiTitles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +46,10 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
 
         //setup favorites database
         tinyDB = new TinyDB(this);
-        ArrayList<String> hentaiUrls = tinyDB.getListString("hentaiUrls");
-        ArrayList<String> hentaiTitles = tinyDB.getListString("hentaiTitles");
+        hentaiUrls = tinyDB.getListString("hentaiUrls");
+        hentaiTitles = tinyDB.getListString("hentaiTitles");
+        Collections.sort(hentaiUrls);
+        Collections.sort(hentaiTitles);
         if (hentaiMap==null) {
             hentaiMap = new LinkedHashMap<>();
         }
@@ -79,13 +85,30 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_delete) {
-            tinyDB.remove("hentaiUrls");
-            tinyDB.remove("animeTitles");
-            hentaiMap.clear();
-            adapter.notifyDataSetChanged();
+            deleteDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void deleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Se borrarán todos tus favoritos")
+                .setTitle("¿Estás seguro?")
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
+                    deleteList();
+                    adapter.notifyDataSetChanged();
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    public void deleteList() {
+        tinyDB.remove("hentaiUrls");
+        tinyDB.remove("hentaiTitles");
+        hentaiUrls.clear();
+        hentaiTitles.clear();
+        hentaiMap.clear();
     }
     @Override
     protected void onPause() {

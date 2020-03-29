@@ -219,18 +219,6 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
             hentaiTitles.remove(title);
             Toast.makeText(this,getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
         }
-        for (String s : hentaiUrls) {
-            if (!hentaiUrls.contains(s)) {
-                tinyDB.putString("hentaiUrl"+s,s);
-            }
-            break;
-        }
-        for (String s : hentaiTitles) {
-            if (!hentaiTitles.contains(s)) {
-                tinyDB.putString("hentaiTitle"+s,s);
-            }
-            break;
-        }
         tinyDB.putListString("hentaiUrls",hentaiUrls);
         tinyDB.putListString("hentaiTitles",hentaiTitles);
         if (currentUrl != null) {
@@ -305,6 +293,7 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onResume();
         hentaiUrls = tinyDB.getListString("hentaiUrls");
+        hentaiTitles = tinyDB.getListString("hentaiTitles");
     }
 
     @Override
