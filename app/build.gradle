@@ -43,5 +43,4 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.github.javiersantos:AppUpdater:2.7'
-    implementation 'com.github.zhukic:sectioned-recyclerview:1.2.3'
 }
