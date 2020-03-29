@@ -304,7 +304,6 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     protected void onPause() {
         super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
         webView.onPause();
-        appUpdater.stop();
     }
 
     @Override
