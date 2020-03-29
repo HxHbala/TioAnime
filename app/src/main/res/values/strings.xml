@@ -20,5 +20,7 @@
     <string name="checking_updates">Comprobando actualizaciones…</string>
     <string name="export_fav">Exportar lista</string>
     <string name="import_fav">Importar lista</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
 
 </resources>

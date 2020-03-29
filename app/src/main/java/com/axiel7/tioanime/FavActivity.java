@@ -156,7 +156,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             exportDialog();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Fallo al exportar:" + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error:" + e, Toast.LENGTH_LONG).show();
         } finally {
             if (objectOut != null) {
                 try {
@@ -180,7 +180,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Fallo al importar:" + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error:" + e, Toast.LENGTH_LONG).show();
         } finally {
             if (objectIn != null) {
                 try {
@@ -201,11 +201,11 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Se borrarán todos tus favoritos")
                 .setTitle("¿Estás seguro?")
-                .setPositiveButton("Borrar", (dialog, which) -> {
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
                     deleteList();
                     adapter.notifyDataSetChanged();
                 })
-                .setNegativeButton("Cancelar", (dialog, which) -> {
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -216,7 +216,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 "Para importar otra lista, colócala en la misma carpeta con el nombre \"favoritos.txt\". \n" +
                 "Atención: guarda el archivo en otro lugar antes de desinstalar la app.")
                 .setTitle("¡Lista exportada!")
-                .setPositiveButton("Ok", (dialog, which) -> {
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
