@@ -124,6 +124,12 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 adapter.notifyDataSetChanged();
             }
         }
+        if (id == R.id.help) {
+            mDialog(getString(R.string.help_message),
+                    getString(R.string.help),
+                    getString(R.string.ok),
+                    "");
+        }
         return super.onOptionsItemSelected(item);
     }
     public boolean isStoragePermissionGranted() {
