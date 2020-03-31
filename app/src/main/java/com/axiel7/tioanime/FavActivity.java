@@ -214,13 +214,13 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-    public void exportDialog() {
+    public void mDialog(String message, String title, String positive, String negative) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Se ha guardado en \"/Android/Data/com.axiel7.tioanime/files\". \n" +
-                "Para importar otra lista, colócala en la misma carpeta con el nombre \"favoritos.txt\". \n" +
-                "Atención: guarda el archivo en otro lugar antes de desinstalar la app.")
-                .setTitle("¡Lista exportada!")
-                .setPositiveButton(R.string.ok, (dialog, which) -> {
+        builder.setMessage(message)
+                .setTitle(title)
+                .setPositiveButton(positive, (dialog, which) -> {
+                })
+                .setNegativeButton(negative, (dialog, which) -> {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
