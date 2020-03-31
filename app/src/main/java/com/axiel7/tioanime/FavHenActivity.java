@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,6 +88,15 @@ public class FavHenActivity extends AppCompatActivity implements AnimeAdapter.It
         if (id == R.id.menu_delete) {
             deleteDialog();
             return true;
+        }
+        if (id == R.id.import_fav) {
+            Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.export_fav) {
+            Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.help) {
+            Toast.makeText(this, "Fucking weeb", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
