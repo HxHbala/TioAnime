@@ -22,5 +22,10 @@
     <string name="import_fav">Importar lista</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">OK</string>
+    <string name="not_available">Actualmente no disponible</string>
+    <string name="help">Ayuda</string>
+    <string name="help_message">Al exportar la lista se guardará en:\n\"/Android/Data/com.axiel7.tioanime/files/favoritos.txt\".\nHaz una copia de la carpeta \"com.axiel7.tioanime\" antes de desinstalar la app.\nPara restaurar tus favoritos basta con copiar la carpeta en \"/Android/Data/\" y darle a Importar lista.</string>
+    <string name="exported">¡Lista exportada!</string>
+    <string name="imported">¡Lista importada!</string>
 
 </resources>
