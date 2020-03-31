@@ -156,7 +156,6 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(inputObject);
             fileOut.getFD().sync();
-            exportDialog();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error:" + e, Toast.LENGTH_LONG).show();
@@ -164,6 +163,11 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             if (objectOut != null) {
                 try {
                     objectOut.close();
+                    mDialog("Se han exportado " + animeMap.size() + " favoritos.\n" +
+                                    "Consulta el menú de ayuda para más info.",
+                            getString(R.string.exported),
+                            getString(R.string.ok),
+                            "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -188,6 +192,10 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             if (objectIn != null) {
                 try {
                     objectIn.close();
+                    mDialog("Se han importado " + animeMap.size() + " favoritos.",
+                            getString(R.string.imported),
+                            getString(R.string.ok),
+                            "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
