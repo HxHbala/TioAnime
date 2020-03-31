@@ -353,9 +353,6 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             hideSystemUI();
-            drawerLayout.setFitsSystemWindows(false);
-            bottomNavigationView.setVisibility(View.GONE);
-
         }
 
         @SuppressLint("InflateParams")
@@ -390,10 +387,6 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             showSystemUI();
-            bottomNavigationView.setVisibility(View.VISIBLE);
-            drawerLayout.setFitsSystemWindows(true);
-            toolbar.setFitsSystemWindows(true);
-
         }
     }
     private void hideSystemUI() {
@@ -411,15 +404,22 @@ public class HentaiActivity extends AppCompatActivity implements AnimeAdapter.It
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+        drawerLayout.setFitsSystemWindows(false);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        bottomNavigationView.setVisibility(View.GONE);
     }
-    // Shows the system bars by removing all the flags
-    // except for the ones that make the content appear under the system bars.
     private void showSystemUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        drawerLayout.setFitsSystemWindows(true);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        toolbar.setFitsSystemWindows(true);
     }
     private class myWebViewClient extends WebViewClient {
         @Override
