@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.axiel7.tioanime"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.7.2"
