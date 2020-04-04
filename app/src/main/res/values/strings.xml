@@ -24,7 +24,7 @@
     <string name="ok">OK</string>
     <string name="not_available">Actualmente no disponible</string>
     <string name="help">Ayuda</string>
-    <string name="help_message">Al exportar la lista se guardará en:\n\"/Android/Data/com.axiel7.tioanime/files/favoritos.txt\".\nHaz una copia de la carpeta \"com.axiel7.tioanime\" antes de desinstalar la app.\nPara restaurar tus favoritos basta con copiar la carpeta en \"/Android/Data/\" y darle a Importar lista.</string>
+    <string name="help_message">Para hacer una copia de seguridad de tus favoritos:\n1.Abre el menú y selecciona Exportar lista\n2.Escoge la ubicación para guardar la copia de seguridad llamada \"TioAnimefavs.txt\"\n3.Guarda el archivo en un sitio seguro\n\nPara restaurar tus favoritos basta con darle a Importar lista y seleccionar el fichero de antes.</string>
     <string name="exported">¡Lista exportada!</string>
     <string name="imported">¡Lista importada!</string>
 
