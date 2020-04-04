@@ -1,8 +1,10 @@
 package com.axiel7.tioanime;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,9 +20,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,11 +34,8 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     private TinyDB tinyDB;
     private Map<String, String> animeMap;
     private Map<String, String> animeMapFile;
-    private FileInputStream fileIn;
-    private FileOutputStream fileOut;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
-    private String filePath;
     private ArrayList<String> animeUrls;
     private ArrayList<String> animeTitles;
     @Override
@@ -106,22 +102,15 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         }
         if (id == R.id.export_fav) {
             if (isStoragePermissionGranted()) {
-                writeObject(animeMap,"favoritos.txt");
+                createFile();
             }
             return true;
         }
         if (id == R.id.import_fav) {
             if (isStoragePermissionGranted()) {
-                Toast.makeText(this, "Importando lista…", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Selecciona el fichero TioAnimefavs.txt", Toast.LENGTH_SHORT).show();
                 deleteList();
-                readObject("favoritos.txt");
-                for (String key : animeMap.keySet()) {
-                    animeUrls.add(key);
-                    animeTitles.add(animeMap.get(key));
-                }
-                tinyDB.putListString("animeUrls",animeUrls);
-                tinyDB.putListString("animeTitles",animeTitles);
-                adapter.notifyDataSetChanged();
+                openFile();
             }
         }
         if (id == R.id.help) {
@@ -154,14 +143,10 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             Toast.makeText(this, "Permiso concedido, vuelve a realizar la acción", Toast.LENGTH_LONG).show();
         }
     }
-    public void writeObject(Object inputObject, String fileName){
+    public void writeObject(Object inputObject, Uri fileNameUri){
         try {
-            File output = new File(getApplicationContext().getExternalFilesDir(null), fileName);
-            filePath = output.getAbsolutePath();
-            fileOut = new FileOutputStream(filePath);
-            objectOut = new ObjectOutputStream(fileOut);
+            objectOut = new ObjectOutputStream(getContentResolver().openOutputStream(fileNameUri));
             objectOut.writeObject(inputObject);
-            fileOut.getFD().sync();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error:" + e, Toast.LENGTH_LONG).show();
@@ -180,16 +165,20 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             }
         }
     }
-    public void readObject(String fileName){
+    public void readObject(Uri fileUri){
         try {
-            File output = new File(getApplicationContext().getExternalFilesDir(null), fileName);
-            filePath = output.getAbsolutePath();
-            fileIn = new FileInputStream(filePath);
-            objectIn = new ObjectInputStream(fileIn);
+            objectIn = new ObjectInputStream(getContentResolver().openInputStream(fileUri));
 
             animeMapFile = (Map<String, String>)objectIn.readObject();
 
             animeMap.putAll(animeMapFile);
+            for (String key : animeMap.keySet()) {
+                animeUrls.add(key);
+                animeTitles.add(animeMap.get(key));
+            }
+            tinyDB.putListString("animeUrls",animeUrls);
+            tinyDB.putListString("animeTitles",animeTitles);
+            adapter.notifyDataSetChanged();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -205,6 +194,45 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+    private void createFile() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, "TioAnimefavs.txt");
+
+        startActivityForResult(intent, 1);
+    }
+    private void openFile() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+
+        startActivityForResult(intent, 2);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+        if (requestCode == 1
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                // Perform operations on the document using its URI.
+                writeObject(animeMap, uri);
+            }
+        }
+        else if (requestCode == 2
+                && resultCode == Activity.RESULT_OK) {
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                readObject(uri);
             }
         }
     }
