@@ -79,12 +79,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         rootLayout = findViewById(R.id.root_view);
         toolbar = findViewById(R.id.main_toolbar);
         drawerLayout = findViewById(R.id.main_layout);
-        hentaiButton = findViewById(R.id.changebutton);
-        hentaiButton.setOnClickListener(v -> {
-            Intent openHentai = new Intent(MainActivity.this, HentaiActivity.class);
-            MainActivity.this.startActivity(openHentai);
-            finish();
-        });
+
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -175,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             webView.loadUrl(currentUrl);
         }
         tinyDB.putString("openFavUrl", "");
-        mPattern = Pattern.compile("(http|https)://tioanime.com/anime/.*");
+        mPattern = Pattern.compile("(http|https)://(tioanime.com/anime/|tiohentai.com/hentai/).*");
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
@@ -212,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     }
     public void saveFav(View view) {
         String title = webView.getTitle();
-        title = title.replaceAll(" - TioAnime","");
+        title = title.replaceAll(" - Tio(Anime|Hentai)","");
         if (!animeUrls.contains(currentUrl)) {
             animeUrls.add(currentUrl);
             animeTitles.add(title);
@@ -232,7 +227,12 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     @Override
     public void onItemClick(View view, int position) {
         String value = getResources().getStringArray(R.array.genres_values)[position];
-        webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        if (value.equals("hentai")) {
+            webView.loadUrl("https://tiohentai.com/directorio");
+        }
+        else {
+            webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
     }
     @Override

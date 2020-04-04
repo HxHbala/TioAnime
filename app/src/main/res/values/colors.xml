@@ -4,8 +4,4 @@
     <color name="colorPrimaryDark">#18142f</color>
     <color name="colorAccent">#37d1a2</color>
     <color name="colorText">#ffffff</color>
-    <!-- Hentai colors -->
-    <color name="colorPrimaryHen">#000000</color>
-    <color name="colorPrimaryDarkHen">#111111</color>
-    <color name="colorAccentHen">#cc0606</color>
 </resources>

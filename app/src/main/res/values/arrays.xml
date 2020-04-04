@@ -41,6 +41,7 @@
         <item>Vampiros</item>
         <item>Yaoi</item>
         <item>Yuri</item>
+        <item>Hentai</item>
     </string-array>
     <string-array name="genres_values">
         <item>accion</item>
@@ -83,64 +84,6 @@
         <item>vampiros</item>
         <item>yaoi</item>
         <item>yuri</item>
-    </string-array>
-    <string-array name="genres_hentai">
-        <item>Ahegao</item>
-        <item>Anal</item>
-        <item>Bestialidad</item>
-        <item>Bondage</item>
-        <item>Chikan</item>
-        <item>Comedia</item>
-        <item>Demonios</item>
-        <item>Enfermeras</item>
-        <item>Escolar</item>
-        <item>Fantasía</item>
-        <item>Futanari</item>
-        <item>Gangbang</item>
-        <item>Harem</item>
-        <item>Incesto</item>
-        <item>Lolicon</item>
-        <item>Maids</item>
-        <item>Milf</item>
-        <item>Masturbación</item>
-        <item>Netorare</item>
-        <item>Romance</item>
-        <item>Shota</item>
-        <item>Tentáculos</item>
-        <item>Tetonas</item>
-        <item>Violación</item>
-        <item>Vírgenes</item>
-        <item>Yaoi</item>
-        <item>Yuri</item>
-
-    </string-array>
-    <string-array name="genres_hentai_values">
-        <item>ahegao</item>
-        <item>anal</item>
-        <item>bestialidad</item>
-        <item>bondage</item>
-        <item>chikan</item>
-        <item>comedia</item>
-        <item>demonios</item>
-        <item>enfermeras</item>
-        <item>escolar</item>
-        <item>fantasia</item>
-        <item>futanari</item>
-        <item>gangbang</item>
-        <item>harem</item>
-        <item>incesto</item>
-        <item>lolicon</item>
-        <item>maids</item>
-        <item>milf</item>
-        <item>masturbacion</item>
-        <item>netorare</item>
-        <item>romance</item>
-        <item>shota</item>
-        <item>tentaculos</item>
-        <item>tetonas</item>
-        <item>violacion</item>
-        <item>virgenes</item>
-        <item>yaoi</item>
-        <item>yuri</item>
+        <item>hentai</item>
     </string-array>
 </resources>

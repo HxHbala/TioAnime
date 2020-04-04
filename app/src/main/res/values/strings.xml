@@ -13,16 +13,12 @@
     <string name="delete">Borrar</string>
     <string name="toast_deleted">Eliminado</string>
     <string name="delete_all">Borrar todos</string>
-    <string name="change_anime">TioAnime</string>
-    <string name="change_hentai">TioHentai</string>
-    <string name="censor">Sin censura</string>
     <string name="check_updates">Comprobar actualizaciones</string>
     <string name="checking_updates">Comprobando actualizaciones…</string>
     <string name="export_fav">Exportar lista</string>
     <string name="import_fav">Importar lista</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">OK</string>
-    <string name="not_available">Actualmente no disponible</string>
     <string name="help">Ayuda</string>
     <string name="help_message">Para hacer una copia de seguridad de tus favoritos:\n1.Abre el menú y selecciona Exportar lista\n2.Escoge la ubicación para guardar la copia de seguridad llamada \"TioAnimefavs.txt\"\n3.Guarda el archivo en un sitio seguro\n\nPara restaurar tus favoritos basta con darle a Importar lista y seleccionar el fichero correspondiente.</string>
     <string name="exported">¡Lista exportada!</string>
