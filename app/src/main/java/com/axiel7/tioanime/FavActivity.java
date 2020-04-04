@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +40,8 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     private ObjectOutputStream objectOut;
     private ArrayList<String> animeUrls;
     private ArrayList<String> animeTitles;
+    private ImageView emptyChibi;
+    private TextView emptyText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,10 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         //setup toolbar
         Toolbar toolbar = findViewById(R.id.fav_toolbar);
         setSupportActionBar(toolbar);
+
+        //setup empty list views
+        emptyChibi = findViewById(R.id.emptyChibi);
+        emptyText = findViewById(R.id.emptyText);
 
         //setup favorites database
         tinyDB = new TinyDB(this);
@@ -62,6 +70,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         for (int i=0; i<animeUrls.size(); i++) {
             animeMap.put(animeUrls.get(i), animeTitles.get(i));
         }
+        checkListEmpty();
 
         //setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.favList);
@@ -173,6 +182,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             tinyDB.putListString("animeUrls",animeUrls);
             tinyDB.putListString("animeTitles",animeTitles);
             adapter.notifyDataSetChanged();
+            checkListEmpty();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -244,6 +254,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 .setPositiveButton(R.string.delete, (dialog, which) -> {
                     deleteList();
                     adapter.notifyDataSetChanged();
+                    checkListEmpty();
                 })
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 });
@@ -260,6 +271,16 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+    public void checkListEmpty() {
+        if (animeMap.size() == 0) {
+            emptyChibi.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+        }
+        else {
+            emptyChibi.setVisibility(View.INVISIBLE);
+            emptyText.setVisibility(View.INVISIBLE);
+        }
     }
     @Override
     protected void onPause() {

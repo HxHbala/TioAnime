@@ -23,5 +23,6 @@
     <string name="help_message">Para hacer una copia de seguridad de tus favoritos:\n1.Abre el menú y selecciona Exportar lista\n2.Escoge la ubicación para guardar la copia de seguridad llamada \"TioAnimefavs.txt\"\n3.Guarda el archivo en un sitio seguro\n\nPara restaurar tus favoritos basta con darle a Importar lista y seleccionar el fichero correspondiente.</string>
     <string name="exported">¡Lista exportada!</string>
     <string name="imported">¡Lista importada!</string>
+    <string name="empty_list">¿No hay nada que te guste?</string>
 
 </resources>
