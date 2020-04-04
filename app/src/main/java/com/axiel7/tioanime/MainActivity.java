@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
     private DrawerLayout drawerLayout;
+    private CoordinatorLayout rootLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Button hentaiButton;
     private GenreAdapter adapter;
@@ -72,32 +73,13 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //edge to edge support
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            View view = getWindow().getDecorView();
-            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
-
-        //setup recyclerView for genres
-        RecyclerView recyclerView = findViewById(R.id.genres_list);
-        recyclerView.setHasFixedSize(true);
-        listGenre = new ArrayList<>();
-        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new GenreAdapter(this, listGenre);
-        adapter.setClickListener(this::onItemClick);
-        recyclerView.setAdapter(adapter);
+        setContentView(R.layout.root_view);
 
         //setup toolbar and drawer
+        rootLayout = findViewById(R.id.root_view);
         toolbar = findViewById(R.id.main_toolbar);
         drawerLayout = findViewById(R.id.main_layout);
-        hentaiButton = findViewById(R.id.change_button);
+        hentaiButton = findViewById(R.id.changebutton);
         hentaiButton.setOnClickListener(v -> {
             Intent openHentai = new Intent(MainActivity.this, HentaiActivity.class);
             MainActivity.this.startActivity(openHentai);
@@ -121,6 +103,16 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
             actionBarDrawerToggle.syncState();
         }
+
+        //setup recyclerView for genres
+        RecyclerView recyclerView = findViewById(R.id.genres_list);
+        recyclerView.setHasFixedSize(true);
+        listGenre = new ArrayList<>();
+        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new GenreAdapter(this, listGenre);
+        adapter.setClickListener(this::onItemClick);
+        recyclerView.setAdapter(adapter);
 
         //setup bottomBar
         bottomNavMenu();
@@ -424,21 +416,18 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
-        drawerLayout.setFitsSystemWindows(false);
+        rootLayout.setFitsSystemWindows(false);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         bottomNavigationView.setVisibility(View.GONE);
     }
     private void showSystemUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        drawerLayout.setFitsSystemWindows(true);
+        rootLayout.setFitsSystemWindows(true);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        toolbar.setFitsSystemWindows(true);
+        bottomNavigationView.setVisibility(View.VISIBLE);
     }
     private class myWebViewClient extends WebViewClient {
         @Override
