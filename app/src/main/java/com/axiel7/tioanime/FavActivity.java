@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,7 +34,6 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
     private Map<String, String> animeMap;
-    private Map<String, String> animeMapFile;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
     private ArrayList<String> animeUrls;
@@ -129,7 +129,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         }
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             //resume tasks needing this permission
@@ -162,7 +162,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         try {
             objectIn = new ObjectInputStream(getContentResolver().openInputStream(fileUri));
 
-            animeMapFile = (Map<String, String>)objectIn.readObject();
+            Map<String, String> animeMapFile = (Map<String, String>) objectIn.readObject();
 
             deleteList();
             animeMap.putAll(animeMapFile);
@@ -214,7 +214,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                 && resultCode == Activity.RESULT_OK) {
             // The result data contains a URI for the document or directory that
             // the user selected.
-            Uri uri = null;
+            Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();
                 // Perform operations on the document using its URI.
@@ -223,7 +223,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         }
         else if (requestCode == 2
                 && resultCode == Activity.RESULT_OK) {
-            Uri uri = null;
+            Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();
                 readObject(uri);
