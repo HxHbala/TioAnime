@@ -275,4 +275,9 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
     }
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        adapter.notifyDataSetChanged();
+    }
 }
