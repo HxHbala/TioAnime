@@ -103,7 +103,6 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         if (id == R.id.import_fav) {
             if (isStoragePermissionGranted()) {
                 Toast.makeText(this, "Selecciona el fichero TioAnimefavs.txt", Toast.LENGTH_SHORT).show();
-                deleteList();
                 openFile();
             }
         }
@@ -165,6 +164,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
 
             animeMapFile = (Map<String, String>)objectIn.readObject();
 
+            deleteList();
             animeMap.putAll(animeMapFile);
             for (String key : animeMap.keySet()) {
                 animeUrls.add(key);
@@ -268,10 +268,5 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     @Override
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        adapter.notifyDataSetChanged();
     }
 }
