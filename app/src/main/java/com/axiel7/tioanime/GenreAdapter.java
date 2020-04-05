@@ -36,9 +36,6 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         String genre = mData.get(position);
         holder.myTextView.setText(genre);
-        if (mData.contains("genre")) {
-            holder.myImageView.setImageResource(R.drawable.ic_movie_black_24dp);
-        }
     }
 
     // total number of rows
