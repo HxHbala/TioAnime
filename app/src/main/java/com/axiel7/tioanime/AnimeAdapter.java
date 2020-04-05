@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +26,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
+        View view = mInflater.inflate(R.layout.favorites_row, parent, false);
         return new ViewHolder(view);
     }
 
@@ -37,6 +38,12 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
             if(position == i){
                 String value = entry.getValue(); //animeTitle
                 holder.myTextView.setText(value);
+                if (entry.getKey().contains("hentai")) {
+                    holder.myImageView.setImageResource(R.drawable.tiohentaifav);
+                }
+                else {
+                    holder.myImageView.setImageResource(R.drawable.tioanimefav);
+                }
                 break;
             }
             i++;
@@ -53,10 +60,12 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView myTextView;
+        ImageView myImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
             myTextView = itemView.findViewById(R.id.recyclerText);
+            myImageView = itemView.findViewById(R.id.recyclerimg);
             itemView.setOnClickListener(this);
         }
 
