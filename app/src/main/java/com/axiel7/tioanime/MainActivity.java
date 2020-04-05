@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
             webView.loadUrl("https://tiohentai.com/directorio");
         }
         else {
+            value = value.replaceAll("genre_", "");
             webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
