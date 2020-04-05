@@ -17,7 +17,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -48,9 +47,6 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
     private DrawerLayout drawerLayout;
     private CoordinatorLayout rootLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private Button hentaiButton;
-    private GenreAdapter adapter;
-    private ArrayList<String> listGenre;
     private TinyDB tinyDB;
     private ArrayList<String> animeUrls;
     private ArrayList<String> animeTitles;
@@ -102,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         //setup recyclerView for genres
         RecyclerView recyclerView = findViewById(R.id.genres_list);
         recyclerView.setHasFixedSize(true);
-        listGenre = new ArrayList<>();
+        ArrayList<String> listGenre = new ArrayList<>();
         Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new GenreAdapter(this, listGenre);
+        GenreAdapter adapter = new GenreAdapter(this, listGenre);
         adapter.setClickListener(this::onItemClick);
         recyclerView.setAdapter(adapter);
 
