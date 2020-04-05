@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".FavActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/title_fav" />
         <activity
             android:name=".MainActivity"

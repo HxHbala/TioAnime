@@ -44,7 +44,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener {
     private DrawerLayout drawerLayout;
     private CoordinatorLayout rootLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
