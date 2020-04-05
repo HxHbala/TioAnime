@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -420,6 +421,8 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         rootLayout.setFitsSystemWindows(false);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         bottomNavigationView.setVisibility(View.GONE);
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
     private void showSystemUI() {
         View decorView = getWindow().getDecorView();
@@ -429,6 +432,8 @@ public class MainActivity extends AppCompatActivity implements AnimeAdapter.Item
         rootLayout.setFitsSystemWindows(true);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         bottomNavigationView.setVisibility(View.VISIBLE);
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
     private class myWebViewClient extends WebViewClient {
         @Override
