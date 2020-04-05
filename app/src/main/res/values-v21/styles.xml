@@ -12,6 +12,7 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarButtonStyle">@style/ButtonStyle</item>
@@ -19,6 +20,9 @@
 
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+    <style name="PopupMenuStyle" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:popupBackground">@drawable/background_popup_menu</item>
     </style>
 
 </resources>

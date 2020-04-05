@@ -58,7 +58,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView myTextView;
         ImageView myImageView;
 
@@ -67,11 +67,20 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
             myTextView = itemView.findViewById(R.id.recyclerText);
             myImageView = itemView.findViewById(R.id.recyclerimg);
             itemView.setOnClickListener(this);
+            itemView.setLongClickable(true);
+            itemView.setOnLongClickListener(this::onLongClick);
         }
 
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
+        @Override
+        public boolean onLongClick(View view) {
+            if (mClickListener != null) {
+                return mClickListener.onItemLongClick(view, getAdapterPosition());
+            }
+            return false;
         }
     }
 
@@ -86,6 +95,16 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
         }
         return "https://tioanime.com";
     }
+    String getItemName(int position) {
+        int i = 0;
+        for (Map.Entry<String, String> entry : mData.entrySet()) {
+            if(position == i){
+                return entry.getValue(); //animeTitle
+            }
+            i++;
+        }
+        return "anime";
+    }
 
     // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
@@ -95,6 +114,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+        boolean onItemLongClick(View view, int position);
     }
 }
 

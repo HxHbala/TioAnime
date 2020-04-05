@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +36,16 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
     private Map<String, String> animeMap;
+    private RecyclerView recyclerView;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
     private ArrayList<String> animeUrls;
     private ArrayList<String> animeTitles;
     private ImageView emptyChibi;
     private TextView emptyText;
+    private String urlFav;
+    private String nameFav;
+    private PopupMenu popupMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +77,12 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         checkListEmpty();
 
         //setup RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.favList);
+        recyclerView = findViewById(R.id.favList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnimeAdapter(this, animeMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+        registerForContextMenu(recyclerView);
 
     }
     @Override
@@ -85,6 +91,27 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         tinyDB.putString("openFavUrl", valueFav);
         startActivity(intent);
+    }
+    @Override
+    public boolean onItemLongClick(View view, int position) {
+        urlFav = adapter.getItem(position);
+        nameFav = adapter.getItemName(position);
+        popupMenu = new PopupMenu(recyclerView.getContext(), view);
+        popupMenu.inflate(R.menu.context_menu);
+        popupMenu.show();
+        return true;
+    }
+    public void deleteItem(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.context_delete) {
+            animeUrls.remove(urlFav);
+            animeTitles.remove(nameFav);
+            animeMap.remove(urlFav);
+            tinyDB.putListString("animeUrls",animeUrls);
+            tinyDB.putListString("animeTitles", animeTitles);
+            adapter.notifyDataSetChanged();
+            checkListEmpty();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
