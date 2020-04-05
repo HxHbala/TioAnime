@@ -14,6 +14,7 @@
         android:contentDescription="banner"
         android:scaleType="fitStart"
         android:padding="@dimen/default_gap"
+        android:onClick="myToast"
         app:srcCompat="@drawable/tio_banner" />
     <TextView
         android:id="@+id/genres_text"
