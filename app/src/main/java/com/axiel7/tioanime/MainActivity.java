@@ -1,6 +1,7 @@
 package com.axiel7.tioanime;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -442,11 +443,22 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     private class myWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            currentUrl=url;
-            if (currentUrl != null) {
-                checkUrl(currentUrl);
+
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+        @Override
+        public void onLoadResource (WebView view, String url) {
+            Uri uri = Uri.parse(url);
+            boolean shouldPlayVlc = tinyDB.getBoolean("playWithVlc");
+            boolean isPlayable = url.endsWith(".mp4");
+            if (shouldPlayVlc && isPlayable) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setPackage("org.videolan.vlc");
+                intent.setComponent(new ComponentName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity"));
+                intent.setDataAndTypeAndNormalize(uri,"video/*");
+                intent.putExtra("url", uri);
+                startActivity(intent);
             }
-            return super.shouldOverrideUrlLoading(view, url);    //To change body of overridden methods use File | Settings | File Templates.
         }
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
