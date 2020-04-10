@@ -3,19 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_refresh_black_24dp"
-        android:title="@string/title_refresh"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/check_updates"
-        android:title="@string/check_updates"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/title_search"
         android:visible="true"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/check_updates"
+        android:title="@string/check_updates"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="@string/title_refresh"
+        app:showAsAction="never" />
 </menu>

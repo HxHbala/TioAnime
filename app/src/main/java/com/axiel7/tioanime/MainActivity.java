@@ -282,6 +282,10 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             appUpdater.showAppUpdated(true);
             return true;
         }
+        if (id == R.id.menu_settings) {
+            Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            MainActivity.this.startActivity(openSettings);
+        }
         if(actionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);

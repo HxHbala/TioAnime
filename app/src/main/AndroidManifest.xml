@@ -3,8 +3,8 @@
     package="com.axiel7.tioanime">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +14,12 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity
             android:name=".FavActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/title_fav" />
+            android:label="@string/title_fav"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
@@ -35,9 +38,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="tioanime.com"
-                    android:pathPrefix="/anime" />
+                    android:pathPrefix="/anime"
+                    android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -46,9 +49,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="tioanime.com"
-                    android:pathPrefix="/ver" />
+                    android:pathPrefix="/ver"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>
