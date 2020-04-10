@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         appUpdater = new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo("axiel7", "TioAnime")
-                .showEvery(3)
                 .setTitleOnUpdateAvailable("Actualización disponible")
                 .setContentOnUpdateAvailable("¿Descargar ahora?")
                 .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
