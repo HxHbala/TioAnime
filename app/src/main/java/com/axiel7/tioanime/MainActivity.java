@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.root_view);
 
