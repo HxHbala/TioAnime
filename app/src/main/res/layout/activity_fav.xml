@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expFab"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".FavActivity" >
+    tools:context=".FavActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favList"
@@ -19,12 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:fitsSystemWindows="true"
         android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
-        app:title="@string/title_fav"
         app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:titleTextColor="@color/colorText" >
+        app:title="@string/title_fav"
+        app:titleTextColor="@color/colorText">
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -48,5 +49,11 @@
         android:padding="@dimen/default_gap"
         android:text="@string/empty_list"
         android:visibility="invisible" />
+
+    <include
+        layout="@layout/rapid_fab_fav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 </RelativeLayout>

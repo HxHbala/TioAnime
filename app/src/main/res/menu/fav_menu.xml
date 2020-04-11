@@ -3,18 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_delete"
-        android:title="@string/delete_all"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/export_fav"
-        android:title="@string/export_fav"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/import_fav"
-        android:title="@string/import_fav"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/help"
         android:icon="@drawable/ic_help_outline_black_24dp"
         android:title="@string/help"

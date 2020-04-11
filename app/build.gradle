@@ -44,4 +44,5 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.github.javiersantos:AppUpdater:2.7'
+    implementation 'com.github.wangjiegulu:rfab:2.0.0'
 }
