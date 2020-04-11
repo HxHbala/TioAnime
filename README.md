@@ -1,7 +1,7 @@
 # TioAnime
 App Android para ver tu página de anime de confianza v:
 
-[Descarga](https://github.com/axiel7/TioAnime/releases/latest)
+[DESCARGA](https://github.com/axiel7/TioAnime/releases/latest)
 
 Si quieres ayudar en el desarrollo de la app puedes ser beta tester uniéndote al servidor de Discord:
 
