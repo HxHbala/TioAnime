@@ -5,8 +5,7 @@ App Android para ver tu página de anime de confianza v:
 
 Si quieres ayudar en el desarrollo de la app puedes ser beta tester uniéndote a:
 
-![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/widget.png?style=shield)
-[Discord server](https://discord.gg/QhAMKuV)
+[![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/widget.png?style=shield)](https://discord.gg/QhAMKuV)
 
 También acepto donaciones:
 
