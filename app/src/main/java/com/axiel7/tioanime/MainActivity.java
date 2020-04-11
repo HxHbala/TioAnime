@@ -362,18 +362,21 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             String data = result.getExtra();
             Context context = view.getContext();
             if (data != null) {
-                if (data.startsWith("https://disqus.com")) {
+                if (data.startsWith("https://disqus.com/embed")) {
                     mDialog("Después de iniciar sesión volverás a la página principal y ya podrás comentar.",
-                            "Inicia sesión en disqus",
+                            "Inicia sesión en disqus por primera vez",
                             getString(R.string.ok),
                             "");
-                    webView.loadUrl("https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Fhome%2Finbox%2F");
+                    webView.loadUrl("https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Fhome%2Finbox%2F&forum=https-tioanime-com");
+                    return true;
                 }
-                else {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-                    context.startActivity(browserIntent);
+                else if (data.contains("disquscdn.com")) {
+                    Toast.makeText(MainActivity.this, "No soportado", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
             }
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+            context.startActivity(browserIntent);
             return false;
         }
 
