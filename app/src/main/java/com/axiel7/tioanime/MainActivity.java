@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     private SearchView searchView;
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton favFab;
+    private FloatingActionButton commentsFab;
     private FrameLayout customViewContainer;
     public WebChromeClient.CustomViewCallback customViewCallback;
     private View mCustomView;
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     public String currentUrl;
     public String externalUrl;
     private Pattern mPattern;
+    private Pattern episodePattern;
     private AppUpdater appUpdater;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -137,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
 
         favFab = findViewById(R.id.floatingActionButton);
         favFab.bringToFront();
+        commentsFab = findViewById(R.id.commentsFab);
+        commentsFab.bringToFront();
 
         mWebViewClient = new myWebViewClient();
         webView.setWebViewClient(mWebViewClient);
@@ -145,7 +151,12 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportMultipleWindows(true);
+        webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        //allow cookies
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptThirdPartyCookies(webView, true);
 
         webView.setWebChromeClient(mWebChromeClient);
 
@@ -168,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         }
         tinyDB.putString("openFavUrl", "");
         mPattern = Pattern.compile("(http|https)://(tioanime.com/anime/|tiohentai.com/hentai/).*");
+        episodePattern = Pattern.compile("(http|https)://(tioanime.com/ver/|tiohentai.com/ver/).*");
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
@@ -224,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         if (currentUrl != null) {
             checkUrl(currentUrl);
         }
+    }
+    public void viewComments(View view) {
+        webView.loadUrl("javascript:document.getElementById('disqus_thread').scrollIntoView();");
     }
     @Override
     public void onItemClick(View view, int position) {
@@ -346,8 +361,17 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             String data = result.getExtra();
             Context context = view.getContext();
             if (data != null) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-                context.startActivity(browserIntent);
+                if (data.startsWith("https://disqus.com")) {
+                    mDialog("Después de iniciar sesión volverás a la página principal y ya podrás comentar.",
+                            "Inicia sesión en disqus",
+                            getString(R.string.ok),
+                            "");
+                    webView.loadUrl("https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Fhome%2Finbox%2F");
+                }
+                else {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+                    context.startActivity(browserIntent);
+                }
             }
             return false;
         }
@@ -480,7 +504,11 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         }
     }
     private void checkUrl(String currentUrl) {
+        if (currentUrl.equals("https://disqus.com/home/inbox/")) {
+            webView.loadUrl("https://tioanime.com");
+        }
         Matcher matcher = mPattern.matcher(currentUrl);
+        Matcher commentsMatcher = episodePattern.matcher(currentUrl);
         if (matcher.find()) {
             favFab.setVisibility(View.VISIBLE);
             if (animeUrls.contains(currentUrl)) {
@@ -493,5 +521,22 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         else {
             favFab.setVisibility(View.INVISIBLE);
         }
+        if (commentsMatcher.find()) {
+            commentsFab.setVisibility(View.VISIBLE);
+        }
+        else {
+            commentsFab.setVisibility(View.GONE);
+        }
+    }
+    public void mDialog(String message, String title, String positive, String negative) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(title)
+                .setPositiveButton(positive, (dialog, which) -> {
+                })
+                .setNegativeButton(negative, (dialog, which) -> {
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
