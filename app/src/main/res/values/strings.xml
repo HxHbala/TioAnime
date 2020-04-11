@@ -31,6 +31,8 @@
     <string name="developer_info">Desarrollado por axiel7</string>
     <string name="github">GitHub</string>
     <string name="github_repo">github.com/axiel7/TioAnime</string>
+    <string name="discord">Discord</string>
+    <string name="discord_join">¡Únete al servidor!</string>
 
     <!-- Preference Titles -->
     <string name="player_header">Vídeo</string>
