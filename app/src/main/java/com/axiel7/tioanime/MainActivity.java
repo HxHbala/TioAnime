@@ -102,40 +102,13 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             actionBarDrawerToggle.syncState();
         }
 
-        //setup recyclerView for genres
-        RecyclerView recyclerView = findViewById(R.id.genres_list);
-        recyclerView.setHasFixedSize(true);
-        ArrayList<String> listGenre = new ArrayList<>();
-        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        GenreAdapter adapter = new GenreAdapter(this, listGenre);
-        adapter.setClickListener(this::onItemClick);
-        recyclerView.setAdapter(adapter);
-
         //setup bottomBar
         bottomNavMenu();
-
-        //setup favorites database
-        tinyDB = new TinyDB(this);
-        animeUrls = tinyDB.getListString("animeUrls");
-        animeTitles = tinyDB.getListString("animeTitles");
-
-        //setup app updater
-        appUpdater = new AppUpdater(this)
-                .setUpdateFrom(UpdateFrom.GITHUB)
-                .setGitHubUserAndRepo("axiel7", "TioAnime")
-                .setTitleOnUpdateAvailable("Actualización disponible")
-                .setContentOnUpdateAvailable("¿Descargar ahora?")
-                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
-                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
-                .setButtonUpdate("Descargar")
-                .setButtonDoNotShowAgain("")
-                .setButtonDismiss("Más tarde");
-        appUpdater.start();
 
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
         webView = findViewById(R.id.webView);
+        webView.setBackgroundColor(Color.parseColor("#18142f"));
 
         swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
@@ -164,6 +137,11 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         //handle external links
         handleIntent(getIntent());
 
+        //setup favorites database
+        tinyDB = new TinyDB(this);
+        animeUrls = tinyDB.getListString("animeUrls");
+        animeTitles = tinyDB.getListString("animeTitles");
+
         //check if should load a favorite url
         String openFavUrl = tinyDB.getString("openFavUrl");
         if (openFavUrl.equals("")) {
@@ -178,6 +156,30 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         else {
             webView.loadUrl(currentUrl);
         }
+        //setup recyclerView for genres
+        RecyclerView recyclerView = findViewById(R.id.genres_list);
+        recyclerView.setHasFixedSize(true);
+        ArrayList<String> listGenre = new ArrayList<>();
+        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        GenreAdapter adapter = new GenreAdapter(this, listGenre);
+        adapter.setClickListener(this::onItemClick);
+        recyclerView.setAdapter(adapter);
+
+        //setup app updater
+        appUpdater = new AppUpdater(this)
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo("axiel7", "TioAnime")
+                .setTitleOnUpdateAvailable("Actualización disponible")
+                .setContentOnUpdateAvailable("¿Descargar ahora?")
+                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
+                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
+                .setButtonUpdate("Descargar")
+                .setButtonDoNotShowAgain("")
+                .setButtonDismiss("Más tarde");
+        appUpdater.start();
+
+        //other
         tinyDB.putString("openFavUrl", "");
         mPattern = Pattern.compile("(http|https)://(tioanime.com/anime/|tiohentai.com/hentai/).*");
         episodePattern = Pattern.compile("(http|https)://(tioanime.com/ver/|tiohentai.com/ver/).*");
@@ -335,6 +337,13 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             hideCustomView();
         }
         appUpdater.stop();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        webView.clearHistory();
+        webView.removeAllViews();
+        webView.destroy();
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
