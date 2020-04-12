@@ -13,7 +13,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private TinyDB tinyDB;
     private SharedPreferences preferences;
 
@@ -83,6 +83,20 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 startActivity(intent);
                 return true;
             });
+        }
+    }
+    public static class DonatorsFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.donators_preferences, rootKey);
+        }
+    }
+    public static class TestersFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.testers_preferences, rootKey);
         }
     }
     @Override
