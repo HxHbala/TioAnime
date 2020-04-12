@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_preferences">
+
+    <PreferenceCategory app:title="@string/player_header">
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/vlc"
+            app:key="playWithVlc"
+            app:summary="@string/vlc_summary"
+            app:title="@string/vlc_setting" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about_header">
+
+        <Preference
+            app:key="discord"
+            app:icon="@drawable/discord"
+            app:title="@string/discord"
+            app:summary="@string/discord_join" />
+
+        <Preference
+            app:key="github"
+            app:icon="@drawable/github"
+            app:title="@string/github"
+            app:summary="@string/github_repo" />
+        <Preference
+            app:key="about"
+            app:summary="@string/developer_info"
+            app:title="Versión 1.0" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/credit">
+        <Preference
+            app:key="tioanime"
+            app:title="@string/app_name"
+            app:summary="@string/tioanime_summary" />
+        <Preference
+            app:key="donators"
+            app:title="@string/donators"
+            app:fragment="com.axiel7.tioanime.SettingsActivity$DonatorsFragment"
+            app:summary="@string/donators_summary" />
+        <Preference
+            app:key="testers"
+            app:title="@string/testers"
+            app:fragment="com.axiel7.tioanime.SettingsActivity$TestersFragment"
+            app:summary="@string/testers_summary" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
