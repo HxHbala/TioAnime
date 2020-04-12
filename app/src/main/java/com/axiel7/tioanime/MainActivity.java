@@ -37,10 +37,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.AppUpdaterUtils;
+import com.github.javiersantos.appupdater.enums.AppUpdaterError;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.github.javiersantos.appupdater.objects.Update;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +53,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener {
     private DrawerLayout drawerLayout;
     private CoordinatorLayout rootLayout;
+    private CoordinatorLayout snackbarLocation;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TinyDB tinyDB;
     private ArrayList<String> animeUrls;
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     public String externalUrl;
     private Pattern mPattern;
     private Pattern episodePattern;
-    private AppUpdater appUpdater;
+    private AppUpdaterUtils appUpdater;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
 
         //setup toolbar and drawer
         rootLayout = findViewById(R.id.root_view);
+        snackbarLocation = findViewById(R.id.snackbar_location);
         toolbar = findViewById(R.id.main_toolbar);
         drawerLayout = findViewById(R.id.main_layout);
 
@@ -167,16 +172,31 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         recyclerView.setAdapter(adapter);
 
         //setup app updater
-        appUpdater = new AppUpdater(this)
+        appUpdater = new AppUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo("axiel7", "TioAnime")
-                .setTitleOnUpdateAvailable("Actualización disponible")
-                .setContentOnUpdateAvailable("¿Descargar ahora?")
-                .setTitleOnUpdateNotAvailable("No hay nuevas actualizaciones")
-                .setContentOnUpdateNotAvailable("Prueba de nuevo más tarde :)")
-                .setButtonUpdate("Descargar")
-                .setButtonDoNotShowAgain("")
-                .setButtonDismiss("Más tarde");
+                .withListener(new AppUpdaterUtils.UpdateListener() {
+                    @Override
+                    public void onSuccess(Update update, Boolean isUpdateAvailable) {
+                        Snackbar snackbar = Snackbar.make(snackbarLocation,"Actualización disponible",Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Descargar", v -> {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse(update.getUrlToDownload().toString()));
+                                    startActivity(intent);
+                                });
+                        snackbar.setBackgroundTint(getResources().getColor(R.color.defaultDark));
+                        snackbar.setTextColor(getResources().getColor(R.color.colorText));
+                        snackbar.setActionTextColor(getResources().getColor(R.color.colorAccent));
+                        if (isUpdateAvailable) {
+                            snackbar.show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(AppUpdaterError error) {
+                        Toast.makeText(MainActivity.this, "AppUpdater: Algo salió mal :s", Toast.LENGTH_SHORT).show();
+                    }
+                });
         appUpdater.start();
 
         //other
@@ -292,12 +312,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         int id = item.getItemId();
         if (id == R.id.menu_refresh) {
             webView.reload();
-            return true;
-        }
-        if (id == R.id.check_updates) {
-            appUpdater.init();
-            Toast.makeText(this,getString(R.string.checking_updates), Toast.LENGTH_SHORT).show();
-            appUpdater.showAppUpdated(true);
             return true;
         }
         if (id == R.id.menu_settings) {

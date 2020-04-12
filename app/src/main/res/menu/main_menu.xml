@@ -15,10 +15,6 @@
         android:title="@string/settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/check_updates"
-        android:title="@string/check_updates"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh_black_24dp"
         android:title="@string/title_refresh"
