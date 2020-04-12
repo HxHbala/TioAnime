@@ -16,10 +16,10 @@ import androidx.preference.PreferenceManager;
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private TinyDB tinyDB;
     private SharedPreferences preferences;
-    private SettingsFragment settingsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        settingsFragment = new SettingsFragment();
+        SettingsFragment settingsFragment = new SettingsFragment();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         getSupportFragmentManager()
@@ -61,10 +61,10 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.main_preferences, rootKey);
             Preference about = findPreference("about");
             assert about != null;
-            about.setSummary("Versión " + BuildConfig.VERSION_NAME);
+            about.setTitle("Versión " + BuildConfig.VERSION_NAME);
             Preference github = findPreference("github");
             assert github != null;
             github.setOnPreferenceClickListener(preference -> {
