@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             }
         }
         else {
-            favFab.setVisibility(View.INVISIBLE);
+            favFab.setVisibility(View.GONE);
         }
         if (commentsMatcher.find()) {
             commentsFab.setVisibility(View.VISIBLE);
