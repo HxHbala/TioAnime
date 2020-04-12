@@ -24,10 +24,12 @@
     <string name="exported">¡Lista exportada!</string>
     <string name="imported">¡Lista importada!</string>
     <string name="empty_list">¿No hay nada que te guste?</string>
-    <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>
-    <string name="vlc_summary">Solo funciona con algunas opciones</string>
     <string name="settings">Ajustes</string>
     <string name="title_activity_settings">Ajustes</string>
+
+    <!-- Preference content -->
+    <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>
+    <string name="vlc_summary">Solo funciona con algunas opciones</string>
     <string name="developer_info">Desarrollado por axiel7</string>
     <string name="github">GitHub</string>
     <string name="github_repo">github.com/axiel7/TioAnime</string>
