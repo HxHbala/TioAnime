@@ -11,7 +11,7 @@ También acepto donaciones:
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V81LOKO)
 
-![Screenshot1](https://user-images.githubusercontent.com/12379835/75605928-f0ac7280-5ae7-11ea-9e11-ce35d4980869.jpg)
+![Screenshot1](https://github.com/axiel7/TioAnime/blob/master/tiomockup-web.png)
 # Características
 * Ver animes (y hentai) online.
 * Reproducir los vídeos con VLC (Beta)
