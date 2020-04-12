@@ -5,7 +5,7 @@ App Android para ver tu página de anime de confianza v:
 
 Si quieres ayudar en el desarrollo de la app puedes ser beta tester uniéndote al servidor de Discord:
 
-[![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/widget.png?style=shield)](https://discord.gg/QhAMKuV)
+[![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/embed.png?style=banner3)](https://discord.gg/QhAMKuV)
 
 También acepto donaciones:
 
@@ -19,6 +19,7 @@ También acepto donaciones:
 * Opción para guardar animes en favoritos.
 * Navegación más cómoda gracias a un menú inferior y lateral.
 * Búsqueda rápida mediante un botón en la app.
+* ¡Y todo sin anuncios!
 # Próximamente
 * Versión 2.0 con mejor integración con la web.
 * Implementación alternativa de descargas. 
