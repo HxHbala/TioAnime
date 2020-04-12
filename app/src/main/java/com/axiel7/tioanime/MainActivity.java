@@ -397,9 +397,9 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
                     Toast.makeText(MainActivity.this, "No soportado", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+                context.startActivity(browserIntent);
             }
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-            context.startActivity(browserIntent);
             return false;
         }
 
@@ -500,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         public void onLoadResource (WebView view, String url) {
             Uri uri = Uri.parse(url);
             boolean shouldPlayVlc = tinyDB.getBoolean("playWithVlc");
-            boolean isPlayable = url.endsWith(".mp4");
+            boolean isPlayable = url.endsWith(".mp4") && url.contains("storage.googleapis.com");
             if (shouldPlayVlc && isPlayable) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setPackage("org.videolan.vlc");
@@ -508,6 +508,9 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
                 intent.setDataAndTypeAndNormalize(uri,"video/*");
                 intent.putExtra("url", uri);
                 startActivity(intent);
+            }
+            else if (shouldPlayVlc && url.endsWith(".mp4")) {
+                Toast.makeText(MainActivity.this, "Opción no soportada, se reproducirá en la app", Toast.LENGTH_SHORT).show();
             }
         }
         @Override
