@@ -7,10 +7,6 @@ Si quieres ayudar en el desarrollo de la app puedes ser beta tester uniéndote a
 
 [![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/embed.png?style=banner3)](https://discord.gg/QhAMKuV)
 
-También acepto donaciones:
-
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V81LOKO)
-
 ![Screenshot1](https://github.com/axiel7/TioAnime/blob/master/tiomockup-web.png)
 # Características
 * Ver animes (y hentai) online.
@@ -28,7 +24,4 @@ También acepto donaciones:
 * Las últimas opciones para ver anime(4, 5, 6...) pueden no funcionar correctamente.
 Las que mejor funcionan son JW player y Mega (suelen estar las primeras).
 # Advertencia
-~~No estoy asociado de ninguna manera con TioAnime, por lo que de momento la aplicación se considera no oficial.
-Si algún administrador de la web está leyendo esto por favor póngase en contacto conmigo.~~
-
-Ya me he puesto en contacto con TioAnime, próximamente lanzaré una versión 2.0 de la app utilizando APIs de la web.
+Soy un programador principiante, puede que la app no sea una obra maestra y hayan bugs, pero está hecha con amor T-T
