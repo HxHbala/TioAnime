@@ -18,16 +18,20 @@
         android:layout_marginBottom="15dip"
         android:onClick="myToast"
         app:srcCompat="@drawable/tio_banner" />
+
     <TextView
         android:id="@+id/genres_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/banner"
-        android:text="@string/genres"
-        android:textStyle="bold"
-        android:textColor="@color/colorText"
+        android:elegantTextHeight="false"
+        android:fontFamily="@font/open_sans_semibold"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.1"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
         android:paddingBottom="@dimen/default_gap"
-        android:paddingStart="@dimen/default_gap"
-        android:paddingEnd="@dimen/default_gap"/>
+        android:text="@string/genres"
+        android:textColor="@color/colorText" />
 
 </RelativeLayout>
