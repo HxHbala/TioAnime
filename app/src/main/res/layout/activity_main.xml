@@ -26,9 +26,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include
-                android:id="@+id/header"
-                layout="@layout/drawer_header"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genres_list"
                 android:layout_width="match_parent"
