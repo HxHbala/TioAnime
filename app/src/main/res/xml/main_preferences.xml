@@ -36,6 +36,7 @@
         <Preference
             app:key="tioanime"
             app:title="@string/app_name"
+            app:icon="@drawable/ic_tioanime_white"
             app:summary="@string/tioanime_summary" />
         <Preference
             app:key="donators"
