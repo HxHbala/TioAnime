@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-
     private List<String> mData;
-    //private HashMap<String, String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
