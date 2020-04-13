@@ -328,9 +328,9 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_settings) {
-            drawerLayout.closeDrawer(GravityCompat.START);
             Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
             MainActivity.this.startActivity(openSettings);
+            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
         return super.onOptionsItemSelected(item);
