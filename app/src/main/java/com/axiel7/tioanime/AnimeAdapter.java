@@ -39,10 +39,10 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
                 String value = entry.getValue(); //animeTitle
                 holder.myTextView.setText(value);
                 if (entry.getKey().contains("hentai")) {
-                    holder.myImageView.setImageResource(R.drawable.tiohentaifav);
+                    holder.myImageView.setImageResource(R.drawable.tiohentai_fav);
                 }
                 else {
-                    holder.myImageView.setImageResource(R.drawable.tioanimefav);
+                    holder.myImageView.setImageResource(R.drawable.tioanime_fav);
                 }
                 break;
             }
