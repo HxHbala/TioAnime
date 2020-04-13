@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="@string/testers">
 
         <Preference
-            app:title="Daniel" />
+            app:title="Dany El Valero" />
         <Preference
             app:title="Rochii" />
         <Preference
