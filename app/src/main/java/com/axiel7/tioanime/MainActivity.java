@@ -43,6 +43,7 @@ import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.github.javiersantos.appupdater.objects.Update;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -50,7 +51,8 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener,
+        NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private CoordinatorLayout rootLayout;
     private CoordinatorLayout snackbarLocation;
@@ -87,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         snackbarLocation = findViewById(R.id.snackbar_location);
         toolbar = findViewById(R.id.main_toolbar);
         drawerLayout = findViewById(R.id.main_layout);
+        NavigationView drawerMenu = findViewById(R.id.drawerMenu);
+        if (drawerMenu != null) {
+            drawerMenu.setNavigationItemSelectedListener(this);
+        }
 
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
@@ -314,12 +320,19 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             webView.reload();
             return true;
         }
-        if (id == R.id.menu_settings) {
-            Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
-            MainActivity.this.startActivity(openSettings);
-        }
         if(actionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_settings) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            MainActivity.this.startActivity(openSettings);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
     public boolean inCustomView() {
