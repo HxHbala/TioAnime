@@ -112,8 +112,8 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     @Override
     public void onItemClick(View view, int position) {
         String valueFav = adapter.getItem(position);
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
         tinyDB.putString("openFavUrl", valueFav);
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
     }
     @Override
@@ -154,6 +154,10 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                     getString(R.string.help),
                     getString(R.string.ok),
                     "");
+        }
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
