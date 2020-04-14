@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_shortcut_48dp"
+        android:shortcutId="favorites_shortcut"
+        android:shortcutShortLabel="@string/title_fav">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.axiel7.tioanime.FavActivity"
+            android:targetPackage="com.axiel7.tioanime" />
+
+    </shortcut>
+
+</shortcuts>
