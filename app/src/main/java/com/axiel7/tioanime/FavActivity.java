@@ -97,7 +97,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         animeUrls = tinyDB.getListString("animeUrls");
         animeTitles = tinyDB.getListString("animeTitles");
         createMap();
-
+        checkListEmpty();
     }
     public void createMap() {
         boolean shouldSortZAList = tinyDB.getBoolean("ZA_sort?");

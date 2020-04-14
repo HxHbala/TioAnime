@@ -213,10 +213,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             checkUrl(currentUrl);
         }
     }
-    public void myToast(View view) {
-        String message = "Versión " + BuildConfig.VERSION_NAME + "\nDesarrollado por axiel7";
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
     private void bottomNavMenu() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

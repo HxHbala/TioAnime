@@ -10,13 +10,12 @@
         android:id="@+id/banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="banner"
-        android:scaleType="fitStart"
-        android:padding="@dimen/default_gap"
         android:layout_marginTop="20dip"
         android:layout_marginBottom="15dip"
-        android:onClick="myToast"
+        android:adjustViewBounds="true"
+        android:contentDescription="banner"
+        android:padding="@dimen/default_gap"
+        android:scaleType="fitStart"
         app:srcCompat="@drawable/tio_banner" />
 
     <TextView
