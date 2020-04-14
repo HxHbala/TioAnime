@@ -37,15 +37,15 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.TreeMap;
 
 public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener, Serializable, RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener {
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
-    private NavigableMap<String, String> animeMap;
+    private Map<String, String> animeMap;
     private RecyclerView recyclerView;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
@@ -101,12 +101,20 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         checkListEmpty();
     }
     public void createMap() {
-        boolean shouldSortZAList = tinyDB.getBoolean("ZA_sort?");
-        if (shouldSortZAList) {
-            animeMap = new TreeMap<>(Collections.reverseOrder());
-        }
-        else {
-            animeMap = new TreeMap<>();
+        //Sort Modes:
+        // A-Z (0)
+        // Z-A (1)
+        // Last added (2)
+        int sortMode = tinyDB.getInt("sortMode"); //default 0 (A-Z)
+        switch (sortMode) {
+            case 0:
+                animeMap = new TreeMap<>();
+                break;
+            case 1:
+                animeMap = new TreeMap<>(Collections.reverseOrder());
+                break;
+            case 2:
+                animeMap = new LinkedHashMap<>();
         }
         for (int i=0; i<animeUrls.size(); i++) {
             animeMap.put(animeUrls.get(i), animeTitles.get(i));
@@ -150,12 +158,19 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
 
         MenuItem sortAZ = menu.findItem(R.id.sort_AZ);
         MenuItem sortZA = menu.findItem(R.id.sort_ZA);
-        boolean shouldSortZA = tinyDB.getBoolean("ZA_sort?"); //default false
-        if (shouldSortZA) {
-            sortZA.setChecked(true);
-        }
-        else {
-            sortAZ.setChecked(true);
+        MenuItem sortLastAdded = menu.findItem(R.id.sort_lastAdded);
+        //boolean shouldSortZA = tinyDB.getBoolean("ZA_sort?"); //default false
+        int sortMode = tinyDB.getInt("sortMode"); //default 0 (A-Z)
+        switch (sortMode) {
+            case 0:
+                sortAZ.setChecked(true);
+                break;
+            case 1:
+                sortZA.setChecked(true);
+                break;
+            case 2:
+                sortLastAdded.setChecked(true);
+                break;
         }
         return true;
     }
@@ -173,12 +188,17 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         }
         if (id == R.id.sort_AZ) {
             item.setChecked(true);
-            tinyDB.putBoolean("ZA_sort?", false);
+            tinyDB.putInt("sortMode",0);
             createMap();
         }
         if (id == R.id.sort_ZA) {
             item.setChecked(true);
-            tinyDB.putBoolean("ZA_sort?", true);
+            tinyDB.putInt("sortMode",1);
+            createMap();
+        }
+        if (id == R.id.sort_lastAdded) {
+            item.setChecked(true);
+            tinyDB.putInt("sortMode",2);
             createMap();
         }
         return super.onOptionsItemSelected(item);

@@ -17,6 +17,9 @@
                 <item
                     android:id="@+id/sort_ZA"
                     android:title="@string/sort_ZA" />
+                <item
+                    android:id="@+id/sort_lastAdded"
+                    android:title="@string/sort_last_added" />
             </group>
         </menu>
     </item>

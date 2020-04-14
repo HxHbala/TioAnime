@@ -27,6 +27,7 @@
     <string name="sort">Orden</string>
     <string name="sort_AZ">A-Z</string>
     <string name="sort_ZA">Z-A</string>
+    <string name="sort_last_added">Último añadido</string>
 
     <!-- Preference content -->
     <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>
