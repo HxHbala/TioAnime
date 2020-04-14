@@ -180,10 +180,6 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
             tinyDB.putBoolean("ZA_sort?", true);
             createMap();
         }
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
     public boolean isStoragePermissionGranted() {
