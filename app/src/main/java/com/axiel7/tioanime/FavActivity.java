@@ -36,14 +36,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener, Serializable, RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener {
     private AnimeAdapter adapter;
     private TinyDB tinyDB;
-    private Map<String, String> animeMap;
+    private NavigableMap<String, String> animeMap;
     private RecyclerView recyclerView;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
@@ -85,29 +87,32 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         rfaContent.setOnRapidFloatingActionContentLabelListListener(this);
         rapidFab(rfaContent);
 
+        //setup RecyclerView
+        recyclerView = findViewById(R.id.favList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        registerForContextMenu(recyclerView);
 
         //setup favorites database
         tinyDB = new TinyDB(this);
         animeUrls = tinyDB.getListString("animeUrls");
         animeTitles = tinyDB.getListString("animeTitles");
-        //Collections.sort(animeUrls);
-        //Collections.sort(animeTitles);
-        if (animeMap==null) {
-            animeMap = new LinkedHashMap<>();
+        createMap();
+
+    }
+    public void createMap() {
+        boolean shouldSortZAList = tinyDB.getBoolean("ZA_sort?");
+        if (shouldSortZAList) {
+            animeMap = new TreeMap<>(Collections.reverseOrder());
+        }
+        else {
+            animeMap = new TreeMap<>();
         }
         for (int i=0; i<animeUrls.size(); i++) {
             animeMap.put(animeUrls.get(i), animeTitles.get(i));
         }
-        checkListEmpty();
-
-        //setup RecyclerView
-        recyclerView = findViewById(R.id.favList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnimeAdapter(this, animeMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-        registerForContextMenu(recyclerView);
-
     }
     @Override
     public void onItemClick(View view, int position) {
@@ -141,6 +146,16 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.fav_menu, menu);
+
+        MenuItem sortAZ = menu.findItem(R.id.sort_AZ);
+        MenuItem sortZA = menu.findItem(R.id.sort_ZA);
+        boolean shouldSortZA = tinyDB.getBoolean("ZA_sort?"); //default false
+        if (shouldSortZA) {
+            sortZA.setChecked(true);
+        }
+        else {
+            sortAZ.setChecked(true);
+        }
         return true;
     }
     @Override
@@ -154,6 +169,16 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
                     getString(R.string.help),
                     getString(R.string.ok),
                     "");
+        }
+        if (id == R.id.sort_AZ) {
+            item.setChecked(true);
+            tinyDB.putBoolean("ZA_sort?", false);
+            createMap();
+        }
+        if (id == R.id.sort_ZA) {
+            item.setChecked(true);
+            tinyDB.putBoolean("ZA_sort?", true);
+            createMap();
         }
         if (id == android.R.id.home) {
             onBackPressed();
