@@ -336,7 +336,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         dialog.show();
     }
     public void checkListEmpty() {
-        if (animeMap.size() == 0) {
+        if (animeMap.isEmpty()) {
             emptyChibi.setVisibility(View.VISIBLE);
             emptyText.setVisibility(View.VISIBLE);
         }
