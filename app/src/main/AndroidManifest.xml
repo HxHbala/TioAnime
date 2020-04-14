@@ -20,6 +20,7 @@
         <activity
             android:name=".FavActivity"
             android:label="@string/title_fav"
+            android:theme="@style/AppTheme.Launcher"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

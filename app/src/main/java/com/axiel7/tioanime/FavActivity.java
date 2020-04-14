@@ -61,6 +61,7 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
     private RapidFloatingActionHelper rfabHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
 
