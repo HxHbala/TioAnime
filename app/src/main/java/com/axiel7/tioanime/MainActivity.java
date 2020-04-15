@@ -507,6 +507,12 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     private class myWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (Uri.parse(url).getHost().endsWith("tioanime.com")) {
+                return false;
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            view.getContext().startActivity(intent);
 
             return super.shouldOverrideUrlLoading(view, url);
         }
