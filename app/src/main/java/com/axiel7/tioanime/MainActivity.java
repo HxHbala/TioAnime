@@ -203,7 +203,12 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
                         Toast.makeText(MainActivity.this, "AppUpdater: Algo salió mal :s", Toast.LENGTH_SHORT).show();
                     }
                 });
-        appUpdater.start();
+        if (tinyDB.getBoolean("searchUpdates")) {
+            appUpdater.start();
+        }
+        else {
+            appUpdater.stop();
+        }
 
         //other
         tinyDB.putString("openFavUrl", "");

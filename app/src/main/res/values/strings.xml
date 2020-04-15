@@ -42,10 +42,13 @@
     <string name="donators_summary">Muchísimas gracias por el apoyo</string>
     <string name="testers">Testers</string>
     <string name="testers_summary">F por los innumerables crasheos</string>
+    <string name="search_updates">Buscar actualizaciones</string>
+    <string name="search_updates_summary">Comprueba nuevas versiones de la app automáticamente</string>
 
     <!-- Preference Titles -->
     <string name="player_header">Vídeo</string>
     <string name="about_header">Información</string>
     <string name="credit">Créditos</string>
+    <string name="updates">Actualizaciones</string>
 
 </resources>

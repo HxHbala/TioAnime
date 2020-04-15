@@ -12,6 +12,21 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/updates">
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_refresh_black_24dp"
+            app:key="searchUpdates"
+            app:defaultValue="true"
+            app:title="@string/search_updates"
+            app:summary="@string/search_updates_summary" />
+        <Preference
+            app:key="about"
+            app:summary="@string/developer_info"
+            app:title="Versión 1.0" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/about_header">
 
         <Preference
@@ -25,10 +40,6 @@
             app:icon="@drawable/github"
             app:title="@string/github"
             app:summary="@string/github_repo" />
-        <Preference
-            app:key="about"
-            app:summary="@string/developer_info"
-            app:title="Versión 1.0" />
 
     </PreferenceCategory>
 

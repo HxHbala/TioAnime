@@ -57,6 +57,15 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 tinyDB.putBoolean("playWithVlc", false);
             }
         }
+        else if (key.equals("searchUpdate")) {
+            boolean searchUpdates = sharedPreferences.getBoolean("searchUpdates", true);
+            if (searchUpdates) {
+                tinyDB.putBoolean("searchUpdates", true);
+            }
+            else {
+                tinyDB.putBoolean("searchUpdates", false);
+            }
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
