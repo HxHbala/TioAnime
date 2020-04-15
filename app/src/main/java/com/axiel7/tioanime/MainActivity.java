@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         //setup searchView
-        MenuItem myActionMenuItem = menu.findItem( R.id.menu_search);
+        MenuItem myActionMenuItem = menu.findItem(R.id.menu_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setQueryHint(getString(R.string.title_search));
         searchView.setMaxWidth(Integer.MAX_VALUE);
