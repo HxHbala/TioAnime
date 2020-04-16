@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -23,18 +21,10 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.javiersantos.appupdater.AppUpdaterUtils;
@@ -43,27 +33,21 @@ import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.github.javiersantos.appupdater.objects.Update;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener,
-        NavigationView.OnNavigationItemSelectedListener {
-    private DrawerLayout drawerLayout;
+public class MainActivity extends AppCompatActivity {
+    public final static String tioAnimeUrl = "https://tioanime.com";
     private CoordinatorLayout rootLayout;
     private CoordinatorLayout snackbarLocation;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private TinyDB tinyDB;
     private ArrayList<String> animeUrls;
     private ArrayList<String> animeTitles;
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Toolbar toolbar;
-    private SearchView searchView;
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton favFab;
     private FloatingActionButton commentsFab;
@@ -82,36 +66,11 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.root_view);
+        setContentView(R.layout.activity_main);
 
-        //setup toolbar and drawer
-        rootLayout = findViewById(R.id.root_view);
+        //setup layouts
+        rootLayout = findViewById(R.id.main_layout);
         snackbarLocation = findViewById(R.id.snackbar_location);
-        toolbar = findViewById(R.id.main_toolbar);
-        drawerLayout = findViewById(R.id.main_layout);
-        NavigationView drawerMenu = findViewById(R.id.drawerMenu);
-        if (drawerMenu != null) {
-            drawerMenu.setNavigationItemSelectedListener(this);
-        }
-
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
-                public void onDrawerClosed(View view) {
-                    supportInvalidateOptionsMenu();
-                    //drawerOpened = false;
-                }
-
-                public void onDrawerOpened(View drawerView) {
-                    supportInvalidateOptionsMenu();
-                    //drawerOpened = true;
-                }
-            };
-            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-            actionBarDrawerToggle.syncState();
-        }
 
         //setup bottomBar
         bottomNavMenu();
@@ -167,15 +126,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         else {
             webView.loadUrl(currentUrl);
         }
-        //setup recyclerView for genres
-        RecyclerView recyclerView = findViewById(R.id.genres_list);
-        recyclerView.setHasFixedSize(true);
-        ArrayList<String> listGenre = new ArrayList<>();
-        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        GenreAdapter adapter = new GenreAdapter(this, listGenre);
-        adapter.setClickListener(this::onItemClick);
-        recyclerView.setAdapter(adapter);
 
         //setup app updater
         appUpdater = new AppUpdaterUtils(this)
@@ -223,14 +173,22 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    webView.loadUrl("https://tioanime.com");
+                    webView.loadUrl(tioAnimeUrl);
                     break;
                 case R.id.navigation_dashboard:
-                    webView.loadUrl("https://tioanime.com/directorio?estado=emision");
+                    webView.loadUrl(tioAnimeUrl + "/directorio?estado=emision");
                     break;
                 case R.id.navigation_notifications:
                     Intent openFav = new Intent(MainActivity.this, FavActivity.class);
                     MainActivity.this.startActivity(openFav);
+                    break;
+                case R.id.navigation_genres:
+                    Intent openGenres = new Intent(MainActivity.this, GenresActivity.class);
+                    MainActivity.this.startActivity(openGenres);
+                    break;
+                case R.id.navigation_settings:
+                    Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                    MainActivity.this.startActivity(openSettings);
                     break;
             }
             return true;
@@ -245,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
         Uri appLinkData = intent.getData();
         if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
             String recipeId = appLinkData.getPath();
-            externalUrl = "https://tioanime.com" + recipeId;
+            externalUrl = tioAnimeUrl + recipeId;
         }
     }
     public void saveFav(View view) {
@@ -269,72 +227,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     }
     public void viewComments(View view) {
         webView.loadUrl("javascript:document.getElementById('disqus_thread').scrollIntoView();");
-    }
-    @Override
-    public void onItemClick(View view, int position) {
-        String value = getResources().getStringArray(R.array.genres_values)[position];
-        if (value.equals("hentai")) {
-            webView.loadUrl("https://tiohentai.com/directorio");
-        }
-        else {
-            value = value.replaceAll("genre_", "");
-            webView.loadUrl("https://tioanime.com/directorio?genero=" + value);
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        //setup searchView
-        MenuItem myActionMenuItem = menu.findItem(R.id.menu_search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setQueryHint(getString(R.string.title_search));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                webView.loadUrl("https://tioanime.com/directorio?q=" + query);
-                if( ! searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                myActionMenuItem.collapseActionView();
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
-                return false;
-            }
-
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.menu_refresh) {
-            webView.reload();
-            return true;
-        }
-        if(actionBarDrawerToggle.onOptionsItemSelected(item))
-            return true;
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_settings) {
-            Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
-            MainActivity.this.startActivity(openSettings);
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
     public boolean inCustomView() {
         return (mCustomView != null);
@@ -488,7 +380,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
         rootLayout.setFitsSystemWindows(false);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         bottomNavigationView.setVisibility(View.GONE);
         getWindow().setNavigationBarColor(Color.TRANSPARENT);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -499,7 +390,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         rootLayout.setFitsSystemWindows(true);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         bottomNavigationView.setVisibility(View.VISIBLE);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -532,7 +422,6 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
             super.onPageStarted(view, url, favicon);
             swipeRefreshLayout.setRefreshing(true);
             currentUrl=webView.getUrl();
-            //searchView.clearFocus();
             if (currentUrl != null) {
                 checkUrl(currentUrl);
             }
@@ -549,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.Item
     }
     private void checkUrl(String currentUrl) {
         if (currentUrl.equals("https://disqus.com/home/inbox/")) {
-            webView.loadUrl("https://tioanime.com");
+            webView.loadUrl(tioAnimeUrl);
         }
         Matcher matcher = mPattern.matcher(currentUrl);
         Matcher commentsMatcher = episodePattern.matcher(currentUrl);

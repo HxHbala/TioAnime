@@ -16,4 +16,14 @@
         android:icon="@drawable/ic_favorite_white_24dp"
         android:title="@string/title_fav" />
 
+    <item
+        android:id="@+id/navigation_genres"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="@string/genres" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
+
 </menu>
