@@ -13,7 +13,8 @@
         android:id="@+id/favList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/fav_toolbar" />
+        android:layout_below="@id/fav_toolbar"
+        android:scrollbars="vertical"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/fav_toolbar"
