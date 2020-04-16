@@ -42,8 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemClickListener, Serializable, RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener {
-    private AnimeAdapter adapter;
+public class FavActivity extends AppCompatActivity implements FavoritesAdapter.ItemClickListener, Serializable, RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener {
+    private FavoritesAdapter adapter;
     private TinyDB tinyDB;
     private Map<String, String> animeMap;
     private RecyclerView recyclerView;
@@ -119,14 +119,14 @@ public class FavActivity extends AppCompatActivity implements AnimeAdapter.ItemC
         for (int i=0; i<animeUrls.size(); i++) {
             animeMap.put(animeUrls.get(i), animeTitles.get(i));
         }
-        adapter = new AnimeAdapter(this, animeMap);
+        adapter = new FavoritesAdapter(this, animeMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
     @Override
     public void onItemClick(View view, int position) {
         String valueFav = adapter.getItem(position);
-        tinyDB.putString("openFavUrl", valueFav);
+        tinyDB.putString("openFavGenreUrl", valueFav);
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
     }

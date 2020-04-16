@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Map;
 
-public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> {
+public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
     private Map<String, String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    AnimeAdapter(Context context, Map<String, String> data) {
+    FavoritesAdapter(Context context, Map<String, String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -64,8 +64,8 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.recyclerText);
-            myImageView = itemView.findViewById(R.id.recyclerimg);
+            myTextView = itemView.findViewById(R.id.favRecyclerText);
+            myImageView = itemView.findViewById(R.id.favRecyclerImg);
             itemView.setOnClickListener(this);
             itemView.setLongClickable(true);
             itemView.setOnLongClickListener(this::onLongClick);
