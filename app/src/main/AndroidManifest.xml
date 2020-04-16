@@ -22,6 +22,11 @@
             android:theme="@style/AppTheme.Launcher"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".GenresActivity"
+            android:label="@string/genres"
+            android:theme="@style/AppTheme.Launcher"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.Launcher"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"

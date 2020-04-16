@@ -112,12 +112,12 @@ public class MainActivity extends AppCompatActivity {
         animeUrls = tinyDB.getListString("animeUrls");
         animeTitles = tinyDB.getListString("animeTitles");
 
-        //check if should load a favorite url
-        String openFavUrl = tinyDB.getString("openFavUrl");
-        if (openFavUrl.equals("")) {
-            currentUrl = "https://tioanime.com";
+        //check if should load a favorite or genre url
+        String openFavGenreUrl = tinyDB.getString("openFavGenreUrl");
+        if (openFavGenreUrl.equals("")) {
+            currentUrl = tioAnimeUrl;
         } else {
-            currentUrl = openFavUrl;
+            currentUrl = openFavGenreUrl;
         }
         //check if should load an external link
         if (externalUrl != null) {
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //other
-        tinyDB.putString("openFavUrl", "");
+        tinyDB.putString("openFavGenreUrl", "");
         mPattern = Pattern.compile("(http|https)://(tioanime.com/anime/|tiohentai.com/hentai/).*");
         episodePattern = Pattern.compile("(http|https)://(tioanime.com/ver/|tiohentai.com/ver/).*");
         if (currentUrl != null) {
