@@ -435,6 +435,11 @@ public class MainActivity extends AppCompatActivity {
             currentUrl=webView.getUrl();
             if (currentUrl != null) {
                 checkUrl(currentUrl);
+                if (currentUrl.startsWith(tioAnimeUrl)) {
+                    webView.loadUrl("javascript:(function() { " +
+                            "var head = document.getElementsByClassName('row latest flex-nowrap')[0].style.display='none'; " +
+                            "})()");
+                }
             }
         }
     }
