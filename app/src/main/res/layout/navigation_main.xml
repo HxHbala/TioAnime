@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/webview_background">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,7 +20,8 @@
             android:layout_above="@+id/bottom_navigation"
             android:layout_below="@+id/toolbar"
             android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@drawable/webview_background" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="fill_parent"

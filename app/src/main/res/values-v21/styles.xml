@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
         <item name="backgroundColor">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:colorBackground">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="dialogCornerRadius">5dp</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">

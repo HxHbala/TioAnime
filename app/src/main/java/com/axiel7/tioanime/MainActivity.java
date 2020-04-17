@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         //setup webViews complements
         customViewContainer = findViewById(R.id.customViewContainer);
         webView = findViewById(R.id.webView);
-        webView.setBackgroundColor(Color.parseColor("#18142f"));
+        webView.setBackgroundColor(Color.TRANSPARENT);
 
         swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(() -> webView.loadUrl(currentUrl));
