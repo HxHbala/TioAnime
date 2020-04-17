@@ -14,8 +14,55 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:title="@string/genres"
+        app:title="@string/title_directory"
         app:titleTextColor="@color/colorText"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_directory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_gap">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_movies"
+            android:text="@string/movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/colorMovies"
+            style="@style/Widget.MaterialComponents.Chip.Action"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_ovas"
+            android:text="@string/ovas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/colorOva"
+            style="@style/Widget.MaterialComponents.Chip.Action"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_special"
+            android:text="@string/special"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/colorSpecial"
+            style="@style/Widget.MaterialComponents.Chip.Action"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_hentai"
+            android:text="@string/hentai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/colorHentai"
+            style="@style/Widget.MaterialComponents.Chip.Action"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/genres_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:layout_marginStart="@dimen/default_gap"
+        android:layout_marginEnd="@dimen/default_gap"
+        android:text="@string/genres"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/genresList"

@@ -3,6 +3,8 @@
     <string name="title_home">Inicio</string>
     <string name="title_emision">Emisión</string>
     <string name="title_fav">Favoritos</string>
+    <string name="title_directory">Directorio</string>
+    <string name="title_schedule">Programación</string>
     <string name="title_load">Cargando…</string>
     <string name="title_refresh">Refrescar</string>
     <string name="title_search">Buscar</string>
@@ -28,6 +30,10 @@
     <string name="sort_AZ">A-Z</string>
     <string name="sort_ZA">Z-A</string>
     <string name="sort_last_added">Último añadido</string>
+    <string name="movies">Películas</string>
+    <string name="ovas">OVAs</string>
+    <string name="special">Especiales</string>
+    <string name="hentai">Hentai</string>
 
     <!-- Preference content -->
     <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>

@@ -5,4 +5,8 @@
     <color name="colorAccent">#37d1a2</color>
     <color name="colorText">#ffffff</color>
     <color name="defaultDark">#303030</color>
+    <color name="colorHentai">#cc0606</color>
+    <color name="colorMovies">#dc3545</color>
+    <color name="colorOva">#fd7e14</color>
+    <color name="colorSpecial">#6f42c1</color>
 </resources>

@@ -12,10 +12,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.google.android.material.chip.Chip;
 
-import static com.axiel7.tioanime.MainActivity.tioAnimeUrl;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GenresActivity extends AppCompatActivity implements GenreAdapter.ItemClickListener {
     private GenreAdapter adapter;
@@ -38,30 +38,42 @@ public class GenresActivity extends AppCompatActivity implements GenreAdapter.It
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        //setup chips
+        Chip movieChip = findViewById(R.id.chip_movies);
+        Chip ovaChip = findViewById(R.id.chip_ovas);
+        Chip specialChip = findViewById(R.id.chip_special);
+        Chip hentaiChip = findViewById(R.id.chip_hentai);
+
+        movieChip.setOnClickListener(v -> openMainActivity("https://tioanime.com/directorio?type%5B%5D=1"));
+        ovaChip.setOnClickListener(v -> openMainActivity("https://tioanime.com/directorio?type%5B%5D=2"));
+        specialChip.setOnClickListener(v -> openMainActivity("https://tioanime.com/directorio?type%5B%5D=3"));
+        hentaiChip.setOnClickListener(v -> openMainActivity("https://tiohentai.com/directorio"));
+
+        //setup genres
+        Map<String, String> genresMap = new LinkedHashMap<>();
+        String[] genres = getResources().getStringArray(R.array.genres);
+        String[] genresValues = getResources().getStringArray(R.array.genres_values);
+        for (int i=0; i<genres.length; i++) {
+            genresMap.put(genres[i], genresValues[i]);
+        }
+
         //setup recyclerview
         tinyDB = new TinyDB(this);
         RecyclerView recyclerView = findViewById(R.id.genresList);
         recyclerView.setHasFixedSize(true);
-        ArrayList<String> listGenre = new ArrayList<>();
-        Collections.addAll(listGenre, getResources().getStringArray(R.array.genres));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new GenreAdapter(this, listGenre);
+        adapter = new GenreAdapter(this, genresMap);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        String valueGenre = getResources().getStringArray(R.array.genres_values)[position];
-
-        if (valueGenre.equals("hentai")) {
-            tinyDB.putString("openFavGenreUrl", "https://tiohentai.com/directorio");
-        }
-        else {
-            valueGenre = valueGenre.replaceAll("genre_", "");
-            //webView.loadUrl(tioAnimeUrl + "/directorio?genero=" + value);
-            tinyDB.putString("openFavGenreUrl", tioAnimeUrl + "/directorio?genero=" + valueGenre);
-        }
+        String valueGenre = adapter.getItem(position);
+        openMainActivity("https://tioanime.com/directorio?genero=" + valueGenre);
+    }
+    private void openMainActivity(String directory) {
+        tinyDB.putString("openFavGenreUrl", directory);
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
     }

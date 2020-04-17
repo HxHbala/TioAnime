@@ -9,22 +9,22 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import java.util.Map;
 
-public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<String> mData;
+public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
+    private Map<String, String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    GenreAdapter(Context context, List<String> data) {
+    GenreAdapter(Context context, Map<String, String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
 
     // inflates the row layout from xml when needed
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         view = mInflater.inflate(R.layout.genres_row, parent, false);
         return new ViewHolder(view);
@@ -32,16 +32,15 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ViewHolder) {
-            String genre = mData.get(position);
-            ((ViewHolder) holder).myTextView.setText(genre);
-            if (genre.equals("Hentai")) {
-                ((ViewHolder) holder).myImageView.setImageResource(R.drawable.ic_movie_red_24dp);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        int i = 0;
+        for (Map.Entry<String, String> entry : mData.entrySet()) {
+            if(position == i){
+                String value = entry.getKey(); //animeTitle
+                holder.myTextView.setText(value);
+                break;
             }
-            else {
-                ((ViewHolder) holder).myImageView.setImageResource(R.drawable.ic_movie_black_24dp);
-            }
+            i++;
         }
     }
 
@@ -72,7 +71,14 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     // convenience method for getting data at click position
     String getItem(int id) {
-        return mData.get(id);
+        int i = 0;
+        for (Map.Entry<String, String> entry : mData.entrySet()) {
+            if(id == i){
+                return entry.getValue(); //genreValue
+            }
+            i++;
+        }
+        return "https://tioanime.com";
     }
 
     // allows clicks events to be caught

@@ -173,18 +173,20 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    swipeRefreshLayout.setRefreshing(true);
                     webView.loadUrl(tioAnimeUrl);
                     break;
-                case R.id.navigation_dashboard:
-                    webView.loadUrl(tioAnimeUrl + "/directorio?estado=emision");
-                    break;
-                case R.id.navigation_notifications:
-                    Intent openFav = new Intent(MainActivity.this, FavActivity.class);
-                    MainActivity.this.startActivity(openFav);
+                case R.id.navigation_schedule:
+                    swipeRefreshLayout.setRefreshing(true);
+                    webView.loadUrl(tioAnimeUrl + "/programacion");
                     break;
                 case R.id.navigation_genres:
                     Intent openGenres = new Intent(MainActivity.this, GenresActivity.class);
                     MainActivity.this.startActivity(openGenres);
+                    break;
+                case R.id.navigation_favorites:
+                    Intent openFav = new Intent(MainActivity.this, FavActivity.class);
+                    MainActivity.this.startActivity(openFav);
                     break;
                 case R.id.navigation_settings:
                     Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
