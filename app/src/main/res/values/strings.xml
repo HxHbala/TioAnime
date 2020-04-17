@@ -6,8 +6,6 @@
     <string name="title_directory">Directorio</string>
     <string name="title_schedule">Programación</string>
     <string name="title_load">Cargando…</string>
-    <string name="title_refresh">Refrescar</string>
-    <string name="title_search">Buscar</string>
     <string name="toast_saved">Guardado</string>
     <string name="genres">Géneros</string>
     <string name="open">Abrir</string>
