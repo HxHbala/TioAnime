@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
-    private FloatingActionButton favFab, commentsFab;
+    private FloatingActionButton favFab, commentsFab, filterFab;
     private FrameLayout customViewContainer;
     public WebChromeClient.CustomViewCallback customViewCallback;
     private View mCustomView;
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         favFab.bringToFront();
         commentsFab = findViewById(R.id.commentsFab);
         commentsFab.bringToFront();
+        filterFab = findViewById(R.id.filtersFab);
+        filterFab.bringToFront();
 
         mWebViewClient = new myWebViewClient();
         webView.setWebViewClient(mWebViewClient);
@@ -224,6 +226,16 @@ public class MainActivity extends AppCompatActivity {
     }
     public void viewComments(View view) {
         webView.loadUrl("javascript:document.getElementById('disqus_thread').scrollIntoView();");
+    }
+    public void hideFilters(View view) {
+        webView.loadUrl("javascript:(function() { " +
+                "var head = document.getElementsByClassName('filter-bx')[0].style.display='none'; " +
+                "})()");
+    }
+    public void showFilters(View view) {
+        webView.loadUrl("javascript:(function() { " +
+                "var head = document.getElementsByClassName('filter-bx')[0].style.display='block'; " +
+                "})()");
     }
     public boolean inCustomView() {
         return (mCustomView != null);
@@ -430,10 +442,13 @@ public class MainActivity extends AppCompatActivity {
             currentUrl=webView.getUrl();
             if (currentUrl != null) {
                 checkUrl(currentUrl);
-                if (currentUrl.startsWith(tioAnimeUrl)) {
+                if (currentUrl.equals(tioAnimeUrl) || currentUrl.equals(tioAnimeUrl + "/")) {
                     webView.loadUrl("javascript:(function() { " +
                             "var head = document.getElementsByClassName('row latest flex-nowrap')[0].style.display='none'; " +
                             "})()");
+                }
+                else if (currentUrl.startsWith(tioAnimeUrl + "/directorio")) {
+                    hideFilters(webView);
                 }
             }
         }
@@ -461,6 +476,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             commentsFab.setVisibility(View.GONE);
+        }
+        if (currentUrl.startsWith(tioAnimeUrl + "/directorio")) {
+            filterFab.setVisibility(View.VISIBLE);
+        }
+        else {
+            filterFab.setVisibility(View.GONE);
         }
     }
     public void mDialog(String message, String title, String positive, String negative) {
