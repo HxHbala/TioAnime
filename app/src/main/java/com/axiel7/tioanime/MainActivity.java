@@ -41,25 +41,20 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     public final static String tioAnimeUrl = "https://tioanime.com";
-    private CoordinatorLayout rootLayout;
-    private CoordinatorLayout snackbarLocation;
+    private CoordinatorLayout rootLayout, snackbarLocation;
     private TinyDB tinyDB;
-    private ArrayList<String> animeUrls;
-    private ArrayList<String> animeTitles;
+    private ArrayList<String> animeUrls, animeTitles;
     public WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
-    private FloatingActionButton favFab;
-    private FloatingActionButton commentsFab;
+    private FloatingActionButton favFab, commentsFab;
     private FrameLayout customViewContainer;
     public WebChromeClient.CustomViewCallback customViewCallback;
     private View mCustomView;
     public myWebChromeClient mWebChromeClient;
     public myWebViewClient mWebViewClient;
-    public String currentUrl;
-    public String externalUrl;
-    private Pattern mPattern;
-    private Pattern episodePattern;
+    public String currentUrl, externalUrl;
+    private Pattern mPattern, episodePattern;
     private AppUpdaterUtils appUpdater;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -126,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             webView.loadUrl(currentUrl);
         }
+        tinyDB.putString("openFavGenreUrl", "");
 
         //setup app updater
         appUpdater = new AppUpdaterUtils(this)
@@ -161,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //other
-        tinyDB.putString("openFavGenreUrl", "");
         mPattern = Pattern.compile("(http|https)://(tioanime.com/anime/|tiohentai.com/hentai/).*");
         episodePattern = Pattern.compile("(http|https)://(tioanime.com/ver/|tiohentai.com/ver/).*");
         if (currentUrl != null) {
