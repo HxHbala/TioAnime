@@ -1,7 +1,7 @@
 # ![app-icon](https://github.com/axiel7/TioAnime/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher.png)TioAnime
 App Android para ver tu página de anime de confianza v:
 
-[DESCARGA](https://github.com/axiel7/TioAnime/releases/latest)
+[DESCARGA](https://github.com/axiel7/TioAnime/releases/download/v2.0/TioAnime-v2.0.apk)
 
 ![Mockup](https://github.com/axiel7/TioAnime/blob/master/tiomockup2.0-web.png)
 
