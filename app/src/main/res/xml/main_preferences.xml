@@ -27,6 +27,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Cuenta">
+
+        <Preference
+            app:key="username"
+            app:icon="@drawable/ic_account_circle_black_24dp"
+            app:title="Usuario"
+            app:summary="Invitado" />
+        <Preference
+            app:key="change_password"
+            app:title="Cambiar contraseña" />
+        <Preference
+            app:key="logout"
+            app:icon="@drawable/ic_power_settings_new_white_24dp"
+            app:title="Cerrar sesión" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/about_header">
 
         <Preference
@@ -34,31 +51,12 @@
             app:icon="@drawable/discord"
             app:title="@string/discord"
             app:summary="@string/discord_join" />
-
         <Preference
-            app:key="github"
-            app:icon="@drawable/github"
-            app:title="@string/github"
-            app:summary="@string/github_repo" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/credit">
-        <Preference
-            app:key="tioanime"
-            app:title="@string/app_name"
-            app:icon="@drawable/ic_tioanime_white"
-            app:summary="@string/tioanime_summary" />
-        <Preference
-            app:key="donators"
-            app:title="@string/donators"
-            app:fragment="com.axiel7.tioanime.SettingsActivity$DonatorsFragment"
-            app:summary="@string/donators_summary" />
-        <Preference
-            app:key="testers"
-            app:title="@string/testers"
-            app:fragment="com.axiel7.tioanime.SettingsActivity$TestersFragment"
-            app:summary="@string/testers_summary" />
+            app:key="rate_us"
+            app:icon="@drawable/ic_star_white_24dp"
+            app:title="Valóranos"
+            app:summary="Deja 5 estrellas en Play store" />
 
     </PreferenceCategory>
+
 </PreferenceScreen>
