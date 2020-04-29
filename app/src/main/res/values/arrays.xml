@@ -84,4 +84,16 @@
         <item>yaoi</item>
         <item>yuri</item>
     </string-array>
+
+    <!-- Filter options -->
+    <string-array name="recent">
+        <item>Más reciente</item>
+        <item>Menos reciente</item>
+    </string-array>
+    <string-array name="status">
+        <item>Todos</item>
+        <item>Finalizado</item>
+        <item>En emisión</item>
+        <item>Próximamente</item>
+    </string-array>
 </resources>

@@ -4,7 +4,9 @@
     <string name="title_emision">Emisión</string>
     <string name="title_fav">Favoritos</string>
     <string name="title_directory">Directorio</string>
-    <string name="title_schedule">Programación</string>
+    <string name="title_search">Buscar</string>
+    <string name="title_video">Vídeo</string>
+    <string name="title_anime_details">Anime</string>
     <string name="title_load">Cargando…</string>
     <string name="toast_saved">Guardado</string>
     <string name="genres">Géneros</string>
@@ -21,7 +23,7 @@
     <string name="help_message">Para hacer una copia de seguridad de tus favoritos:\n1.Abre el menú y selecciona Exportar lista\n2.Escoge la ubicación para guardar la copia de seguridad llamada \"TioAnimefavs.txt\"\n3.Guarda el archivo en un sitio seguro\n\nPara restaurar tus favoritos basta con darle a Importar lista y seleccionar el fichero correspondiente.</string>
     <string name="exported">¡Lista exportada!</string>
     <string name="imported">¡Lista importada!</string>
-    <string name="empty_list">¿No hay nada que te guste?</string>
+    <string name="empty_favs">Sin favoritos</string>
     <string name="settings">Ajustes</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="sort">Orden</string>
@@ -32,27 +34,51 @@
     <string name="ovas">OVAs</string>
     <string name="special">Especiales</string>
     <string name="hentai">Hentai</string>
+    <string name="latest_episodes">Últimos Episodios</string>
+    <string name="reset_filters">Reiniciar</string>
+    <string name="apply_filters">Aplicar</string>
+    <string name="order_title">Orden:</string>
+    <string name="status_title">Estado:</string>
+    <string name="start_year">Año inicio</string>
+    <string name="end_year">Año fin</string>
+    <string name="anime_music">Música anime</string>
+    <string name="wallpapers">Fondos de pantalla</string>
+    <string name="filters">Filtros</string>
+    <string name="no_results">Sin resultados</string>
+    <string name="episodes">Episodios</string>
 
     <!-- Preference content -->
     <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>
-    <string name="vlc_summary">Solo funciona con algunas opciones</string>
+    <string name="vlc_summary">No funciona con todos los animes</string>
     <string name="developer_info">Desarrollado por axiel7</string>
     <string name="github">GitHub</string>
     <string name="github_repo">github.com/axiel7/TioAnime</string>
     <string name="discord">Discord</string>
-    <string name="discord_join">¡Únete al servidor de la app!</string>
-    <string name="tioanime_summary">Creador de la web</string>
+    <string name="discord_join">¡Únete al servidor!</string>
+    <string name="tioanime_summary">Agradecimientos a todo el equipo de la web</string>
     <string name="donators">Donadores</string>
     <string name="donators_summary">Muchísimas gracias por el apoyo</string>
     <string name="testers">Testers</string>
-    <string name="testers_summary">F por los innumerables crasheos</string>
+    <string name="testers_summary">Gran ayuda en el desarrollo de la app</string>
     <string name="search_updates">Buscar actualizaciones</string>
     <string name="search_updates_summary">Comprueba nuevas versiones de la app automáticamente</string>
 
     <!-- Preference Titles -->
     <string name="player_header">Vídeo</string>
     <string name="about_header">Información</string>
-    <string name="credit">Créditos</string>
     <string name="updates">Actualizaciones</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_dashboard">Directorio</string>
+    <string name="title_notifications">Notificaciones</string>
+    <string name="title_activity_anime_details">Anime details</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- content descriptions -->
+    <string name="anime_banner">Anime banner</string>
+    <string name="anime_poster">Anime poster</string>
+    <string name="episode_thumb">Miniatura</string>
+    <string name="play_image">Play</string>
+    <string name="heart_image">Heart</string>
+    <string name="pull_up_bar">Pull bar</string>
 
 </resources>

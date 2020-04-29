@@ -12,57 +12,41 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="JW_LICENSE_KEY"
+            android:value="uehB26K1zKUfBzBKbo5bKaF3oCPzwaSDiaVOYxyFcmMKxXCB++VEHmEoTXdIV8Hd" />
+        <meta-data
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="com.google.android.exoplayer2.ext.cast.DefaultCastOptionsProvider" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activity.VideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="@string/title_video"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".FavActivity"
-            android:label="@string/title_fav"
-            android:theme="@style/AppTheme.Launcher"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activity.SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".GenresActivity"
-            android:label="@string/genres"
-            android:theme="@style/AppTheme.Launcher"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activity.SearchActivity"
+            android:label="Buscar"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.Launcher"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:name=".activity.MainActivity"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.Launcher"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="tioanime.com"
-                    android:pathPrefix="/anime"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="tioanime.com"
-                    android:pathPrefix="/ver"
-                    android:scheme="https" />
-            </intent-filter>
+                android:resource="@xml/shortcuts" />
         </activity>
     </application>
 

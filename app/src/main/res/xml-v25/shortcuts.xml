@@ -6,8 +6,8 @@
         android:shortcutId="favorites_shortcut"
         android:shortcutShortLabel="@string/title_fav">
         <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="com.axiel7.tioanime.FavActivity"
+            android:action="openFavorites"
+            android:targetClass="com.axiel7.tioanime.activity.MainActivity"
             android:targetPackage="com.axiel7.tioanime" />
 
     </shortcut>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/anime_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="72dp"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:elevation="10dp"
+            android:src="@drawable/ic_play_thumb"
+            android:contentDescription="@string/play_image" />
+
+        <ImageView
+            android:id="@+id/movie_image"
+            android:layout_width="160dp"
+            android:layout_height="100dp"
+            android:layout_gravity="start"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.9"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/episode_thumb" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/episode_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/asap"
+            android:text="Episodio 123"
+            android:alpha="0.8"
+            android:textColor="@color/colorGrey"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:text="Boku no Pico"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/default_gap"
+            android:alpha="0.5"
+            android:fontFamily="@font/asap"
+            android:gravity="center_vertical"
+            android:text="01/01/1970"
+            android:drawableStart="@drawable/ic_schedule_black_24dp"
+            android:drawablePadding="@dimen/default_gap"
+            android:visibility="visible"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>
