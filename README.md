@@ -5,9 +5,6 @@ App Android para ver tu página de anime de confianza v:
 
 ![Screenshot1](https://github.com/axiel7/TioAnime/blob/master/tiomockup-web.png)
 
-Si quieres ayudar en el desarrollo de la app puedes ser beta tester uniéndote al servidor de Discord:
-
-[![Discord Shield](https://discordapp.com/api/guilds/698320144530931813/embed.png?style=banner3)](https://discord.gg/QhAMKuV)
 # Características
 * Ver animes (y hentai) online.
 * Reproducir los vídeos con VLC (Beta)
