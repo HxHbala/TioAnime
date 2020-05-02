@@ -109,9 +109,8 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             Preference discord = findPreference("discord");
             assert discord != null;
             discord.setOnPreferenceClickListener(preference -> {
-                String discordInvite = "https://discord.gg/QhAMKuV";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(discordInvite));
+                intent.setData(Uri.parse("https://discord.gg/HmDF2xr"));
                 startActivity(intent);
                 return true;
             });
