@@ -59,7 +59,7 @@
             app:key="rate_us"
             app:icon="@drawable/ic_star_white_24dp"
             app:title="Valóranos"
-            app:summary="Deja 5 estrellas en Play store" />
+            app:summary="Deja 5 estrellas en Play Store" />
 
     </PreferenceCategory>
 

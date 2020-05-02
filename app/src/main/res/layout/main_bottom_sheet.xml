@@ -23,7 +23,8 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="@string/anime_music" />
+        android:text="@string/anime_music"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -37,12 +38,27 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="@string/wallpapers" />
+        android:text="@string/wallpapers"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="shareApp"
+        android:drawableStart="@drawable/ic_share_white_24dp"
+        android:drawablePadding="10dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/share_app" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/dividerHorizontal"/>
+        android:background="?android:attr/listDivider"/>
 
     <TextView
         android:layout_width="match_parent"
