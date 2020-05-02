@@ -1,6 +1,7 @@
 package com.axiel7.tioanime.rest;
 
 import com.axiel7.tioanime.model.AnimeResponse;
+import com.axiel7.tioanime.model.AuthResponse;
 import com.axiel7.tioanime.model.EpisodeResponse;
 import com.axiel7.tioanime.model.GenreResponse;
 import com.axiel7.tioanime.model.JikanResponse;
@@ -9,8 +10,12 @@ import com.axiel7.tioanime.model.LatestEpisodesResponse;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -39,4 +44,8 @@ public interface AnimeApiService {
     Call<EpisodeResponse> getEpisode(@Url String url, @Query("auth") String apiKey);
     @GET
     Call<JikanResponse> getMalData(@Url String url);
+
+    @Multipart
+    @POST("signin")
+    Call<AuthResponse> postAuth(@Part("email") RequestBody email, @Part("password") RequestBody password);
 }

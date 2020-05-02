@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupSystemUI();
         tinyDB = new TinyDB(this);
+        boolean isUserLogged = tinyDB.getBoolean("isUserLogged");
+        if (!isUserLogged) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         //setup toolbar elements
         Toolbar toolbar = findViewById(R.id.main_toolbar);
