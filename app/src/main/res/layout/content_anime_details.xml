@@ -37,12 +37,11 @@
             tools:ignore="HardcodedText" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_genres"
+            android:id="@+id/chip_group_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_title"
             android:paddingTop="12dp"
-            android:paddingBottom="12dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:background="@color/colorPrimary"
@@ -58,21 +57,68 @@
                 app:chipBackgroundColor="@color/colorAccent"
                 app:chipIcon="@drawable/ic_star_black_24dp"
                 app:chipIconSize="20dp"
+                app:chipCornerRadius="8dp"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/type_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" TV"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:chipBackgroundColor="@color/colorType"
+                app:chipCornerRadius="8dp"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/season_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Invierno"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:chipBackgroundColor="@color/colorWinter"
+                app:chipCornerRadius="8dp"
                 tools:ignore="HardcodedText" />
 
         </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_info"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@color/colorPrimary"
+            app:layout_anchorGravity="bottom">
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_genres"
+            android:background="@color/colorPrimary"
+            android:text="Sinopsis"
+            android:ellipsize="end"
+            android:maxLines="6"
+            android:padding="@dimen/text_margin"
+            tools:ignore="HardcodedText" />
 
         <View
             android:id="@+id/divider_back"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/chip_group_genres"
+            android:layout_below="@id/synopsis"
             android:background="@color/colorPrimary" />
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/chip_group_genres"
+            android:layout_below="@id/synopsis"
             android:background="?android:attr/listDivider" />
 
         <TextView
