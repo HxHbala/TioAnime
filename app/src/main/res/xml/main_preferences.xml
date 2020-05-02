@@ -24,6 +24,10 @@
             app:key="about"
             app:summary="@string/developer_info"
             app:title="Versión 1.0" />
+        <Preference
+            app:key="bug_report"
+            app:title="@string/report_bug"
+            app:icon="@drawable/ic_bug_report_white_24dp"/>
 
     </PreferenceCategory>
 

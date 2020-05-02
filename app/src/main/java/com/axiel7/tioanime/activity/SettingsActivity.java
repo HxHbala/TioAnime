@@ -19,6 +19,8 @@ import com.axiel7.tioanime.BuildConfig;
 import com.axiel7.tioanime.R;
 import com.axiel7.tioanime.utils.TinyDB;
 
+import org.acra.ACRA;
+
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private SharedPreferences preferences;
     private TinyDB tinyDB;
@@ -96,6 +98,13 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             Preference about = findPreference("about");
             assert about != null;
             about.setTitle("Versión " + BuildConfig.VERSION_NAME);
+
+            Preference bugReport = findPreference("bug_report");
+            assert bugReport != null;
+            bugReport.setOnPreferenceClickListener(preference -> {
+                ACRA.getErrorReporter().handleException(null);
+                return true;
+            });
 
             Preference discord = findPreference("discord");
             assert discord != null;
