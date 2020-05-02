@@ -33,6 +33,10 @@
             android:label="Buscar"
             android:parentActivityName=".activity.MainActivity" />
         <activity
+            android:name=".activity.LoginActivity"
+            android:label="Iniciar sesión"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
             android:name=".activity.MainActivity"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
