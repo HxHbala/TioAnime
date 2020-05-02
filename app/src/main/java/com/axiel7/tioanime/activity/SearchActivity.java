@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.axiel7.tioanime.rest.AnimeApiService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -63,6 +65,9 @@ public class SearchActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         Toolbar toolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         ViewCompat.setOnApplyWindowInsetsListener(toolbar, (v, insets) -> {
             ((ViewGroup.MarginLayoutParams) v.getLayoutParams()).topMargin =
                     insets.getSystemWindowInsetTop();
@@ -101,26 +106,32 @@ public class SearchActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("Buscar");
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        if (searchView.isIconified()) {
-            searchView.setIconified(false);
-            searchView.requestFocus();
-        }
-
+        searchView.setIconified(false);
+        searchView.requestFocus();
+        ImageView closeBtn = searchView.findViewById(R.id.search_close_btn);
+        closeBtn.setEnabled(false);
+        closeBtn.setVisibility(View.INVISIBLE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                searchTerm = query;
+                page = 1;
+                connectAndGetApiData();
+                searchView.clearFocus();
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(TAG, "query changed:" + newText);
-                if (newText.length() >= 2) {
-                    searchTerm = newText;
-                    page = 1;
-                    connectAndGetApiData();
+                if (newText.equals("")) {
+                    closeBtn.setEnabled(false);
+                    closeBtn.setVisibility(View.INVISIBLE);
                 }
-                return true;
+                else {
+                    closeBtn.setEnabled(true);
+                    closeBtn.setVisibility(View.VISIBLE);
+                }
+                return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
