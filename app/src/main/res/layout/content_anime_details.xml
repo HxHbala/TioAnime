@@ -109,12 +109,6 @@
             tools:ignore="HardcodedText" />
 
         <View
-            android:id="@+id/divider_back"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/synopsis"
-            android:background="@color/colorPrimary" />
-        <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -137,25 +131,6 @@
             android:textStyle="bold"
             android:drawableEnd="@drawable/ic_swap_vert_black_24dp"
             android:drawablePadding="5dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/episodes_text"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="@string/title_load"
-            android:textAlignment="center"
-            android:layout_centerHorizontal="true"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_episodes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/text_margin"
-            android:layout_below="@id/episodes_text" />
 
     </RelativeLayout>
 
