@@ -2,6 +2,7 @@ package com.axiel7.tioanime.activity.ui;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +24,9 @@ import com.axiel7.tioanime.activity.ui.favorites.FavoritesFragment;
 import com.axiel7.tioanime.adapter.EpisodesAdapter;
 import com.axiel7.tioanime.model.Anime;
 import com.axiel7.tioanime.model.AnimeResponse;
+import com.axiel7.tioanime.model.Downloads;
 import com.axiel7.tioanime.model.Episode;
+import com.axiel7.tioanime.model.EpisodeResponse;
 import com.axiel7.tioanime.model.FavAnime;
 import com.axiel7.tioanime.model.Genre;
 import com.axiel7.tioanime.model.JikanResponse;
@@ -31,6 +35,7 @@ import com.axiel7.tioanime.utils.TinyDB;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jsoup.Jsoup;
@@ -212,6 +217,10 @@ public class AnimeDetailsFragment extends Fragment {
                         intent.putExtra("episodeId", episodes.get(position).getEpisodeId());
                         startActivity(intent);
                     });
+                    episodesAdapter.setLongClickListener(((view, position) -> {
+                        getDownloads(episodes.get(position).getEpisodeId());
+                        return true;
+                    }));
                     recyclerView.setAdapter(episodesAdapter);
                     List<Genre> animeGenres = anime.getGenres();
                     for (int i = 0; i<animeGenres.size(); i++) {
@@ -282,7 +291,7 @@ public class AnimeDetailsFragment extends Fragment {
         jikanResponseCall.enqueue(new Callback<JikanResponse>() {
             @Override
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     float score = response.body().getScoreMal();
                     scoreChip.setText(String.valueOf(score));
@@ -294,6 +303,46 @@ public class AnimeDetailsFragment extends Fragment {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+    private void getDownloads(int episodeId) {
+        if (retrofit!=null) {
+            AnimeApiService animeApiService = retrofit.create(AnimeApiService.class);
+            Call<EpisodeResponse> call = animeApiService.getEpisode(BASE_URL + "episodes/" + episodeId, API_KEY);
+            call.enqueue(getEpisodeDownloadsCallback);
+        }
+    }
+    private Callback<EpisodeResponse> getEpisodeDownloadsCallback = new Callback<EpisodeResponse>() {
+        @Override
+        public void onResponse(Call<EpisodeResponse> call, Response<EpisodeResponse> response) {
+            Log.d(TAG, call.request().toString());
+            if (response.isSuccessful()) {
+                Episode episodeData = response.body().getEpisodeData();
+                List<Downloads> downloadsList = episodeData.getDownloads();
+                ArrayList<String> serverNames = new ArrayList<>();
+                ArrayList<String> downloadLinks = new ArrayList<>();
+                for (int i=0; i<downloadsList.size(); i++) {
+                    serverNames.add(downloadsList.get(i).getServerName());
+                    downloadLinks.add(downloadsList.get(i).getDownloadUrl());
+                }
+                openDownloadOptions(serverNames, downloadLinks);
+            }
+        }
+        @Override
+        public void onFailure(Call<EpisodeResponse> call, Throwable t) {
+            Log.e(TAG, t.toString());
+            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void openDownloadOptions(ArrayList<String> serverNames, ArrayList<String> downloadLinks) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        CharSequence[] names = serverNames.toArray(new CharSequence[0]);
+        builder.setItems(names, (dialog, which) -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(downloadLinks.get(which)));
+            startActivity(intent);
+        });
+        AlertDialog downloadsDialog = builder.create();
+        downloadsDialog.show();
     }
     private OkHttpClient okHttpClientCached() {
         //File httpCacheDirectory = new File(getApplicationContext().getCacheDir(), "responses");

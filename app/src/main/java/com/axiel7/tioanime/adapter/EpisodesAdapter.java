@@ -27,6 +27,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
     private int rowLayout;
     private Context context;
     private ItemClickListener mClickListener;
+    private LatestEpisodesAdapter.ItemLongClickListener mLongClickListener;
     private static final String IMAGE_URL_BASE_PATH="https://tioanime.com/uploads/thumbs/";
     private DateFormat sdf = SimpleDateFormat.getDateInstance();
     public EpisodesAdapter(List<Episode> animes, int rowLayout, Context context) {
@@ -35,7 +36,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
         this.context = context;
     }
     //A view holder inner class where we get reference to the views in the layout using their ID
-    public class AnimeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class AnimeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         LinearLayout animeLayout;
         TextView animeTitle;
         TextView animeEpisode;
@@ -50,10 +51,19 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
             animeEpisode = v.findViewById(R.id.episode_number);
             date = v.findViewById(R.id.date);
             v.setOnClickListener(this);
+            v.setLongClickable(true);
+            v.setOnLongClickListener(this);
         }
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
+        @Override
+        public boolean onLongClick(View view) {
+            if (mLongClickListener != null) {
+                return mLongClickListener.onItemLongClick(view, getAdapterPosition());
+            }
+            return false;
         }
     }
     @NonNull
@@ -87,6 +97,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
+    }
+    public void setLongClickListener(LatestEpisodesAdapter.ItemLongClickListener itemLongClickListener) {
+        this.mLongClickListener = itemLongClickListener;
     }
 
     // parent activity will implement this method to respond to click events
