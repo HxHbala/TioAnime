@@ -16,6 +16,7 @@ import com.axiel7.tioanime.model.Episode;
 import com.bumptech.glide.Glide;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +66,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
     @Override
     public void onBindViewHolder(AnimeViewHolder holder, final int position) {
         String image_url = IMAGE_URL_BASE_PATH + animes.get(position).getAnimeId() + ".jpg";
-        String episode_text = "Episodio " + animes.get(position).getNumber();
+        float episodeNumber = animes.get(position).getNumber();
+        String episode_text = "Episodio " + new DecimalFormat("#.##").format(episodeNumber);
         Date convertDate = new Date(animes.get(position).getCreatedAt()*1000L);
         String date = sdf.format(convertDate);
         Glide.with(context)
