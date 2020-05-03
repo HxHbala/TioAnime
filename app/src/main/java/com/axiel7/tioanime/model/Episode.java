@@ -8,7 +8,7 @@ public class Episode {
     @SerializedName("anime_id")
     private Integer animeId;
     @SerializedName("number")
-    private Integer number;
+    private float number;
     @SerializedName("filler")
     private Integer filler;
     @SerializedName("owner")
@@ -44,10 +44,10 @@ public class Episode {
     public void setAnimeId(Integer animeId) {
         this.animeId = animeId;
     }
-    public Integer getNumber() {
+    public float getNumber() {
         return number;
     }
-    public void setNumber(Integer number) {
+    public void setNumber(float number) {
         this.number = number;
     }
     public Integer getFiller() {

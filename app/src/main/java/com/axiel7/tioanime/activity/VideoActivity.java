@@ -68,7 +68,7 @@ public class VideoActivity extends AppCompatActivity {
         call.enqueue(new Callback<EpisodeResponse>() {
             @Override
             public void onResponse(Call<EpisodeResponse> call, Response<EpisodeResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     episode = response.body().getEpisodeData();
                     String[][] episodeOptions = episode.getVideos();

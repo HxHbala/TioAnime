@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ShareCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupSystemUI();
         tinyDB = new TinyDB(this);
+        boolean isUserLogged = tinyDB.getBoolean("isUserLogged");
+        if (!isUserLogged) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         //setup toolbar elements
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -159,6 +166,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://themes.moe/list/popular/100"));
         startActivity(intent);
+        dialog.dismiss();
+    }
+    public void shareApp(View view) {
+        ShareCompat.IntentBuilder.from(MainActivity.this)
+                .setType("text/plain")
+                .setChooserTitle("")
+                .setText("https://play.google.com/store/apps/details?id=com.axiel7.tioanime")
+                .startChooser();
         dialog.dismiss();
     }
     @Override

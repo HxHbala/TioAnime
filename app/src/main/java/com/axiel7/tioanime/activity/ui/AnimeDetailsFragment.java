@@ -1,6 +1,7 @@
 package com.axiel7.tioanime.activity.ui;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +68,9 @@ public class AnimeDetailsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ChipGroup chipGroup;
     private Chip scoreChip;
+    private Chip typeChip;
+    private Chip seasonChip;
+    private TextView synopsis;
     private EpisodesAdapter episodesAdapter;
     private Cache cache;
     private static final String TAG = "nomames:";
@@ -123,6 +127,17 @@ public class AnimeDetailsFragment extends Fragment {
 
         chipGroup = root.findViewById(R.id.chip_group_genres);
         scoreChip = root.findViewById(R.id.score_chip);
+        typeChip = root.findViewById(R.id.type_chip);
+        seasonChip = root.findViewById(R.id.season_chip);
+        synopsis = root.findViewById(R.id.synopsis);
+        synopsis.setOnClickListener(v -> {
+            if (synopsis.getMaxLines()==6) {
+                synopsis.setMaxLines(Integer.MAX_VALUE);
+            }
+            else if (synopsis.getMaxLines()==Integer.MAX_VALUE){
+                synopsis.setMaxLines(6);
+            }
+        });
 
         //load anime poster
         ImageView animePoster = root.findViewById(R.id.imageViewCollapsing);
@@ -187,7 +202,7 @@ public class AnimeDetailsFragment extends Fragment {
         call.enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(Call<AnimeResponse> call, Response<AnimeResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     anime = response.body().getAnimeData();
                     episodes = anime.getEpisodes();
@@ -204,6 +219,45 @@ public class AnimeDetailsFragment extends Fragment {
                         chip.setText(Jsoup.parse(animeGenres.get(i).getGenreTitle()).text());
                         chipGroup.addView(chip);
                     }
+                    switch (anime.getType()) {
+                        case 0:
+                            typeChip.setText(" TV");
+                            break;
+                        case 1:
+                            typeChip.setText("Película");
+                            break;
+                        case 2:
+                            typeChip.setText("OVA");
+                            break;
+                        case 3:
+                            typeChip.setText("Especial");
+                            break;
+                    }
+                    String year = anime.getStartDate();
+                    String season;
+                    switch (anime.getSeason()) {
+                        case 4:
+                            season = "Invierno " + year;
+                            seasonChip.setText(season);
+                            seasonChip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.colorWinter)));
+                            break;
+                        case 1:
+                            season = "Primavera " + year;
+                            seasonChip.setText(season);
+                            seasonChip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.colorSpring)));
+                            break;
+                        case 3:
+                            season = "Verano " + year;
+                            seasonChip.setText(season);
+                            seasonChip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.colorSummer)));
+                            break;
+                        case 2:
+                            season = "Otoño " + year;
+                            seasonChip.setText(season);
+                            seasonChip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.colorAutumn)));
+                            break;
+                    }
+                    synopsis.setText(Jsoup.parse(anime.getSynopsis()).text());
                     malId = anime.getMalId();
                     setScore(JIKAN_URL + malId);
                 }

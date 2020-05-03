@@ -12,18 +12,23 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/updates">
+    <PreferenceCategory app:title="@string/application">
 
         <SwitchPreferenceCompat
             app:icon="@drawable/ic_refresh_black_24dp"
             app:key="searchUpdates"
             app:defaultValue="true"
+            app:enabled="false"
             app:title="@string/search_updates"
             app:summary="@string/search_updates_summary" />
         <Preference
             app:key="about"
             app:summary="@string/developer_info"
             app:title="Versión 1.0" />
+        <Preference
+            app:key="bug_report"
+            app:title="@string/report_bug"
+            app:icon="@drawable/ic_bug_report_white_24dp"/>
 
     </PreferenceCategory>
 
@@ -55,7 +60,7 @@
             app:key="rate_us"
             app:icon="@drawable/ic_star_white_24dp"
             app:title="Valóranos"
-            app:summary="Deja 5 estrellas en Play store" />
+            app:summary="Deja 5 estrellas en Play Store" />
 
     </PreferenceCategory>
 

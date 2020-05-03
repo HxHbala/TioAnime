@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#060C15</color>
-    <color name="colorPrimaryDark">#060C15</color>
-    <color name="colorAccent">#FFBF00</color>
-    <color name="colorPrimaryLight">#1F252D</color>
+    <color name="colorPrimary">#060c15</color>
+    <color name="colorPrimaryDark">#060c15</color>
+    <color name="colorAccent">#ffbf00</color>
+    <color name="colorPrimaryLight">#1f252d</color>
     <color name="colorGrey">#999999</color>
     <color name="colorText">#ffffff</color>
     <color name="defaultDark">#303030</color>
@@ -11,6 +11,11 @@
     <color name="colorMovies">#dc3545</color>
     <color name="colorOva">#fd7e14</color>
     <color name="colorSpecial">#6f42c1</color>
+    <color name="colorType">#dc3545</color>
+    <color name="colorWinter">#17a2b8</color>
+    <color name="colorSpring">#ff8c8c</color>
+    <color name="colorSummer">#ffc107</color>
+    <color name="colorAutumn">#d0842a</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#999999</color>
 </resources>

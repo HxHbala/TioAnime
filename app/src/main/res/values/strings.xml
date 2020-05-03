@@ -43,9 +43,11 @@
     <string name="end_year">Año fin</string>
     <string name="anime_music">Música anime</string>
     <string name="wallpapers">Fondos de pantalla</string>
+    <string name="share_app">Compartir app</string>
     <string name="filters">Filtros</string>
     <string name="no_results">Sin resultados</string>
     <string name="episodes">Episodios</string>
+    <string name="application">Aplicación</string>
 
     <!-- Preference content -->
     <string name="vlc_setting">Reproducir vídeos con VLC (Beta)</string>
@@ -80,5 +82,11 @@
     <string name="play_image">Play</string>
     <string name="heart_image">Heart</string>
     <string name="pull_up_bar">Pull bar</string>
+
+    <!-- bug reports -->
+    <string name="bug_title">Reporte de errores</string>
+    <string name="bug_text">Enviar reporte de errores</string>
+    <string name="bug_notification_channel">Reporte de bugs</string>
+    <string name="report_bug">Reportar un error</string>
 
 </resources>

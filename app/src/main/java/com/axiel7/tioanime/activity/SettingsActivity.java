@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +19,13 @@ import com.axiel7.tioanime.BuildConfig;
 import com.axiel7.tioanime.R;
 import com.axiel7.tioanime.utils.TinyDB;
 
+import org.acra.ACRA;
+
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private SharedPreferences preferences;
     private TinyDB tinyDB;
+    private static String userEmail;
+    private static boolean isUserLogged = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         //setup preferences
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         tinyDB = new TinyDB(this);
+        userEmail = tinyDB.getString("userEmail");
 
     }
 
@@ -93,29 +99,57 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             assert about != null;
             about.setTitle("Versión " + BuildConfig.VERSION_NAME);
 
+            Preference bugReport = findPreference("bug_report");
+            assert bugReport != null;
+            bugReport.setOnPreferenceClickListener(preference -> {
+                ACRA.getErrorReporter().handleException(null);
+                return true;
+            });
+
             Preference discord = findPreference("discord");
             assert discord != null;
             discord.setOnPreferenceClickListener(preference -> {
-                String discordInvite = "https://discord.gg/QhAMKuV";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(discordInvite));
+                intent.setData(Uri.parse("https://discord.gg/HmDF2xr"));
                 startActivity(intent);
                 return true;
             });
-        }
-    }
-    public static class DonatorsFragment extends PreferenceFragmentCompat {
 
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.donators_preferences, rootKey);
-        }
-    }
-    public static class TestersFragment extends PreferenceFragmentCompat {
+            Preference user = findPreference("username");
+            assert user != null;
+            user.setSummary(userEmail);
 
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.testers_preferences, rootKey);
+            Preference changePassword = findPreference("change_password");
+            assert changePassword != null;
+            changePassword.setOnPreferenceClickListener(preference -> {
+                Toast.makeText(getActivity(), "Accede a TioAnime.com para cambiar tu contraseña", Toast.LENGTH_SHORT).show();
+                return true;
+            });
+
+            Preference logout = findPreference("logout");
+            assert logout != null;
+            logout.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("isUserLogged", false);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                TinyDB tinyDB = new TinyDB(getActivity());
+                tinyDB.remove("userEmail");
+                tinyDB.putBoolean("isUserLogged", false);
+                requireActivity().startActivity(intent);
+                requireActivity().finish();
+                Runtime.getRuntime().exit(0);
+                return true;
+            });
+
+            Preference rateUs = findPreference("rate_us");
+            assert rateUs != null;
+            rateUs.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.axiel7.tioanime"));
+                startActivity(intent);
+                return true;
+            });
         }
     }
     @Override
