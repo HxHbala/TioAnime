@@ -2,8 +2,6 @@ package com.axiel7.tioanime.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +15,8 @@ import com.axiel7.tioanime.rest.AnimeApiService;
 import com.axiel7.tioanime.utils.TinyDB;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
     private TinyDB tinyDB;
-    private String email = null;
-    private String password = null;
+    private String email = "";
+    private String password = "";
     private static final String BASE_URL = "https://tioanime.com/auth/";
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -46,32 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         TextInputEditText emailInput = findViewById(R.id.username_input);
         TextInputEditText passwordInput = findViewById(R.id.password_input);
-        emailInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                email = s.toString();
-            }
-        });
-        passwordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                password = s.toString();
-            }
-        });
         Button loginButton = findViewById(R.id.login_button);
-        loginButton.setOnClickListener(v -> connectAndGetApiData());
+        loginButton.setOnClickListener(v -> {
+            email = Objects.requireNonNull(emailInput.getText()).toString();
+            password = Objects.requireNonNull(passwordInput.getText()).toString();
+            if (!email.equals("") && !password.equals("")) {
+                connectAndGetApiData();
+            }
+        });
         Button resetPasswordButton = findViewById(R.id.reset_password_button);
         resetPasswordButton.setOnClickListener(v -> Toast.makeText(this, "Accede a TioAnime.com para cambiar tu contraseña", Toast.LENGTH_LONG).show());
     }
