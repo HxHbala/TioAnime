@@ -80,7 +80,7 @@ public class EmissionFragment extends Fragment {
     private Callback<LatestAnimesResponse> getFirstAnimesCallback = new Callback<LatestAnimesResponse>() {
         @Override
         public void onResponse(Call<LatestAnimesResponse> call, Response<LatestAnimesResponse> response) {
-            Log.e(TAG, call.request().toString());
+            Log.d(TAG, call.request().toString());
             if (response.isSuccessful()) {
                 animes = response.body().getLatestAnimes();
                 page = response.body().getPageInfo().getCurrentPage();
@@ -116,7 +116,7 @@ public class EmissionFragment extends Fragment {
     private Callback<LatestAnimesResponse> getMoreAnimesCallback = new Callback<LatestAnimesResponse>() {
         @Override
         public void onResponse(Call<LatestAnimesResponse> call, Response<LatestAnimesResponse> response) {
-            Log.e(TAG, call.request().toString());
+            Log.d(TAG, call.request().toString());
             if (response.isSuccessful()) {
                 List<Category> moreAnimes = response.body().getLatestAnimes();
                 page = response.body().getPageInfo().getCurrentPage();

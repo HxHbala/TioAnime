@@ -202,7 +202,7 @@ public class AnimeDetailsFragment extends Fragment {
         call.enqueue(new Callback<AnimeResponse>() {
             @Override
             public void onResponse(Call<AnimeResponse> call, Response<AnimeResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     anime = response.body().getAnimeData();
                     episodes = anime.getEpisodes();

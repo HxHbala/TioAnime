@@ -75,7 +75,7 @@ public class LatestEpisodesFragment extends Fragment {
         call.enqueue(new Callback<LatestEpisodesResponse>() {
             @Override
             public void onResponse(Call<LatestEpisodesResponse> call, Response<LatestEpisodesResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     animes = response.body().getData();
                     latestEpisodesAdapter = new LatestEpisodesAdapter(animes, R.layout.list_item_anime, getActivity());
