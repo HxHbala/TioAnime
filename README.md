@@ -3,7 +3,7 @@ App Android para ver tu página de anime de confianza v:
 
 [DESCARGA](https://github.com/axiel7/TioAnime/releases/latest)
 
-![Screenshot1](https://github.com/axiel7/TioAnime/blob/master/tiomockup-web.png)
+![Mockup](https://github.com/axiel7/TioAnime/blob/master/tiomockup2.0-web.png)
 
 # Características
 * Ver animes (y hentai) online.
