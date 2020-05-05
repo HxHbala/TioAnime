@@ -18,20 +18,23 @@ import com.bumptech.glide.Glide;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeViewHolder> {
 
     private List<Episode> animes;
+    private ArrayList<Integer> watchedEpisodesIds;
     private int rowLayout;
     private Context context;
     private ItemClickListener mClickListener;
     private LatestEpisodesAdapter.ItemLongClickListener mLongClickListener;
     private static final String IMAGE_URL_BASE_PATH="https://tioanime.com/uploads/thumbs/";
     private DateFormat sdf = SimpleDateFormat.getDateInstance();
-    public EpisodesAdapter(List<Episode> animes, int rowLayout, Context context) {
+    public EpisodesAdapter(List<Episode> animes, ArrayList<Integer> watchedEpisodesIds, int rowLayout, Context context) {
         this.animes = animes;
+        this.watchedEpisodesIds = watchedEpisodesIds;
         this.rowLayout = rowLayout;
         this.context = context;
     }
@@ -87,6 +90,11 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.AnimeV
                 .into(holder.animeImage);
         holder.date.setText(date);
         holder.animeEpisode.setText(episode_text);
+        if (watchedEpisodesIds.contains(animes.get(position).getEpisodeId())) {
+            holder.animeLayout.setAlpha((float) 0.5);
+        } else {
+            holder.animeLayout.setAlpha(1);
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.axiel7.tioanime.model.EpisodeResponse;
 import com.axiel7.tioanime.model.LatestEpisode;
 import com.axiel7.tioanime.model.LatestEpisodesResponse;
 import com.axiel7.tioanime.rest.AnimeApiService;
+import com.axiel7.tioanime.utils.TinyDB;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
@@ -50,13 +51,19 @@ public class LatestEpisodesFragment extends Fragment {
     private RecyclerView recyclerView;
     private LatestEpisodesAdapter latestEpisodesAdapter;
     private AnimeDetailsFragment animeDetailsFragment;
-    private AlertDialog infoDialog;
-    private AlertDialog downloadsDialog;
+    private TinyDB tinyDB;
+    private ArrayList<Integer> watchedEpisodesIds = new ArrayList<>();
     private Cache cache;
     private static final String TAG = "nomames:";
     private static final String BASE_URL = "https://tioanime.com/api/";
     private static Retrofit retrofit = null;
     private List<LatestEpisode> animes;
+
+    public void onCreate(Bundle savedInstanceState) {
+        tinyDB = new TinyDB(requireActivity());
+        watchedEpisodesIds = tinyDB.getListInt("watchedEpisodesIds");
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -92,8 +99,11 @@ public class LatestEpisodesFragment extends Fragment {
                     animes = response.body().getData();
                     latestEpisodesAdapter = new LatestEpisodesAdapter(animes, R.layout.list_item_anime, requireActivity());
                     latestEpisodesAdapter.setClickListener((view, position) -> {
-                        Intent intent = new Intent(getActivity(), VideoActivity.class);
-                        intent.putExtra("episodeId", animes.get(position).getLatestEpisodeId());
+                        int episodeId = animes.get(position).getLatestEpisodeId();
+                        watchedEpisodesIds.add(episodeId);
+                        tinyDB.putListInt("watchedEpisodesIds", watchedEpisodesIds);
+                        Intent intent = new Intent(requireActivity(), VideoActivity.class);
+                        intent.putExtra("episodeId", episodeId);
                         requireActivity().startActivity(intent);
                     });
                     latestEpisodesAdapter.setLongClickListener(((view, position) -> {
@@ -124,7 +134,7 @@ public class LatestEpisodesFragment extends Fragment {
                     break;
             }
         });
-        infoDialog = builder.create();
+        AlertDialog infoDialog = builder.create();
         infoDialog.show();
     }
     private void openDownloadOptions(ArrayList<String> serverNames, ArrayList<String> downloadLinks) {
@@ -135,7 +145,7 @@ public class LatestEpisodesFragment extends Fragment {
             intent.setData(Uri.parse(downloadLinks.get(which)));
             startActivity(intent);
         });
-        downloadsDialog = builder.create();
+        AlertDialog downloadsDialog = builder.create();
         downloadsDialog.show();
     }
     private void openDetails(int position) {

@@ -65,6 +65,7 @@ public class AnimeDetailsFragment extends Fragment {
     private String animeTitle, image_url;
     private TinyDB tinyDB;
     private ArrayList<Integer> favAnimesIds = new ArrayList<>();
+    private ArrayList<Integer> watchedEpisodesIds = new ArrayList<>();
     private ArrayList<Object> animesObject;
     private ArrayList<FavAnime> favAnimes = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -109,6 +110,7 @@ public class AnimeDetailsFragment extends Fragment {
         for (int i=0; i<favAnimes.size(); i++) {
             favAnimesIds.add(favAnimes.get(i).getAnimeId());
         }
+        watchedEpisodesIds = tinyDB.getListInt("watchedEpisodesIds");
 
         super.onCreate(savedInstanceState);
     }
@@ -211,12 +213,15 @@ public class AnimeDetailsFragment extends Fragment {
                     episodesAdapter = new EpisodesAdapter(episodes, watchedEpisodesIds, R.layout.list_item_episode, requireActivity());
 
                     episodesAdapter.setClickListener((view, position) -> {
-                        Intent intent = new Intent(getActivity(), VideoActivity.class);
-                        intent.putExtra("episodeId", episodes.get(position).getEpisodeId());
+                        int episodeId = episodes.get(position).getEpisodeId();
+                        updateWatchList(false, episodeId, view);
+                        Intent intent = new Intent(requireActivity(), VideoActivity.class);
+                        intent.putExtra("episodeId", episodeId);
                         startActivity(intent);
                     });
                     episodesAdapter.setLongClickListener(((view, position) -> {
-                        getDownloads(episodes.get(position).getEpisodeId());
+                        int episodeId = episodes.get(position).getEpisodeId();
+                        openOptionsDialog(view, episodeId);
                         return true;
                     }));
                     recyclerView.setAdapter(episodesAdapter);
@@ -331,6 +336,25 @@ public class AnimeDetailsFragment extends Fragment {
             Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
+    private void openOptionsDialog(View view, int episodeId) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        CharSequence[] options = {"Des/marcar como visto", "Descargar"};
+        builder.setItems(options, ((dialog, which) -> {
+            switch (which) {
+                case 0:
+                    if (view.getAlpha()==1) {
+                        updateWatchList(false, episodeId, view);
+                    }
+                    else {updateWatchList(true, episodeId, view);}
+                    break;
+                case 1:
+                    getDownloads(episodeId);
+                    break;
+            }
+        }));
+        AlertDialog optionsDialog = builder.create();
+        optionsDialog.show();
+    }
     private void openDownloadOptions(ArrayList<String> serverNames, ArrayList<String> downloadLinks) {
         AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         CharSequence[] names = serverNames.toArray(new CharSequence[0]);
@@ -341,6 +365,18 @@ public class AnimeDetailsFragment extends Fragment {
         });
         AlertDialog downloadsDialog = builder.create();
         downloadsDialog.show();
+    }
+    private void updateWatchList(boolean remove, int episodeId, View view) {
+        if (remove) {
+            view.setAlpha(1);
+            watchedEpisodesIds.remove(Integer.valueOf(episodeId));
+            tinyDB.putListInt("watchedEpisodesIds", watchedEpisodesIds);
+        }
+        else {
+            view.setAlpha((float) 0.5);
+            watchedEpisodesIds.add(episodeId);
+            tinyDB.putListInt("watchedEpisodesIds", watchedEpisodesIds);
+        }
     }
     private OkHttpClient okHttpClientCached() {
         //File httpCacheDirectory = new File(getApplicationContext().getCacheDir(), "responses");
