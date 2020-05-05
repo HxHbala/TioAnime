@@ -55,13 +55,16 @@ public class EmissionFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_emission, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerview_emission);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         animeDetailsFragment = new AnimeDetailsFragment();
         animeDetailsFragment.setEnterTransition(new Slide(Gravity.END));
         animeDetailsFragment.setExitTransition(new Slide(Gravity.START));
         page = 1;
-        connectAndGetApiData();
+
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -85,7 +88,7 @@ public class EmissionFragment extends Fragment {
                 animes = response.body().getLatestAnimes();
                 page = response.body().getPageInfo().getCurrentPage();
                 pageLimit = response.body().getPageInfo().getTotalPages();
-                latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_emission, getActivity());
+                latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_emission, requireActivity());
                 latestAnimesAdapter.setClickListener((view, position) -> {
                     Bundle bundle = new Bundle();
                     bundle.putInt("animeTypeInt", latestAnimesAdapter.getAnimeType(position));
@@ -110,7 +113,7 @@ public class EmissionFragment extends Fragment {
         @Override
         public void onFailure(Call<LatestAnimesResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private Callback<LatestAnimesResponse> getMoreAnimesCallback = new Callback<LatestAnimesResponse>() {
@@ -129,7 +132,7 @@ public class EmissionFragment extends Fragment {
         @Override
         public void onFailure(Call<LatestAnimesResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private void loadMoreItems() {

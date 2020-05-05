@@ -102,11 +102,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/chip_group_genres"
             android:background="@color/colorPrimary"
-            android:text="Sinopsis"
+            android:text="@string/title_load"
             android:ellipsize="end"
             android:maxLines="6"
-            android:padding="@dimen/text_margin"
-            tools:ignore="HardcodedText" />
+            android:padding="@dimen/text_margin" />
 
         <View
             android:id="@+id/divider"

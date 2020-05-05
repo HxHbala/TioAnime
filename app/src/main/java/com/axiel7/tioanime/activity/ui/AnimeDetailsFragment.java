@@ -61,20 +61,15 @@ public class AnimeDetailsFragment extends Fragment {
 
     private Anime anime;
     private List<Episode> episodes;
-    private int animeId;
-    private int animeType;
-    private String animeTitle;
-    private String image_url;
-    private int malId;
+    private int animeId, animeType, malId;
+    private String animeTitle, image_url;
     private TinyDB tinyDB;
     private ArrayList<Integer> favAnimesIds = new ArrayList<>();
     private ArrayList<Object> animesObject;
     private ArrayList<FavAnime> favAnimes = new ArrayList<>();
     private RecyclerView recyclerView;
     private ChipGroup chipGroup;
-    private Chip scoreChip;
-    private Chip typeChip;
-    private Chip seasonChip;
+    private Chip scoreChip, typeChip, seasonChip;
     private TextView synopsis;
     private EpisodesAdapter episodesAdapter;
     private Cache cache;
@@ -106,7 +101,7 @@ public class AnimeDetailsFragment extends Fragment {
         animeTitle = getArguments().getString("animeTitle");
         image_url = getArguments().getString("animePosterUrl");
 
-        tinyDB = new TinyDB(getActivity());
+        tinyDB = new TinyDB(requireActivity());
         animesObject = tinyDB.getListObject("favAnimes", FavAnime.class);
         for (Object object : animesObject) {
             favAnimes.add((FavAnime)object);
@@ -188,9 +183,11 @@ public class AnimeDetailsFragment extends Fragment {
 
         //setup episodes list
         recyclerView = root.findViewById(R.id.recycler_episodes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        connectAndGetApiData();
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -211,7 +208,8 @@ public class AnimeDetailsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     anime = response.body().getAnimeData();
                     episodes = anime.getEpisodes();
-                    episodesAdapter = new EpisodesAdapter(episodes, R.layout.list_item_episode, getActivity());
+                    episodesAdapter = new EpisodesAdapter(episodes, watchedEpisodesIds, R.layout.list_item_episode, requireActivity());
+
                     episodesAdapter.setClickListener((view, position) -> {
                         Intent intent = new Intent(getActivity(), VideoActivity.class);
                         intent.putExtra("episodeId", episodes.get(position).getEpisodeId());
@@ -274,7 +272,7 @@ public class AnimeDetailsFragment extends Fragment {
             @Override
             public void onFailure(Call<AnimeResponse> call, Throwable throwable) {
                 Log.e(TAG, throwable.toString());
-                Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -330,7 +328,7 @@ public class AnimeDetailsFragment extends Fragment {
         @Override
         public void onFailure(Call<EpisodeResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private void openDownloadOptions(ArrayList<String> serverNames, ArrayList<String> downloadLinks) {

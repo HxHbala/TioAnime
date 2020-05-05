@@ -63,11 +63,14 @@ public class LatestEpisodesFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_latest_episodes, container, false);
         recyclerView = root.findViewById(R.id.recyclerview_latest_episodes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         animeDetailsFragment = new AnimeDetailsFragment();
         animeDetailsFragment.setEnterTransition(new Slide(Gravity.BOTTOM));
         animeDetailsFragment.setExitTransition(new Slide(Gravity.TOP));
-        connectAndGetApiData();
+
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -87,7 +90,7 @@ public class LatestEpisodesFragment extends Fragment {
                 Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     animes = response.body().getData();
-                    latestEpisodesAdapter = new LatestEpisodesAdapter(animes, R.layout.list_item_anime, getActivity());
+                    latestEpisodesAdapter = new LatestEpisodesAdapter(animes, R.layout.list_item_anime, requireActivity());
                     latestEpisodesAdapter.setClickListener((view, position) -> {
                         Intent intent = new Intent(getActivity(), VideoActivity.class);
                         intent.putExtra("episodeId", animes.get(position).getLatestEpisodeId());
@@ -104,7 +107,7 @@ public class LatestEpisodesFragment extends Fragment {
             @Override
             public void onFailure(Call<LatestEpisodesResponse> call, Throwable throwable) {
                 Log.e(TAG, throwable.toString());
-                Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -173,7 +176,7 @@ public class LatestEpisodesFragment extends Fragment {
         @Override
         public void onFailure(Call<EpisodeResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private OkHttpClient okHttpClientCached() {

@@ -60,7 +60,7 @@ public class FavoritesFragment extends Fragment {
 
         //setup recyclerview
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview_favorites);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -77,7 +77,7 @@ public class FavoritesFragment extends Fragment {
         });
 
         //fav database
-        tinyDB = new TinyDB(getActivity());
+        tinyDB = new TinyDB(requireActivity());
 
         favAnimes = new ArrayList<>();
         getFavoritesDatabase(false);
@@ -86,7 +86,7 @@ public class FavoritesFragment extends Fragment {
         animeDetailsFragment.setEnterTransition(new Slide(Gravity.END));
         animeDetailsFragment.setExitTransition(new Slide(Gravity.START));
 
-        favoritesAdapter = new FavoritesAdapter(favAnimes, R.layout.list_item_anime_favorite, getActivity());
+        favoritesAdapter = new FavoritesAdapter(favAnimes, R.layout.list_item_anime_favorite, requireActivity());
         favoritesAdapter.setClickListener((view, position) -> {
             bundle.putInt("animeTypeInt", favoritesAdapter.getAnimeType(position));
             bundle.putInt("animeId", favoritesAdapter.getAnimeId(position));
