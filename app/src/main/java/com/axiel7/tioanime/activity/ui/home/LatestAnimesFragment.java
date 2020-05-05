@@ -53,11 +53,14 @@ public class LatestAnimesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_latest_animes, container, false);
         recyclerView = root.findViewById(R.id.recyclerview_latest_animes);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         animeDetailsFragment = new AnimeDetailsFragment();
         animeDetailsFragment.setEnterTransition(new Slide(Gravity.END));
         animeDetailsFragment.setExitTransition(new Slide(Gravity.START));
-        connectAndGetApiData();
+
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -77,7 +80,7 @@ public class LatestAnimesFragment extends Fragment {
                 Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     animes = response.body().getLatestAnimes();
-                    latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_grid, getActivity());
+                    latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_grid, requireActivity());
                     latestAnimesAdapter.setClickListener((view, position) -> {
                         Bundle bundle = new Bundle();
                         bundle.putInt("animeTypeInt", latestAnimesAdapter.getAnimeType(position));
@@ -98,7 +101,7 @@ public class LatestAnimesFragment extends Fragment {
             @Override
             public void onFailure(Call<LatestAnimesResponse> call, Throwable throwable) {
                 Log.e(TAG, throwable.toString());
-                Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }

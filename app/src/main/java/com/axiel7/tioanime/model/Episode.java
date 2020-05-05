@@ -2,6 +2,8 @@ package com.axiel7.tioanime.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Episode {
     @SerializedName("id")
     private Integer episodeId;
@@ -19,9 +21,11 @@ public class Episode {
     private Integer uploadedAt;
     @SerializedName("videos")
     private String[][] videos;
+    @SerializedName("downloads")
+    private List<Downloads> downloads;
 
     public Episode(Integer episodeId, Integer animeId, Integer number, Integer filler, Integer owner,
-                   Integer createdAt, Integer uploadedAt, String[][] videos) {
+                   Integer createdAt, Integer uploadedAt, String[][] videos, List<Downloads> downloads) {
         this.episodeId = episodeId;
         this.animeId = animeId;
         this.number = number;
@@ -30,6 +34,7 @@ public class Episode {
         this.createdAt = createdAt;
         this.uploadedAt = uploadedAt;
         this.videos = videos;
+        this.downloads = downloads;
     }
 
     public Integer getEpisodeId() {
@@ -79,5 +84,12 @@ public class Episode {
     }
     public void setVideos(String[][] videos) {
         this.videos = videos;
+    }
+    public List<Downloads> getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(List<Downloads> downloads) {
+        this.downloads = downloads;
     }
 }

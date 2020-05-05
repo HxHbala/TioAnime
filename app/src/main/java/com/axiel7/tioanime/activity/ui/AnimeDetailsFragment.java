@@ -2,6 +2,7 @@ package com.axiel7.tioanime.activity.ui;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +24,9 @@ import com.axiel7.tioanime.activity.ui.favorites.FavoritesFragment;
 import com.axiel7.tioanime.adapter.EpisodesAdapter;
 import com.axiel7.tioanime.model.Anime;
 import com.axiel7.tioanime.model.AnimeResponse;
+import com.axiel7.tioanime.model.Downloads;
 import com.axiel7.tioanime.model.Episode;
+import com.axiel7.tioanime.model.EpisodeResponse;
 import com.axiel7.tioanime.model.FavAnime;
 import com.axiel7.tioanime.model.Genre;
 import com.axiel7.tioanime.model.JikanResponse;
@@ -31,6 +35,7 @@ import com.axiel7.tioanime.utils.TinyDB;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jsoup.Jsoup;
@@ -56,20 +61,16 @@ public class AnimeDetailsFragment extends Fragment {
 
     private Anime anime;
     private List<Episode> episodes;
-    private int animeId;
-    private int animeType;
-    private String animeTitle;
-    private String image_url;
-    private int malId;
+    private int animeId, animeType, malId;
+    private String animeTitle, image_url;
     private TinyDB tinyDB;
     private ArrayList<Integer> favAnimesIds = new ArrayList<>();
+    private ArrayList<Integer> watchedEpisodesIds = new ArrayList<>();
     private ArrayList<Object> animesObject;
     private ArrayList<FavAnime> favAnimes = new ArrayList<>();
     private RecyclerView recyclerView;
     private ChipGroup chipGroup;
-    private Chip scoreChip;
-    private Chip typeChip;
-    private Chip seasonChip;
+    private Chip scoreChip, typeChip, seasonChip;
     private TextView synopsis;
     private EpisodesAdapter episodesAdapter;
     private Cache cache;
@@ -101,7 +102,7 @@ public class AnimeDetailsFragment extends Fragment {
         animeTitle = getArguments().getString("animeTitle");
         image_url = getArguments().getString("animePosterUrl");
 
-        tinyDB = new TinyDB(getActivity());
+        tinyDB = new TinyDB(requireActivity());
         animesObject = tinyDB.getListObject("favAnimes", FavAnime.class);
         for (Object object : animesObject) {
             favAnimes.add((FavAnime)object);
@@ -109,6 +110,7 @@ public class AnimeDetailsFragment extends Fragment {
         for (int i=0; i<favAnimes.size(); i++) {
             favAnimesIds.add(favAnimes.get(i).getAnimeId());
         }
+        watchedEpisodesIds = tinyDB.getListInt("watchedEpisodesIds");
 
         super.onCreate(savedInstanceState);
     }
@@ -183,9 +185,11 @@ public class AnimeDetailsFragment extends Fragment {
 
         //setup episodes list
         recyclerView = root.findViewById(R.id.recycler_episodes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        connectAndGetApiData();
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -206,12 +210,20 @@ public class AnimeDetailsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     anime = response.body().getAnimeData();
                     episodes = anime.getEpisodes();
-                    episodesAdapter = new EpisodesAdapter(episodes, R.layout.list_item_episode, getActivity());
+                    episodesAdapter = new EpisodesAdapter(episodes, watchedEpisodesIds, R.layout.list_item_episode, requireActivity());
+
                     episodesAdapter.setClickListener((view, position) -> {
-                        Intent intent = new Intent(getActivity(), VideoActivity.class);
-                        intent.putExtra("episodeId", episodes.get(position).getEpisodeId());
+                        int episodeId = episodes.get(position).getEpisodeId();
+                        updateWatchList(false, episodeId, view);
+                        Intent intent = new Intent(requireActivity(), VideoActivity.class);
+                        intent.putExtra("episodeId", episodeId);
                         startActivity(intent);
                     });
+                    episodesAdapter.setLongClickListener(((view, position) -> {
+                        int episodeId = episodes.get(position).getEpisodeId();
+                        openOptionsDialog(view, episodeId);
+                        return true;
+                    }));
                     recyclerView.setAdapter(episodesAdapter);
                     List<Genre> animeGenres = anime.getGenres();
                     for (int i = 0; i<animeGenres.size(); i++) {
@@ -265,7 +277,7 @@ public class AnimeDetailsFragment extends Fragment {
             @Override
             public void onFailure(Call<AnimeResponse> call, Throwable throwable) {
                 Log.e(TAG, throwable.toString());
-                Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -282,7 +294,7 @@ public class AnimeDetailsFragment extends Fragment {
         jikanResponseCall.enqueue(new Callback<JikanResponse>() {
             @Override
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
-                Log.e(TAG, call.request().toString());
+                Log.d(TAG, call.request().toString());
                 if (response.isSuccessful()) {
                     float score = response.body().getScoreMal();
                     scoreChip.setText(String.valueOf(score));
@@ -294,6 +306,77 @@ public class AnimeDetailsFragment extends Fragment {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+    private void getDownloads(int episodeId) {
+        if (retrofit!=null) {
+            AnimeApiService animeApiService = retrofit.create(AnimeApiService.class);
+            Call<EpisodeResponse> call = animeApiService.getEpisode(BASE_URL + "episodes/" + episodeId, API_KEY);
+            call.enqueue(getEpisodeDownloadsCallback);
+        }
+    }
+    private Callback<EpisodeResponse> getEpisodeDownloadsCallback = new Callback<EpisodeResponse>() {
+        @Override
+        public void onResponse(Call<EpisodeResponse> call, Response<EpisodeResponse> response) {
+            Log.d(TAG, call.request().toString());
+            if (response.isSuccessful()) {
+                Episode episodeData = response.body().getEpisodeData();
+                List<Downloads> downloadsList = episodeData.getDownloads();
+                ArrayList<String> serverNames = new ArrayList<>();
+                ArrayList<String> downloadLinks = new ArrayList<>();
+                for (int i=0; i<downloadsList.size(); i++) {
+                    serverNames.add(downloadsList.get(i).getServerName());
+                    downloadLinks.add(downloadsList.get(i).getDownloadUrl());
+                }
+                openDownloadOptions(serverNames, downloadLinks);
+            }
+        }
+        @Override
+        public void onFailure(Call<EpisodeResponse> call, Throwable t) {
+            Log.e(TAG, t.toString());
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void openOptionsDialog(View view, int episodeId) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        CharSequence[] options = {"Des/marcar como visto", "Descargar"};
+        builder.setItems(options, ((dialog, which) -> {
+            switch (which) {
+                case 0:
+                    if (view.getAlpha()==1) {
+                        updateWatchList(false, episodeId, view);
+                    }
+                    else {updateWatchList(true, episodeId, view);}
+                    break;
+                case 1:
+                    getDownloads(episodeId);
+                    break;
+            }
+        }));
+        AlertDialog optionsDialog = builder.create();
+        optionsDialog.show();
+    }
+    private void openDownloadOptions(ArrayList<String> serverNames, ArrayList<String> downloadLinks) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        CharSequence[] names = serverNames.toArray(new CharSequence[0]);
+        builder.setItems(names, (dialog, which) -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(downloadLinks.get(which)));
+            startActivity(intent);
+        });
+        AlertDialog downloadsDialog = builder.create();
+        downloadsDialog.show();
+    }
+    private void updateWatchList(boolean remove, int episodeId, View view) {
+        if (remove) {
+            view.setAlpha(1);
+            watchedEpisodesIds.remove(Integer.valueOf(episodeId));
+            tinyDB.putListInt("watchedEpisodesIds", watchedEpisodesIds);
+        }
+        else {
+            view.setAlpha((float) 0.5);
+            watchedEpisodesIds.add(episodeId);
+            tinyDB.putListInt("watchedEpisodesIds", watchedEpisodesIds);
+        }
     }
     private OkHttpClient okHttpClientCached() {
         //File httpCacheDirectory = new File(getApplicationContext().getCacheDir(), "responses");

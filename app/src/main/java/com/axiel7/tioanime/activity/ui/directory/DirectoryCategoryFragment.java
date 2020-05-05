@@ -182,7 +182,7 @@ public class DirectoryCategoryFragment extends Fragment implements AdapterView.O
         //setup recyclerview
         recyclerView = root.findViewById(R.id.recyclerview_directory_animes);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -199,7 +199,9 @@ public class DirectoryCategoryFragment extends Fragment implements AdapterView.O
             }
         });
 
-        connectAndGetApiData();
+        if (isAdded()) {
+            connectAndGetApiData();
+        }
 
         return root;
     }
@@ -242,7 +244,7 @@ public class DirectoryCategoryFragment extends Fragment implements AdapterView.O
                 else {
                     noResultText.setVisibility(View.INVISIBLE);
                 }
-                latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_grid, getActivity());
+                latestAnimesAdapter = new LatestAnimesAdapter(animes, R.layout.list_item_anime_grid, requireActivity());
                 latestAnimesAdapter.setClickListener((view, position) -> {
                     Bundle bundle = new Bundle();
                     bundle.putInt("animeTypeInt", latestAnimesAdapter.getAnimeType(position));
@@ -267,7 +269,7 @@ public class DirectoryCategoryFragment extends Fragment implements AdapterView.O
         @Override
         public void onFailure(Call<LatestAnimesResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private Callback<LatestAnimesResponse> getMoreAnimesCallback = new Callback<LatestAnimesResponse>() {
@@ -285,7 +287,7 @@ public class DirectoryCategoryFragment extends Fragment implements AdapterView.O
         @Override
         public void onFailure(Call<LatestAnimesResponse> call, Throwable t) {
             Log.e(TAG, t.toString());
-            Toast.makeText(getActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }
     };
     private void loadMoreItems() {
