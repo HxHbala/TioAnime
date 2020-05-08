@@ -8,9 +8,9 @@ Próximamente...
 
 # Características
 * Ver animes online.
-* Reproducir los vídeos con VLC (Beta).
 * Opción para guardar animes en favoritos.
 * Marcar capítulos como vistos.
+* Abrir los vídeos con un reproductor externo.
 * Búsqueda de animes.
 * Programación semanal de animes en emisión.
 * Filtrar animes por género, año, tipo, estado...
@@ -20,7 +20,6 @@ Próximamente...
 * Comentarios de disqus en la app.
 * Notificación de nuevos capítulos de tus animes favoritos.
 * Descargas de animes.
-* Usar otros reproductores externos.
 * ¡Acepto sugerencias!
 # Bugs
 * La opción de reproducir con VLC no funciona con todos los reproductores.
